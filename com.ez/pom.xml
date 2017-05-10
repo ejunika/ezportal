@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ez</groupId>
+    <artifactId>com.ez</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <properties>
+        <spring.version>3.2.9.RELEASE</spring.version>
+        <hibernate.version>3.6.4.Final</hibernate.version>
+        <cxf.version>3.0.0</cxf.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <modules>
+        <module>../com.ez.portal.shard.util</module>
+        <module>../com.ez.portal.core.util</module>
+        <module>../com.ez.portal.core.entity</module>
+        <module>../com.ez.portal.core.dao</module>
+        <module>../com.ez.portal.core.rest</module>
+        <module>../com.ez.portal.core</module>
+        <module>../com.ez.portal.api</module>
+        <module>../com.ez.portal.core.service</module>
+        <module>../com.ez.portal</module>
+        
+    </modules>
+</project>
