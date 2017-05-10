@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:beans="http://cxf.apache.org/configuration/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://cxf.apache.org/configuration/beans 
+        http://cxf.apache.org/schemas/configuration/cxf-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
+    
+    <context:annotation-config />
+    
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:database.properties</value>
+        </property>
+    </bean>
+        
+    <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        
+        <!-- DATABASE INFORMATION -->
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <!-- DATABASE INFORMATION ENDS -->
+        
+        <!-- CONNECTION POOL INFORMATION -->
+        <property name="maxPoolSize" value="5" /> 
+        <property name="minPoolSize" value="1" />
+        <property name="acquireIncrement" value="1" />
+        <property name="initialPoolSize" value="1" />
+        <property name="maxStatements" value="0" />
+        <property name="idleConnectionTestPeriod" value="3000" />
+        <property name="maxIdleTime" value="3600" />
+        <property name="checkoutTimeout" value="60000" />
+        <property name="testConnectionOnCheckout" value="true" />
+        <!-- CONNECTION POOL INFORMATION ENDS -->
+        
+    </bean>
+    
+    <bean id="sessionFactory" 
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="comboPooledDataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.ez.portal.shard.entity.UserSpace</value>
+                <value>com.ez.portal.shard.entity.HibernateProperty</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="use_sql_comments">true</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="portalHibernateUtil" class="com.ez.portal.shard.util.PortalHibernateUtil" 
+        init-method="initShard" autowire="byName">
+    </bean>
+    
+    <bean id="coreEntities" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list merge="true">
+                <value>com.ez.portal.core.entity.User</value>
+                <value>com.ez.portal.core.entity.Login</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="ezShardUtil" class="com.ez.portal.shard.util.EZShardUtil">
+        <property name="entityClasses">
+            <ref bean="coreEntities"/>
+        </property>
+    </bean>
+    
+<!--     <bean id="test" class="com.ez.portal.core.test.Test" init-method="init" autowire="byName"></bean> -->
+    
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    
+    <!-- PORTAL -->
+    <import resource="classpath:portal-core.xml"/>
+    <!-- /PORTAL -->
+    
+</beans>

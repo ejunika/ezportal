@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:beans="http://cxf.apache.org/configuration/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://cxf.apache.org/configuration/beans 
+        http://cxf.apache.org/schemas/configuration/cxf-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
+        
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    <bean id="authInterceptor" class="com.ez.portal.core.util.rest.AuthInterceptor" autowire="byName" />
+    
+    <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
+    <bean id="installService" class="com.ez.portal.core.rest.service.impl.InstallServiceImpl" autowire="byName" />
+    
+    <jaxrs:server id="logService" address="/login">
+        <jaxrs:serviceBeans>
+            <ref bean="loginService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:inInterceptors>
+        	<ref bean="authInterceptor"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+    
+    <jaxrs:server id="instService" address="/install">
+        <jaxrs:serviceBeans>
+            <ref bean="installService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+<!--         <jaxrs:inInterceptors> -->
+<!--         	<ref bean="authInterceptor"/> -->
+<!--         </jaxrs:inInterceptors> -->
+    </jaxrs:server>
+
+</beans>

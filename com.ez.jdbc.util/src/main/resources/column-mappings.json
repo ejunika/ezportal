@@ -1,0 +1,17 @@
+{
+    "importId": 125534210,
+    "srcFileName": "1493299664813_schools.csv",
+    "destObject": "stag_school",
+    "columnMapping": [
+        {
+            "srcCol": "School_id",
+            "destCol": "SCHOOL_ID",
+            "destType": "varchar"
+        },
+        {
+            "srcCol": "School_name",
+            "destCol": "SCHOOL_NAME",
+            "destType": "varchar"
+        }
+    ]
+}

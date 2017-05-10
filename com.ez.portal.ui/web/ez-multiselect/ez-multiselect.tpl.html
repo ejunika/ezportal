@@ -1,0 +1,35 @@
+<div class="btn-group">
+    <a href="javascript: void(0)" 
+        class="btn btn-default dropdown-toggle" 
+        data-toggle="dropdown"
+        style="border-radius: 0px; min-width: 160px;">
+        {{ezDisplayText}}
+        <span class="caret" style="position: absolute; top: 15px; right: 10px"></span>
+    </a>
+    <ul class="dropdown-menu" style="border-radius: 0px;">
+        <li style="padding: 0 10px; margin-bottom: 5px;">
+            <input ng-model="searchText" 
+                style="font-size: 14px" 
+                class="form-control" 
+                placeholder="Search" 
+                type="text" />
+            <i class="glyphicon glyphicon-remove" 
+                ng-show="searchText.length > 0"
+                ng-click="clearSearch($event)"
+                style="color: red; position: absolute; top: 15px; right: 10px;"></i>
+        </li>
+        <li ng-show="([ezOption] | filter:searchText).length > 0" 
+            ng-repeat="ezOption in ezOptions" 
+            ng-click="ezSelectOption($event, ezOption)">
+            <a href="javascript: void(0)">
+                <span style="padding-top: 5px; display: block">
+                    <label>
+                        <input type="checkbox" 
+                            ng-if="config.isMultiselect" /> 
+                        {{ezOption.label}}
+                    </label>
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>

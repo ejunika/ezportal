@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ez</groupId>
+        <artifactId>com.ez</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>com.ez.portal.core.service</artifactId>
+    <packaging>bundle</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.ez</groupId>
+            <artifactId>com.ez.portal.api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Bundle-Activator>com.ez.portal.core.service.activator.Activator</Bundle-Activator>
+                        <Import-Package>
+                            com.ez.portal.rest.service.core.*,
+                            org.osgi.framework,
+                            *;resolution:=optional
+                        </Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
