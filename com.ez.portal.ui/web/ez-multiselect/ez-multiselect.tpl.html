@@ -1,13 +1,31 @@
-<div class="btn-group">
+<div class="btn-group" ng-style="{width: config.width}">
     <a href="javascript: void(0)" 
         class="btn btn-default dropdown-toggle" 
         data-toggle="dropdown"
-        style="border-radius: 0px; min-width: 160px;">
+        style="border-radius: 0px; min-width: 200px;" ng-style="{width: config.width}">
         {{ezDisplayText}}
         <span class="caret" style="position: absolute; top: 15px; right: 10px"></span>
     </a>
-    <ul class="dropdown-menu" style="border-radius: 0px;">
-        <li style="padding: 0 10px; margin-bottom: 5px;">
+    <ul class="dropdown-menu" 
+        ng-style="{width: config.width}"
+        style="border-radius: 0px; max-height: 300px; min-width: 200px; overflow-y: auto; overflow-x: hidden;">
+        <li ng-if="config.isMultiselect && config.showSelectAll">
+            <a href="javascript: void(0)" 
+                ng-click="selectAll($event)">
+                <i class="glyphicon glyphicon-ok" style="margin-right: 5px;"></i>
+                Select All
+            </a>
+        </li>
+        <li ng-if="config.isMultiselect && config.showSelectAll">
+            <a href="javascript: void(0)" 
+                ng-click="unselectAll($event)">
+                <i class="glyphicon glyphicon-remove" style="margin-right: 5px; color: red;"></i>
+                Unselect All
+            </a>
+        </li>
+        <li class="divider" ng-if="config.isMultiselect && config.showSelectAll"></li>
+        <li style="padding: 0 10px; margin-bottom: 5px; position: relative;" 
+            ng-show="config.showSearch">
             <input ng-model="searchText" 
                 style="font-size: 14px" 
                 class="form-control" 
@@ -16,20 +34,21 @@
             <i class="glyphicon glyphicon-remove" 
                 ng-show="searchText.length > 0"
                 ng-click="clearSearch($event)"
-                style="color: red; position: absolute; top: 15px; right: 10px;"></i>
+                style="color: red; position: absolute; top: 12px; right: 10px;"></i>
         </li>
         <li ng-show="([ezOption] | filter:searchText).length > 0" 
-            ng-repeat="ezOption in ezOptions" 
-            ng-click="ezSelectOption($event, ezOption)">
+            ng-repeat="ezOption in isoEzOptions" 
+            ng-click="ezSelectOption($event, ezOption)" style="position: relative;">
             <a href="javascript: void(0)">
                 <span style="padding-top: 5px; display: block">
-                    <label>
-                        <input type="checkbox" 
-                            ng-if="config.isMultiselect" /> 
-                        {{ezOption.label}}
-                    </label>
+                    <input type="checkbox" 
+                        ng-checked="ezOption.isChecked" 
+                        ng-if="config.isMultiselect" /> 
+                    {{ezOption.label}}
                 </span>
             </a>
+            <span ng-show="ezOption.isSelected" 
+                ng-style="{{getSelectionStyle()}}"></span>
         </li>
     </ul>
 </div>

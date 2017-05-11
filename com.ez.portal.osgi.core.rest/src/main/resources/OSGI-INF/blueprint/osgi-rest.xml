@@ -15,12 +15,12 @@
         </cxf:features>
     </cxf:bus>
     
-    <jaxrs:server address="/rest/portal_service" id="portalService">
+    <bean id="portalServiceImpl" class="com.ez.portal.osgi.core.rest.service.impl.PortalServiceImpl" />
+    
+    <jaxrs:server id="portalService" address="/rest/ezportal">
         <jaxrs:serviceBeans>
             <ref component-id="portalServiceImpl" />
         </jaxrs:serviceBeans>
     </jaxrs:server>
-    
-    <bean id="portalServiceImpl" class="com.ez.portal.osgi.core.rest.service.impl.PortalServiceImpl" />
     
 </blueprint>

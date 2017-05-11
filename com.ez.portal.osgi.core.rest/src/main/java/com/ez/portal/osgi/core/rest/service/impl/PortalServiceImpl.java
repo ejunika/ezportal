@@ -1,6 +1,5 @@
 package com.ez.portal.osgi.core.rest.service.impl;
 
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 import com.ez.portal.rest.service.PortalService;
@@ -14,9 +13,9 @@ public class PortalServiceImpl implements PortalService {
     }
 
     @Override
-    public Response post(Request request) {
+    public Response post(String reqData) {
         // TODO Auto-generated method stub
-        return null;
+        return Response.ok("{\"success\": true}").status(Response.Status.OK).build();
     }
 
 }

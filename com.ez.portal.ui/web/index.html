@@ -4,21 +4,18 @@
         <meta charset="ISO-8859-1">
         <title>Insert title here</title>
         <link type="text/css" rel="stylesheet" href="//bootswatch.com/paper/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="//unpkg.com/jQuery-QueryBuilder@2.4.3/dist/css/query-builder.default.css">
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+        <script type="text/javascript" src="//unpkg.com/jQuery-QueryBuilder@2.4.3/dist/js/query-builder.standalone.js"></script>
     </head>
     <body ng-controller="portal-app.ctrl">
-        <div class="container-fluid">
-            {{selected1}}
-            <ez-multiselect ez-config="config1" ez-options="options1" ng-model="selected1"></ez-multiselect>
-            <ez-multiselect ez-config="config2" ez-options="options2" ng-model="selected2"></ez-multiselect>
-            {{selected2}}
-            <button class="btn btn-default" ng-click="change()">change</button>
-        </div>
-        <script type="text/javascript" src="ez-multiselect/ez-multiselect.js"></script>
+        <app-view></app-view>
         <script type="text/javascript" src="app/portal-app.mdl.js"></script>
+        <script type="text/javascript" src="ez-multiselect/ez-multiselect.js"></script>
+        <script type="text/javascript" src="ez-querybuilder/ez-querybuilder.js"></script>
+        <script type="text/javascript" src="app/directives/app-view.dir.js"></script>
         <script type="text/javascript" src="app/controllers/portal-app.ctrl.js"></script>
-        <script type="text/javascript" src="app/required/factories/ez-service-sdk.fact.js"></script>
     </body>
 </html>

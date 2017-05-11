@@ -20,9 +20,9 @@
             <version>3.12.1.GA</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-shards</artifactId>
-            <version>1.1.0</version>
+            <groupId>com.ez</groupId>
+            <artifactId>com.ez.hibernate.shards</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

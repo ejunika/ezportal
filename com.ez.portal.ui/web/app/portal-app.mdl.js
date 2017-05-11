@@ -7,7 +7,7 @@
 })(this, function (ctx) {
     angular
         .module('portal-app.mdl', [
-            'ez-utils',
-            'ez-multiselect.mdl'
+            'ez-multiselect.mdl',
+            'ez-querybuilder.mdl'
         ]);
 });

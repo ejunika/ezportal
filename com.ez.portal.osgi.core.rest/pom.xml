@@ -6,6 +6,7 @@
         <groupId>com.ez</groupId>
         <artifactId>com.ez</artifactId>
         <version>1.0.0</version>
+        <relativePath>../com.ez</relativePath>
     </parent>
     <packaging>bundle</packaging>
     <build>
@@ -19,7 +20,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Bundle-Activator></Bundle-Activator>
+                        <Bundle-Activator>com.ez.portal.osgi.core.rest.service.activator.Activator</Bundle-Activator>
                         <Export-Package></Export-Package>
                         <Import-Package>*</Import-Package>
                     </instructions>

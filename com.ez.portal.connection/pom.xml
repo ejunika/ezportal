@@ -6,7 +6,7 @@
         <groupId>com.ez</groupId>
         <artifactId>com.ez</artifactId>
         <version>1.0.0</version>
-        <relativePath>C:/Users/azaz.akhtar/git/ez-portal/com.ez</relativePath>
+        <relativePath>../com.ez</relativePath>
     </parent>
     <dependencies>
         <dependency>
