@@ -1,7 +1,5 @@
 package com.ez.portal.core.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "USER")
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User implements Shardable {
+public class User extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,18 +30,9 @@ public class User implements Shardable {
     @Column(name = "USERNAME", unique = true)
     private String username;
 
-    @Column(name = "CREATED_AT")
-    private Date createdAt;
-    
-    @Column(name = "UPDATED_AT")
-    private Date updatedAt;
-
     @Column(name = "PASSWORD")
     private String password;
     
-    @Column(name = "SHARD_KEY")
-    private String shardKey;
-
     public Long getUserId() {
         return userId;
     }
@@ -74,30 +63,6 @@ public class User implements Shardable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getShardKey() {
-        return shardKey;
-    }
-
-    public void setShardKey(String shardKey) {
-        this.shardKey = shardKey;
     }
 
 }

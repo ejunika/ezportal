@@ -42,6 +42,7 @@ public class PortalHibernateUtil {
         for (UserSpace space : spaces) {
             System.out.println(space.getUserSpaceName());
         }
+        getEzShardUtil().buildShard(spaces);
     }
     
 }

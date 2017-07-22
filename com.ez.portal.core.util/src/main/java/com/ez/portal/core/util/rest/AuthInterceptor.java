@@ -33,12 +33,12 @@ public class AuthInterceptor extends AbstractPhaseInterceptor<Message> {
             if (shardKeys != null && !shardKeys.isEmpty()) {
                 getEzShardUtil().initSessionFactory(shardKeys);
             } else {
-                HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
-                        .get(AbstractHTTPDestination.HTTP_RESPONSE);
-                response.setStatus(500);
-                response.getOutputStream().write("{\"Error\": \"Invalid Request\"}".getBytes());
-                response.getOutputStream().flush();
-                message.getInterceptorChain().abort();
+//                HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
+//                        .get(AbstractHTTPDestination.HTTP_RESPONSE);
+//                response.setStatus(500);
+//                response.getOutputStream().write("{\"Error\": \"Invalid Request\"}".getBytes());
+//                response.getOutputStream().flush();
+//                message.getInterceptorChain().abort();
             }
         } catch (Exception e) {
             e.printStackTrace();

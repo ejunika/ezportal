@@ -9,10 +9,7 @@ import java.sql.SQLException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import com.ez.portal.core.rest.request.UserSpaceRequest;
-import com.ez.portal.core.rest.response.UserSpaceResponse;
 import com.ez.portal.shard.entity.UserSpace;
 
 public class EZMain {
@@ -54,15 +51,15 @@ public class EZMain {
         WebClient client = WebClient.create("http://localhost:8082/com.ez.portal/rest/install");
         client.path("create_user_space");
         client.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
-        UserSpaceRequest r = new UserSpaceRequest();
+//        UserSpaceRequest r = new UserSpaceRequest();
         UserSpace us = new UserSpace();
         us.setUserSpaceName("Abc");
-        r.setUserSpace(us);
+//        r.setUserSpace(us);
         try {
-            String str = new ObjectMapper().writeValueAsString(r);
-            String x = client.post(str, String.class);
-            UserSpaceResponse urs = new ObjectMapper().readValue(x, UserSpaceResponse.class);
-            System.out.println(urs.getUserSpaces().get(0).getUserSpaceId());
+//            String str = new ObjectMapper().writeValueAsString(r);
+//            String x = client.post(str, String.class);
+//            UserSpaceResponse urs = new ObjectMapper().readValue(x, UserSpaceResponse.class);
+//            System.out.println(urs.getUserSpaces().get(0).getUserSpaceId());
         } catch (Exception e) {
             e.printStackTrace();
         }

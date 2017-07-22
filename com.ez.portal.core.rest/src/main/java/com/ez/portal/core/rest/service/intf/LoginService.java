@@ -9,10 +9,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.ez.portal.core.rest.request.LoginRequest;
-import com.ez.portal.core.rest.request.UserRequest;
-import com.ez.portal.core.rest.response.LoginResponse;
-import com.ez.portal.core.rest.response.UserResponse;
+import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.UserRequest;
+import com.ez.portal.core.response.LoginResponse;
+import com.ez.portal.core.response.UserResponse;
 
 @WebService
 @Consumes (MediaType.APPLICATION_JSON)
@@ -20,15 +20,19 @@ import com.ez.portal.core.rest.response.UserResponse;
 public interface LoginService {
     
     @POST
-    @Path ("/sign_up")
-    UserResponse signUp(UserRequest userRequest);
+    @Path ("/sign-up")
+    UserResponse signUp(UserRequest userRequest) throws Exception;
     
     @POST
-    @Path ("/do_login")
-    LoginResponse doLogin(LoginRequest loginRequest);
+    @Path ("/do-login")
+    LoginResponse doLogin(LoginRequest loginRequest) throws Exception;
     
     @GET
-    @Path ("/get_user/{userId}")
-    UserResponse getUser(@PathParam ("userId") Long userId);
+    @Path ("/get-user/{userId}")
+    UserResponse getUser(@PathParam ("userId") Long userId) throws Exception;
     
+    @GET
+    @Path ("/get-all-user")
+    UserResponse getAllUser() throws Exception;
+        
 }

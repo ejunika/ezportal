@@ -34,7 +34,6 @@ public class EZShardSessionFactory {
 
     public EZShardSessionFactory() {
         super();
-        entityClasses = new ArrayList<>();
     }
 
     public List<Class<? extends Shardable>> getEntityClasses() {

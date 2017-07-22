@@ -33,16 +33,13 @@
         </jaxrs:inInterceptors>
     </jaxrs:server>
     
-    <jaxrs:server id="instService" address="/install">
-        <jaxrs:serviceBeans>
-            <ref bean="installService" />
-        </jaxrs:serviceBeans>
-        <jaxrs:providers>
-            <ref bean="jsonProvider" />
-        </jaxrs:providers>
-<!--         <jaxrs:inInterceptors> -->
-<!--         	<ref bean="authInterceptor"/> -->
-<!--         </jaxrs:inInterceptors> -->
-    </jaxrs:server>
+<!--     <jaxrs:server id="instService" address="/install"> -->
+<!--         <jaxrs:serviceBeans> -->
+<!--             <ref bean="installService" /> -->
+<!--         </jaxrs:serviceBeans> -->
+<!--         <jaxrs:providers> -->
+<!--             <ref bean="jsonProvider" /> -->
+<!--         </jaxrs:providers> -->
+<!--     </jaxrs:server> -->
 
 </beans>

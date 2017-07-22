@@ -102,5 +102,38 @@
         ];
 //        $scope.selectedCountry
         $scope.selectedCity = {};
+        debugger;
+        $scope.flowChart = new ez.FlowChart({
+            nodes: [
+                {
+                    id: 0,
+                    name: "Input",
+                    x: 10,
+                    y: 50,
+                    width: 60,
+                    inputSockets: [],
+                    outputSockets: [{}]
+                },
+                {
+                    id: 0,
+                    name: "Map",
+                    x: 170,
+                    y: 50,
+                    width: 60,
+                    inputSockets: [{}],
+                    outputSockets: [{}]
+                },
+                {
+                    id: 0,
+                    name: "Output",
+                    x: 350,
+                    y: 50,
+                    width: 60,
+                    inputSockets: [{}],
+                    outputSockets: []
+                },
+            ],
+            connectors: []
+        });
     }
 });

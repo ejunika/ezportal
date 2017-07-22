@@ -8,6 +8,7 @@
     angular
         .module('portal-app.mdl', [
             'ez-multiselect.mdl',
-            'ez-querybuilder.mdl'
+            'ez-querybuilder.mdl',
+            'ez-flow-chart'
         ]);
 });

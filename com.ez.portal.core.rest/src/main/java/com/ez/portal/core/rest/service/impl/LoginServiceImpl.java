@@ -1,10 +1,10 @@
 package com.ez.portal.core.rest.service.impl;
 
 import com.ez.portal.core.dao.manager.LoginManager;
-import com.ez.portal.core.rest.request.LoginRequest;
-import com.ez.portal.core.rest.request.UserRequest;
-import com.ez.portal.core.rest.response.LoginResponse;
-import com.ez.portal.core.rest.response.UserResponse;
+import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.UserRequest;
+import com.ez.portal.core.response.LoginResponse;
+import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.service.intf.LoginService;
 
 public class LoginServiceImpl implements LoginService {
@@ -27,13 +27,18 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public UserResponse getUser(Long userId) {
-        getLoginManager().getUser(userId);
-        return null;
+        return getLoginManager().getUser(userId);
     }
 
     @Override
     public LoginResponse doLogin(LoginRequest loginRequest) {
         getLoginManager().doLogin(loginRequest.getEmailId(), loginRequest.getPassword());
+        return null;
+    }
+
+    @Override
+    public UserResponse getAllUser() {
+        // TODO Auto-generated method stub
         return null;
     }
 

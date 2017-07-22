@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    class="node-container" 
+    ng-mousedown="onMouseDown($event)"
+    ng-mouseup="onMouseUp($event)">
+    <g class="node" 
+        ng-attr-transform="translate({{node.getX()}}, {{node.getY()}})"
+        ng-repeat="node in ezChart.mNodes">
+        <rect x="0.5" 
+            y="0.5" 
+            ng-attr-height="{{node.getHeight()}}" 
+            ng-attr-width="{{node.getWidth()}}" 
+            fill="transparent" 
+            ng-attr-stroke="{{node.getStrokeColor()}}" 
+            ng-attr-stroke-width="{{node.getStrokeWidth()}}">
+        </rect>
+        <text ng-attr-x="{{node.getWidth()/2}}" 
+            y="25" 
+            text-anchor="middle"
+            alignment-baseline="middle">
+            {{node.getName()}}
+        </text>
+        <g ng-repeat="inputSocket in node.mInputSockets">
+            <text></text>
+            <circle ng-attr-r="{{inputSocket.getRadius()}}" 
+                ng-attr-cx="{{inputSocket.getX()}}" 
+                fill="transparent" 
+                stroke="{{inputSocket.getStrokeColor()}}" 
+                ng-attr-cy="{{inputSocket.getY()}}">
+            </circle>
+        </g>
+        <g ng-repeat="outputSocket in node.mOutputSockets">
+            <text></text>
+            <circle ng-attr-r="{{outputSocket.getRadius()}}" 
+                ng-attr-cx="{{outputSocket.getX()}}" 
+                fill="transparent" 
+                stroke="{{outputSocket.getStrokeColor()}}" 
+                ng-attr-cy="{{outputSocket.getY()}}">
+            </circle>
+        </g>
+    </g>
+    SVG NOT SUPPORTED
+</svg>

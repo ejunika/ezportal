@@ -3,6 +3,10 @@
     <head>
         <meta charset="ISO-8859-1">
         <title>Insert title here</title>
+        
+        <link type="text/css" rel="stylesheet" href="ez-flowchart/ez-flowchart.style.css">
+        
+        
         <link type="text/css" rel="stylesheet" href="//bootswatch.com/paper/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="//unpkg.com/jQuery-QueryBuilder@2.4.3/dist/css/query-builder.default.css">
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -10,8 +14,12 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
         <script type="text/javascript" src="//unpkg.com/jQuery-QueryBuilder@2.4.3/dist/js/query-builder.standalone.js"></script>
     </head>
-    <body ng-controller="portal-app.ctrl">
+    <body mouse-capture ng-controller="portal-app.ctrl">
         <app-view></app-view>
+        <script type="text/javascript" src="ez-flowchart/FlowChart.js"></script>
+        <script type="text/javascript" src="ez-flowchart/ez-mouse-capture.js"></script>
+        <script type="text/javascript" src="ez-flowchart/ez-mouse-drag.js"></script>
+        <script type="text/javascript" src="ez-flowchart/ez-flow-chart.js"></script>
         <script type="text/javascript" src="app/portal-app.mdl.js"></script>
         <script type="text/javascript" src="ez-multiselect/ez-multiselect.js"></script>
         <script type="text/javascript" src="ez-querybuilder/ez-querybuilder.js"></script>

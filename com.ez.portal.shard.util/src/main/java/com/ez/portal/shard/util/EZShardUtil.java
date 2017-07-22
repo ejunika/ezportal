@@ -23,6 +23,9 @@ import org.hibernate.shards.strategy.resolution.ShardResolutionStrategy;
 import org.hibernate.shards.strategy.selection.ShardSelectionStrategy;
 
 import com.ez.portal.shard.Shardable;
+import com.ez.portal.shard.entity.HibernateProperty;
+import com.ez.portal.shard.entity.UserSpace;
+import com.ez.portal.shard.session.factory.EZShardSessionFactory;
 
 public class EZShardUtil {
 
@@ -34,11 +37,12 @@ public class EZShardUtil {
 
     private ShardStrategyFactory shardStrategyFactory;
     
+    private EZShardSessionFactory ezShardSessionFactory;
+    
     private static final Map<Integer, Integer> VIRTUAL_SHARD = new HashMap<>();
 
     public EZShardUtil() {
         super();
-        entityClasses = new ArrayList<>();
     }
     
     public List<Class<? extends Shardable>> getEntityClasses() {
@@ -51,19 +55,20 @@ public class EZShardUtil {
 
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            configure();
             sessionFactory = shardedConfiguration.buildShardedSessionFactory();
         }
         return sessionFactory;
     }
     
     public void initSessionFactory(String[] shardKeys) {
-        configure();
         sessionFactory = getSessionFactory(shardKeys);
     }
     
+    public void initSessionFactory() {
+        sessionFactory = getSessionFactory();
+    }
+    
     public void initSessionFactory(List<String> shardKeys) {
-        configure();
         sessionFactory = getSessionFactory(shardKeys);
     }
 
@@ -89,7 +94,11 @@ public class EZShardUtil {
                 .buildShardedSessionFactory();
         if (shardKeys != null) {
             for (String shardKey : shardKeys) {
-                shardIds.add(new ShardId(Integer.parseInt(shardKey)));
+                try {
+                    shardIds.add(new ShardId(Integer.parseInt(shardKey)));
+                } catch (NumberFormatException numberFormatException) {
+                    numberFormatException.printStackTrace();
+                }
             }
         }
         return shardedSessionFactory.getSessionFactory(shardIds, shardStrategyFactory);
@@ -118,6 +127,22 @@ public class EZShardUtil {
         }
         return this;
     }
+    
+    public EZShardUtil configure(List<UserSpace> spaces) {
+        if (shardStrategyFactory == null || shardedConfiguration == null) {
+            Configuration ptConfig = getConfiguration(spaces.get(0).getHibernateProperties());
+            List<ShardConfiguration> shardConfigurations = new ArrayList<>();
+            Integer i = 1;
+            for (UserSpace space : spaces) {
+                VIRTUAL_SHARD.put(i, i);
+                shardConfigurations.add(getShardConfiguration(getConfiguration(space.getHibernateProperties())));
+                i++;
+            }
+            shardStrategyFactory = buildShardStrategyFactory();
+            shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory, VIRTUAL_SHARD);
+        }
+        return this;
+    }
 
     public Configuration getConfiguration(Integer shardId) {
         Configuration configuration = new Configuration()
@@ -136,6 +161,17 @@ public class EZShardUtil {
             configuration.addAnnotatedClass(entityClass);
         }
 
+        return configuration;
+    }
+    
+    public Configuration getConfiguration(List<HibernateProperty> hibernateProperties) {
+        Configuration configuration = new Configuration();;
+        for (HibernateProperty hibernateProperty : hibernateProperties) {
+            configuration.setProperty(hibernateProperty.getPropertyName(), hibernateProperty.getPropertyValue());
+        }
+        for (Class<? extends Serializable> entityClass : entityClasses) {
+            configuration.addAnnotatedClass(entityClass);
+        }
         return configuration;
     }
 
@@ -159,5 +195,19 @@ public class EZShardUtil {
             }
         };
     }
+    
+    public void buildShard(List<UserSpace> spaces) {
+        if (spaces != null) {
+            configure(spaces).getSessionFactory();
+        }
+    }
 
+    public EZShardSessionFactory getEzShardSessionFactory() {
+        return ezShardSessionFactory;
+    }
+
+    public void setEzShardSessionFactory(EZShardSessionFactory ezShardSessionFactory) {
+        this.ezShardSessionFactory = ezShardSessionFactory;
+    }
+    
 }

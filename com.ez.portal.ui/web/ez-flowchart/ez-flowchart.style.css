@@ -1,0 +1,13 @@
+/* EZ_FLOW_CHART */
+.node-container {
+    height: 100%;
+    width: 100%;
+}
+.node {
+	background: red;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	top: 0;
+	left: 0;
+}

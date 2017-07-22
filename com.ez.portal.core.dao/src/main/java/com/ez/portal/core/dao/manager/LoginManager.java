@@ -1,8 +1,12 @@
 package com.ez.portal.core.dao.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ez.portal.core.dao.intf.LoginDAO;
 import com.ez.portal.core.entity.Login;
 import com.ez.portal.core.entity.User;
+import com.ez.portal.core.response.UserResponse;
 
 public class LoginManager {
 
@@ -20,8 +24,20 @@ public class LoginManager {
         return null;
     }
     
-    public User getUser(Long userId) {
-        return null;
+    public UserResponse getUser(Long userId) {
+        UserResponse response = new UserResponse();
+        List<User> users = new ArrayList<>();
+        User user = loginDAO.getUser(userId);
+        users.add(user);
+        response.setUsers(users);
+        return response;
+    }
+    
+    public UserResponse getAllUser() {
+        UserResponse response = new UserResponse();
+        List<User> users = loginDAO.getAllUsers();
+        response.setUsers(users);
+        return response;
     }
     
     public Login doLogin(String emailId, String password) {

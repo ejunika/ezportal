@@ -2,11 +2,13 @@ package com.ez.portal.shard.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,6 +37,9 @@ public class UserSpace implements Serializable {
     
     @Column(name = "UPDATED_AT")
     private Date updatedAt;
+    
+    @OneToMany(mappedBy = "userSpace")
+    private List<HibernateProperty> hibernateProperties;
 
     public Long getUserSpaceId() {
         return userSpaceId;
@@ -66,6 +71,14 @@ public class UserSpace implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<HibernateProperty> getHibernateProperties() {
+        return hibernateProperties;
+    }
+
+    public void setHibernateProperties(List<HibernateProperty> hibernateProperties) {
+        this.hibernateProperties = hibernateProperties;
     }
 
 }

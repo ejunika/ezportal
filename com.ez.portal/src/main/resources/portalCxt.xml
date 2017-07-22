@@ -81,11 +81,19 @@
             <list merge="true">
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Login</value>
+                <value>com.ez.portal.core.entity.LibraryObject</value>
+                <value>com.ez.portal.core.entity.LibraryObjectBorrowRequest</value>
             </list>
         </property>
     </bean>
     
     <bean id="ezShardUtil" class="com.ez.portal.shard.util.EZShardUtil">
+        <property name="entityClasses">
+            <ref bean="coreEntities"/>
+        </property>
+    </bean>
+    
+    <bean id="eZShardSessionFactory" class="com.ez.portal.shard.session.factory.EZShardSessionFactory">
         <property name="entityClasses">
             <ref bean="coreEntities"/>
         </property>
