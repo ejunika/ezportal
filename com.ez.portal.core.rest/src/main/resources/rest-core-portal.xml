@@ -14,12 +14,13 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
-        
+    
+    <import resource="classpath:rest-shard.xml"/>
+     
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
     <bean id="authInterceptor" class="com.ez.portal.core.util.rest.AuthInterceptor" autowire="byName" />
     
     <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
-    <bean id="installService" class="com.ez.portal.core.rest.service.impl.InstallServiceImpl" autowire="byName" />
     
     <jaxrs:server id="logService" address="/login">
         <jaxrs:serviceBeans>
@@ -33,13 +34,4 @@
         </jaxrs:inInterceptors>
     </jaxrs:server>
     
-<!--     <jaxrs:server id="instService" address="/install"> -->
-<!--         <jaxrs:serviceBeans> -->
-<!--             <ref bean="installService" /> -->
-<!--         </jaxrs:serviceBeans> -->
-<!--         <jaxrs:providers> -->
-<!--             <ref bean="jsonProvider" /> -->
-<!--         </jaxrs:providers> -->
-<!--     </jaxrs:server> -->
-
 </beans>

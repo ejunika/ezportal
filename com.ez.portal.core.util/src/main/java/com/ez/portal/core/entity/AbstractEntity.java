@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import com.ez.portal.shard.Shardable;
+
 @MappedSuperclass
 public abstract class AbstractEntity implements Shardable {
 

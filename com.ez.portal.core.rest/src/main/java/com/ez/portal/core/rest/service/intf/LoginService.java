@@ -13,26 +13,41 @@ import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
+import com.ez.portal.shard.request.ShardRequest;
+import com.ez.portal.shard.response.ShardResponse;
 
 @WebService
-@Consumes (MediaType.APPLICATION_JSON)
-@Produces (MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public interface LoginService {
-    
+
     @POST
-    @Path ("/sign-up")
+    @Path("/sign-up")
     UserResponse signUp(UserRequest userRequest) throws Exception;
-    
+
     @POST
-    @Path ("/do-login")
+    @Path("/get-all-user-spaces")
+    ShardResponse getAllUserSpaces(ShardRequest request) throws Exception;
+
+    @POST
+    @Path("/do-login")
     LoginResponse doLogin(LoginRequest loginRequest) throws Exception;
-    
+
     @GET
-    @Path ("/get-user/{userId}")
-    UserResponse getUser(@PathParam ("userId") Long userId) throws Exception;
-    
+    @Path("/get-user/{userId}")
+    UserResponse getUser(@PathParam("userId") Long userId) throws Exception;
+
     @GET
-    @Path ("/get-all-user")
+    @Path("/get-all-user")
     UserResponse getAllUser() throws Exception;
-        
+    
+    @GET
+    @Path("/logout/{authenticationToken}")
+    LoginResponse logout(@PathParam("authenticationToken") String authenticationToken) throws Exception;
+
+    @GET
+    @Path("/get-user-by-authentication-token/{authenticationToken}")
+    UserResponse getUserByAuthenticationToken(@PathParam("authenticationToken") String authenticationToken)
+            throws Exception;
+
 }

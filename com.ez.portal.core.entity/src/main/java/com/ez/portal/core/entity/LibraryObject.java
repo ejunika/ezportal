@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,6 +32,10 @@ public class LibraryObject extends AbstractEntity {
     
     @Column(name = "LIBRARY_OBJECT_NAME")
     private String libraryObjectName;
+    
+    @ManyToOne
+    @JoinColumn(name = "LIBRARY_OBJECT_BORROW_REQUEST_ID")
+    private LibraryObjectBorrowRequest libraryObjectBorrowRequest;
 
     public Long getLibraryObjectId() {
         return libraryObjectId;
@@ -53,6 +59,14 @@ public class LibraryObject extends AbstractEntity {
 
     public void setLibraryObjectName(String libraryObjectName) {
         this.libraryObjectName = libraryObjectName;
+    }
+
+    public LibraryObjectBorrowRequest getLibraryObjectBorrowRequest() {
+        return libraryObjectBorrowRequest;
+    }
+
+    public void setLibraryObjectBorrowRequest(LibraryObjectBorrowRequest libraryObjectBorrowRequest) {
+        this.libraryObjectBorrowRequest = libraryObjectBorrowRequest;
     }
 
 }

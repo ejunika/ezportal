@@ -32,7 +32,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
                 Accept,
                 Content-Type, 
                 AUTH-TOKEN, 
-                SERVICE-KEY
+                US-KEY
             </param-value>
         </init-param>
     </filter>

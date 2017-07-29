@@ -80,8 +80,12 @@
         <property name="sourceList">
             <list merge="true">
                 <value>com.ez.portal.core.entity.User</value>
+                <value>com.ez.portal.core.entity.Password</value>
+                <value>com.ez.portal.core.entity.UserInfo</value>
                 <value>com.ez.portal.core.entity.Login</value>
+                <value>com.ez.portal.core.entity.PortalSession</value>
                 <value>com.ez.portal.core.entity.LibraryObject</value>
+                <value>com.ez.portal.core.entity.LibraryObjectInfo</value>
                 <value>com.ez.portal.core.entity.LibraryObjectBorrowRequest</value>
             </list>
         </property>
@@ -103,8 +107,8 @@
     
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     
-    <!-- PORTAL -->
+    <!-- PORTAL CORE -->
     <import resource="classpath:portal-core.xml"/>
-    <!-- /PORTAL -->
+    <!-- /PORTAL CORE -->
     
 </beans>

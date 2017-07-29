@@ -6,6 +6,8 @@ import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.service.intf.LoginService;
+import com.ez.portal.shard.request.ShardRequest;
+import com.ez.portal.shard.response.ShardResponse;
 
 public class LoginServiceImpl implements LoginService {
     
@@ -32,14 +34,28 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public LoginResponse doLogin(LoginRequest loginRequest) {
-        getLoginManager().doLogin(loginRequest.getEmailId(), loginRequest.getPassword());
-        return null;
+        return getLoginManager().doLogin(loginRequest);
     }
 
     @Override
     public UserResponse getAllUser() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public ShardResponse getAllUserSpaces(ShardRequest request) throws Exception {
+        return getLoginManager().getAllUserSpaces(request);
+    }
+
+    @Override
+    public UserResponse getUserByAuthenticationToken(String authenticationToken) throws Exception {
+        return getLoginManager().getUserByAuthenticationToken(authenticationToken);
+    }
+
+    @Override
+    public LoginResponse logout(String authenticationToken) throws Exception {
+        return getLoginManager().logout(authenticationToken);
     }
 
 }

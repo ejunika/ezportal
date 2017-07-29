@@ -12,6 +12,7 @@ import org.hibernate.shards.ShardId;
 import org.hibernate.shards.ShardedConfiguration;
 import org.hibernate.shards.cfg.ConfigurationToShardConfigurationAdapter;
 import org.hibernate.shards.cfg.ShardConfiguration;
+import org.hibernate.shards.session.ShardedSessionFactory;
 import org.hibernate.shards.session.ShardedSessionFactoryImpl;
 import org.hibernate.shards.strategy.ShardStrategy;
 import org.hibernate.shards.strategy.ShardStrategyFactory;
@@ -34,6 +35,8 @@ public class EZShardUtil {
     private SessionFactory sessionFactory;
 
     private ShardedConfiguration shardedConfiguration;
+    
+    private ShardedSessionFactory shardedSessionFactory;
 
     private ShardStrategyFactory shardStrategyFactory;
     
@@ -54,9 +57,6 @@ public class EZShardUtil {
     }
 
     public SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            sessionFactory = shardedConfiguration.buildShardedSessionFactory();
-        }
         return sessionFactory;
     }
     
@@ -65,7 +65,7 @@ public class EZShardUtil {
     }
     
     public void initSessionFactory() {
-        sessionFactory = getSessionFactory();
+        sessionFactory = shardedSessionFactory;
     }
     
     public void initSessionFactory(List<String> shardKeys) {
@@ -78,20 +78,18 @@ public class EZShardUtil {
 
     public SessionFactory getSessionFactory(String[] shardKeys) {
         List<ShardId> shardIds = new ArrayList<>();
-        ShardedSessionFactoryImpl shardedSessionFactory = (ShardedSessionFactoryImpl) shardedConfiguration
-                .buildShardedSessionFactory();
+        ShardedSessionFactoryImpl shardedSessionFactoryImpl = (ShardedSessionFactoryImpl) shardedSessionFactory;
         if (shardKeys != null) {
             for (String shardKey : shardKeys) {
                 shardIds.add(new ShardId(Integer.parseInt(shardKey)));
             }
         }
-        return shardedSessionFactory.getSessionFactory(shardIds, shardStrategyFactory);
+        return shardedSessionFactoryImpl.getSessionFactory(shardIds, shardStrategyFactory);
     }
 
     public SessionFactory getSessionFactory(List<String> shardKeys) {
         List<ShardId> shardIds = new ArrayList<>();
-        ShardedSessionFactoryImpl shardedSessionFactory = (ShardedSessionFactoryImpl) shardedConfiguration
-                .buildShardedSessionFactory();
+        ShardedSessionFactoryImpl shardedSessionFactoryImpl = (ShardedSessionFactoryImpl) shardedSessionFactory;
         if (shardKeys != null) {
             for (String shardKey : shardKeys) {
                 try {
@@ -101,7 +99,7 @@ public class EZShardUtil {
                 }
             }
         }
-        return shardedSessionFactory.getSessionFactory(shardIds, shardStrategyFactory);
+        return shardedSessionFactoryImpl.getSessionFactory(shardIds, shardStrategyFactory);
     }
 
     public SessionFactory getSessionFactory(String shardKey) {
@@ -113,20 +111,6 @@ public class EZShardUtil {
         }
         return shardedSessionFactory.getSessionFactory(shardIds, shardStrategyFactory);
     }
-
-    public EZShardUtil configure() {
-        if (shardStrategyFactory == null || shardedConfiguration == null) {
-            Configuration ptConfig = getConfiguration(0);
-            List<ShardConfiguration> shardConfigurations = new ArrayList<>();
-            for (Integer i = 0; i < 5; i++) {
-                VIRTUAL_SHARD.put(i, i);
-                shardConfigurations.add(getShardConfiguration(getConfiguration(i)));
-            }
-            shardStrategyFactory = buildShardStrategyFactory();
-            shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory, VIRTUAL_SHARD);
-        }
-        return this;
-    }
     
     public EZShardUtil configure(List<UserSpace> spaces) {
         if (shardStrategyFactory == null || shardedConfiguration == null) {
@@ -134,12 +118,13 @@ public class EZShardUtil {
             List<ShardConfiguration> shardConfigurations = new ArrayList<>();
             Integer i = 1;
             for (UserSpace space : spaces) {
-                VIRTUAL_SHARD.put(i, i);
+                VIRTUAL_SHARD.put(i, space.getUserSpaceId().intValue());
                 shardConfigurations.add(getShardConfiguration(getConfiguration(space.getHibernateProperties())));
                 i++;
             }
             shardStrategyFactory = buildShardStrategyFactory();
             shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory, VIRTUAL_SHARD);
+            setShardedSessionFactory(shardedConfiguration.buildShardedSessionFactory());
         }
         return this;
     }
@@ -208,6 +193,14 @@ public class EZShardUtil {
 
     public void setEzShardSessionFactory(EZShardSessionFactory ezShardSessionFactory) {
         this.ezShardSessionFactory = ezShardSessionFactory;
+    }
+
+    public ShardedSessionFactory getShardedSessionFactory() {
+        return shardedSessionFactory;
+    }
+
+    public void setShardedSessionFactory(ShardedSessionFactory shardedSessionFactory) {
+        this.shardedSessionFactory = shardedSessionFactory;
     }
     
 }

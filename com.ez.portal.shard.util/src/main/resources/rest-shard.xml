@@ -15,8 +15,19 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
         
-    <bean id="loginManager" class="com.ez.portal.core.dao.manager.LoginManager" autowire="byName" />
-    <bean id="loginDAO" class="com.ez.portal.core.dao.impl.LoginDAOimpl" autowire="byName" />
-    <bean id="userAuthentication" class="com.ez.portal.core.security.UserAuthentication" autowire="byName" />
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    
+    <bean id="shardService" class="com.ez.portal.shard.rest.service.impl.ShardServiceImpl" autowire="byName" />
+    
+    <bean id="shardDAO" class="com.ez.portal.shard.dao.impl.ShardDAOimpl" autowire="byName" />
+    
+    <jaxrs:server id="ShaService" address="/shard">
+        <jaxrs:serviceBeans>
+            <ref bean="shardService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+    </jaxrs:server>
     
 </beans>

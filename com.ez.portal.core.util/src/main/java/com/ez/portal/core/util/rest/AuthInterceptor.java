@@ -33,6 +33,7 @@ public class AuthInterceptor extends AbstractPhaseInterceptor<Message> {
             if (shardKeys != null && !shardKeys.isEmpty()) {
                 getEzShardUtil().initSessionFactory(shardKeys);
             } else {
+                getEzShardUtil().initSessionFactory();
 //                HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
 //                        .get(AbstractHTTPDestination.HTTP_RESPONSE);
 //                response.setStatus(500);

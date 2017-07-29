@@ -2,6 +2,7 @@ package com.ez.portal.core.response;
 
 import java.io.Serializable;
 
+
 public abstract class AbstractResponse implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -25,6 +26,9 @@ public abstract class AbstractResponse implements Serializable {
         this.status = status;
     }
     
-    public abstract void resetResponse() ;
+    public void resetResponse() {
+        this.message = null;
+        this.status = null;
+    }
     
 }

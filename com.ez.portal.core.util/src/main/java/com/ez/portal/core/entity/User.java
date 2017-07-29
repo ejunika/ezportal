@@ -29,9 +29,10 @@ public class User extends AbstractEntity {
 
     @Column(name = "USERNAME", unique = true)
     private String username;
-
-    @Column(name = "PASSWORD")
-    private String password;
+    
+    public User() {
+        super();
+    }
     
     public Long getUserId() {
         return userId;
@@ -47,14 +48,6 @@ public class User extends AbstractEntity {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getUsername() {
