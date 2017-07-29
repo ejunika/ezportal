@@ -1,0 +1,107 @@
+<div class="portal-home-container" ng-init="init()">
+    <portal-header>
+        <!-- Portal Header -->
+    </portal-header>
+    <portal-breadcrumb>
+        <!-- Portal Breadcrumb -->
+    </portal-breadcrumb>
+    <div class="container-fluid">
+        <div ui-view="adminScreen">
+            <!-- ADMIN SCREEN -->
+        </div>
+        <div class="row" ng-hide="true">
+            <div class="col-md-8 col-md-offset-2"">
+                <div class="row" style="margin-top: 100px">
+                    <div class="col-md-4" 
+                        ng-click="launchMenu($event, adminMenu)" 
+                        ng-repeat="adminMenu in adminMenus track by adminMenu.id">
+                        <div class="panel panel-default portal-tile-menu">
+                            <div class="panel-body">
+                                <a href="javascript: void(0)">
+                                    <i class="{{adminMenu.icon.group + ' ' + adminMenu.icon.clazz}}"></i>
+                                </a>
+                            </div>
+                            <div class="panel-footer">
+                                {{adminMenu.label}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Portal Users
+                        <div class="btn-group pull-right">
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </a>
+                                </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span>
+                                    Md Azaz Akhtar
+                                </span>
+                                <div class="btn-group pull-right">
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <span>
+                                    Md Azaz Akhtar
+                                </span>
+                                <div class="btn-group pull-right">
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <span>
+                                    Md Azaz Akhtar
+                                </span>
+                                <div class="btn-group pull-right">
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                    <a href="javascript: void(0)" 
+                                        class="btn btn-sm btn-default">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        User Details
+                    </div>
+                    <div class="panel-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

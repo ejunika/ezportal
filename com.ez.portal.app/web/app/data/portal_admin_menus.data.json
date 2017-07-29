@@ -1,0 +1,42 @@
+[
+    {
+        "id": "USER_MANAGEMENT",
+        "label": "User Management",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-user"
+        }
+    },
+    {
+        "id": "LIBRARY_MANAGEMENT",
+        "label": "Library Management",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-book"
+        }
+    },
+    {
+        "id": "DATA_MANAGEMENT",
+        "label": "Data Management",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-briefcase"
+        }
+    },
+    {
+        "id": "STUDENT_MANAGEMENT",
+        "label": "Student Management",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-briefcase"
+        }
+    },
+    {
+        "id": "ACCOUNT_MANAGEMENT",
+        "label": "Account Management",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-piggy-bank"
+        }
+    }
+]

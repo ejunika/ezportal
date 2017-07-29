@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="portal_app">
+    <head>
+        <meta charset="ISO-8859-1">
+        <title>Portal App</title>
+        <link type="text/css" rel="stylesheet" href="//bootswatch.com/paper/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="css/portal_loader.style.css">
+        <link type="text/css" rel="stylesheet" href="css/portal_app.style.css">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router.statehelper/1.3.1/statehelper.js"></script>
+    </head>
+    <body ng-controller="portal_app.ctrl">
+        <div ui-view="mainScreen"></div>
+        <portal-loader ng-show="showLoader"></portal-loader>
+        <script type="text/javascript" src="app/portal_app.js"></script>
+        <script type="text/javascript" src="app/dirs/portal_loader.dir.js"></script>
+        <script type="text/javascript" src="app/dirs/portal_header.dir.js"></script>
+        <script type="text/javascript" src="app/ctrls/portal_header.ctrl.js"></script>
+        <script type="text/javascript" src="app/dirs/portal_breadcrumb.dir.js"></script>
+        <script type="text/javascript" src="app/facts/portal_service.fact.js"></script>
+        <script type="text/javascript" src="app/ctrls/portal_app.ctrl.js"></script>
+        <script type="text/javascript" src="app/ctrls/admin_home.ctrl.js"></script>
+        <script type="text/javascript" src="app/ctrls/login.ctrl.js"></script>
+        <script type="text/javascript" src="app/ctrls/sign_up.ctrl.js"></script>
+    </body>
+</html>
