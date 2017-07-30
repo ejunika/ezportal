@@ -27,6 +27,16 @@
                    }
                 });
                 $stateProvider.state({
+                    name: 'suLogin',
+                    url: '/su/login',
+                    views: {
+                        mainScreen: {
+                            templateUrl: 'app/views/login/su_login.view.html',
+                            controller: 'su_login.ctrl'
+                        }
+                    }
+                 });
+                $stateProvider.state({
                     name: 'signUp',
                     url: '/login/signup',
                     views: {

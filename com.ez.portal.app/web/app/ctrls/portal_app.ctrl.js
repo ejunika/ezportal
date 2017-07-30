@@ -13,9 +13,10 @@
             '$scope', 
             '$cookies',
             '$state',
-            '$log',
+            '$log', 
+            'portal_interceptor.srvc',
             'portal_service.fact',
-            function ($rootScope, $scope, $cookies, $state, $log, portalServiceFactory) {
+            function ($rootScope, $scope, $cookies, $state, $log, portalInterceptorService, portalServiceFactory) {
                 $scope.showPassword = false;
                 $scope.togglePasswordVisiblity = function () {
                     $scope.showPassword = !$scope.showPassword;
@@ -35,6 +36,7 @@
                         .then(function (response) {
                             if (response && response.data && response.data.status) {
                                 portalServiceFactory.loggedInUser = response.data.users[0];
+                                portalInterceptorService.loggedInUser = portalServiceFactory.loggedInUser;
                                 if (angular.isFunction(cb)) {
                                     cb.call(this, portalServiceFactory.loggedInUser);
                                     $rootScope.$broadcast('set_logged_in_user.portal', portalServiceFactory.loggedInUser);

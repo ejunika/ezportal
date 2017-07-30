@@ -14,6 +14,8 @@ public class LoginRequest extends AbstractRequest {
     
     private String password;
     
+    private Byte userType;
+    
     public String getEmailId() {
         return emailId;
     }
@@ -28,6 +30,14 @@ public class LoginRequest extends AbstractRequest {
     
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
     
 }

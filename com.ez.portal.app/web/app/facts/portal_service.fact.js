@@ -10,13 +10,15 @@
         .module('portal_app')
         .service('portal_interceptor.srvc', [
            '$rootScope',
-           function ($rootScope) {
+           '$cookies',
+           function ($rootScope, $cookies) {
                var portalInterceptorService = this;
                portalInterceptorService.request = function (config) {
                    $rootScope.$broadcast('portal.handle_loader', true);
-                   if (portalInterceptorService.selectedUserSpace 
-                           && portalInterceptorService.selectedUserSpace.userSpaceId) {
-                       config.headers['US-KEY'] = portalInterceptorService.selectedUserSpace.userSpaceId;
+                   if (portalInterceptorService.loggedInUser 
+                           && portalInterceptorService.loggedInUser.shardKey) {
+                       config.headers['US-KEY'] = portalInterceptorService.loggedInUser.shardKey;
+                       config.headers['AUTH-TOKEN'] = $cookies.get('a_token');
                    } else {
                        delete config.headers['US-KEY'];
                    }

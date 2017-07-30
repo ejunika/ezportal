@@ -34,15 +34,23 @@ public class PortalHibernateUtil {
         this.ezShardUtil = ezShardUtil;
     }
     
+    @SuppressWarnings("unchecked")
     public void initShard() {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(UserSpace.class);
-        @SuppressWarnings("unchecked")
-        List<UserSpace> spaces = criteria.list();
-        for (UserSpace space : spaces) {
-            System.out.println(space.getUserSpaceName());
+        Session session = null;
+        Criteria criteria = null;
+        List<UserSpace> spaces = null;
+        try {
+            session = sessionFactory.openSession();
+            criteria = session.createCriteria(UserSpace.class);
+            spaces = criteria.list();
+            if (spaces != null) {
+                getEzShardUtil().buildShard(spaces);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-        getEzShardUtil().buildShard(spaces);
     }
     
 }

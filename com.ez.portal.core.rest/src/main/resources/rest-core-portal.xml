@@ -18,7 +18,9 @@
     <import resource="classpath:rest-shard.xml"/>
      
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-    <bean id="authInterceptor" class="com.ez.portal.core.util.rest.AuthInterceptor" autowire="byName" />
+<!--     <bean id="authInterceptor" class="com.ez.portal.core.util.rest.AuthInterceptor" autowire="byName" /> -->
+    <bean id="shardChangerInterceptor" class="com.ez.portal.core.util.rest.ShardChangerInterceptor" autowire="byName" />
+    <bean id="authValidatorInterceptor" class="com.ez.portal.core.util.rest.AuthValidatorInterceptor" autowire="byName" />
     
     <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
     
@@ -30,7 +32,8 @@
             <ref bean="jsonProvider" />
         </jaxrs:providers>
         <jaxrs:inInterceptors>
-        	<ref bean="authInterceptor"/>
+        	<ref bean="shardChangerInterceptor"/>
+        	<ref bean="authValidatorInterceptor"/>
         </jaxrs:inInterceptors>
     </jaxrs:server>
     

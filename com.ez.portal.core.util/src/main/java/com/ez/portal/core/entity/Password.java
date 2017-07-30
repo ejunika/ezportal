@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,6 +32,10 @@ public class Password extends AbstractEntity {
     
     @Column(name = "PASSWORD_STATUS")
     private Byte passwordStatus;
+    
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     public Long getPasswordId() {
         return passwordId;
@@ -53,6 +59,14 @@ public class Password extends AbstractEntity {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }

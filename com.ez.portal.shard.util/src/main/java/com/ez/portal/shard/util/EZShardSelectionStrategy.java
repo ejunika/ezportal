@@ -16,7 +16,13 @@ public class EZShardSelectionStrategy implements ShardSelectionStrategy {
     }
     
     private ShardId getShardId(String shardKey) {
-        return new ShardId(Integer.parseInt(shardKey));
+        ShardId shardId = null;
+        try {
+            shardId = new ShardId(Integer.parseInt(shardKey));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return shardId;
     }
 
 }

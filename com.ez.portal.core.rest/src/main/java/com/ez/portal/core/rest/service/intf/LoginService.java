@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.SignUpRequest;
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
@@ -23,7 +24,7 @@ public interface LoginService {
 
     @POST
     @Path("/sign-up")
-    UserResponse signUp(UserRequest userRequest) throws Exception;
+    UserResponse signUp(SignUpRequest signUpRequest) throws Exception;
 
     @POST
     @Path("/get-all-user-spaces")

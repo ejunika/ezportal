@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ez.portal.core.dao.intf.LoginDAO;
+import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.SignUpRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.security.UserAuthentication;
+import com.ez.portal.core.util.PortalUtils;
 import com.ez.portal.shard.dao.intf.ShardDAO;
 import com.ez.portal.shard.entity.UserSpace;
 import com.ez.portal.shard.request.ShardRequest;
@@ -21,7 +24,7 @@ public class LoginManager {
     private ShardDAO shardDAO;
 
     private UserAuthentication userAuthentication;
-    
+
     private LoginResponse loginResponse;
 
     public LoginDAO getLoginDAO() {
@@ -31,7 +34,7 @@ public class LoginManager {
     public void setLoginDAO(LoginDAO loginDAO) {
         this.loginDAO = loginDAO;
     }
-    
+
     public ShardDAO getShardDAO() {
         return shardDAO;
     }
@@ -56,41 +59,110 @@ public class LoginManager {
         this.loginResponse = loginResponse;
     }
 
-    public User signUp(User user) {
-        return loginDAO.add(user);
+    public UserResponse signUp(SignUpRequest signUpRequest) {
+        User createdBy = null, newUser;
+        Password password = null;
+        Boolean created = false;
+        try {
+            createdBy = loginDAO.get(signUpRequest.getCreatedBy());
+            newUser = new User();
+            newUser.setCreatedBy(createdBy);
+            newUser.setUpdatedBy(createdBy);
+            newUser.setUserType(signUpRequest.getUserType());
+            newUser.setEmailId(signUpRequest.getEmailId());
+            newUser.setUsername(signUpRequest.getUsername());
+            password = new Password();
+            password.setPasswordHash(new UserAuthentication().getPasswordHash(signUpRequest.getPassword()));
+            password.setCreatedBy(createdBy);
+            password.setUpdatedBy(createdBy);
+            created = loginDAO.createUser(newUser, password);
+            if (created) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new UserResponse();
     }
 
     public UserResponse getUser(Long userId) {
         UserResponse response = new UserResponse();
         List<User> users = new ArrayList<>();
-        User user = loginDAO.get(userId);
-        users.add(user);
-        response.setUsers(users);
+        User user;
+        try {
+            user = loginDAO.get(userId);
+            if (user != null) {
+                users.add(user);
+                response.setUsers(users);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return response;
     }
 
     public UserResponse getAllUser() {
         UserResponse response = new UserResponse();
-        List<User> users = loginDAO.getAll();
-        response.setUsers(users);
+        List<User> users;
+        try {
+            users = loginDAO.getAll();
+            response.setUsers(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return response;
     }
 
     public LoginResponse doLogin(LoginRequest request) {
         String emailId = request.getEmailId();
         String password = request.getPassword();
+        Byte userType = request.getUserType();
+        getLoginResponse().resetResponse();
+        if (userType == PortalUtils.SUPER_USER) {
+            setLoginResponse(doSuLogin(emailId, password));
+        } else {
+            setLoginResponse(doLogin(emailId, password));
+        }
+        return getLoginResponse();
+    }
+
+    public LoginResponse doLogin(String emailId, String password) {
         Boolean authorised = false;
         User user = null;
         String authenticationToken = null;
-        getLoginResponse().resetResponse();
         try {
             user = loginDAO.getUserInfoByEmailId(emailId);
-            authorised = getUserAuthentication().authenticateUser(user, password);
-            if (authorised) {
-                authenticationToken = getUserAuthentication().createSession(user, password);
-                getLoginResponse().setAuthenticationToken(authenticationToken);
-                getLoginResponse().setMessage("Logged in successful");
-                getLoginResponse().setStatus(true);
+            if (user != null) {
+                authorised = getUserAuthentication().authenticateUser(user, password);
+                if (authorised) {
+                    authenticationToken = getUserAuthentication().createSession(user, password);
+                    getLoginResponse().setAuthenticationToken(authenticationToken);
+                    getLoginResponse().setMessage("Logged in successful");
+                    getLoginResponse().setStatus(true);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            getLoginResponse().setMessage("Logged in un-successful");
+            getLoginResponse().setStatus(false);
+        }
+        return getLoginResponse();
+    }
+
+    public LoginResponse doSuLogin(String emailId, String password) {
+        Boolean authorised = false;
+        User user = null;
+        String authenticationToken = null;
+        try {
+            user = loginDAO.getSuperUserByEmailId(emailId);
+            if (user != null) {
+                authorised = getUserAuthentication().authenticateSuperUser(user, password);
+                if (authorised) {
+                    authenticationToken = getUserAuthentication().createSuperUserSession(user, password);
+                    getLoginResponse().setAuthenticationToken(authenticationToken);
+                    getLoginResponse().setMessage("Logged in successful");
+                    getLoginResponse().setStatus(true);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +177,7 @@ public class LoginManager {
         responce.setUserSpaces(getAllUserSpacesByEmailId(request.getEmailId()));
         return responce;
     }
-    
+
     public UserResponse getUserByAuthenticationToken(String authenticationToken) {
         UserResponse response = new UserResponse();
         User user = null;

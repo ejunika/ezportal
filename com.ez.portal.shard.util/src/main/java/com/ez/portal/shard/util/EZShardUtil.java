@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.shards.ShardId;
@@ -41,6 +43,8 @@ public class EZShardUtil {
     private ShardStrategyFactory shardStrategyFactory;
     
     private EZShardSessionFactory ezShardSessionFactory;
+    
+    private String shardKey;
     
     private static final Map<Integer, Integer> VIRTUAL_SHARD = new HashMap<>();
 
@@ -203,4 +207,12 @@ public class EZShardUtil {
         this.shardedSessionFactory = shardedSessionFactory;
     }
     
+    public String getShardKey() {
+        return shardKey;
+    }
+
+    public void setShardKey(String shardKey) {
+        this.shardKey = shardKey;
+    }
+        
 }

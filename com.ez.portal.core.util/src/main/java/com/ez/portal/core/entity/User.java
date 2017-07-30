@@ -30,6 +30,9 @@ public class User extends AbstractEntity {
     @Column(name = "USERNAME", unique = true)
     private String username;
     
+    @Column(name = "USER_TYPE")
+    private Byte userType;
+    
     public User() {
         super();
     }
@@ -56,6 +59,14 @@ public class User extends AbstractEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
 }
