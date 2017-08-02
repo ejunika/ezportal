@@ -18,5 +18,6 @@
     <bean id="loginManager" class="com.ez.portal.core.dao.manager.LoginManager" autowire="byName" />
     <bean id="loginDAO" class="com.ez.portal.core.dao.impl.LoginDAOimpl" autowire="byName" />
     <bean id="userAuthentication" class="com.ez.portal.core.security.UserAuthentication" autowire="byName" />
+    <bean id="sessionController" class="com.ez.portal.core.security.SessionController" autowire="byName" />
     
 </beans>

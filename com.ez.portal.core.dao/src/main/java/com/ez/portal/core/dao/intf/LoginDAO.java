@@ -14,6 +14,7 @@ public interface LoginDAO extends CommonDAO<User, Long> {
     Password getActivePassword(User user) throws Exception;
     Password getActivePasswordForSuperUser(User user) throws Exception;
     Boolean createSession(PortalSession portalSession) throws Exception;
+    Boolean makeSessionOut(Long portalSessionId) throws Exception;
     User getUserByAuthenticationToken(String authenticationToken) throws Exception;
     Boolean makePortalSessionInActive(String authenticationToken) throws Exception;
     User getSuperUserByEmailId(String emailId) throws Exception;

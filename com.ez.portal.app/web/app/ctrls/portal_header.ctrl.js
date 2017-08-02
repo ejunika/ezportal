@@ -12,12 +12,12 @@
             '$scope',
             '$state',
             '$cookies',
-            'portal_service.fact',
-            function ($scope, $state, $cookies, portalServiceFactory) {
+            '$portalHttpService',
+            function ($scope, $state, $cookies, $portalHttpService) {
                 $scope.init = function () {
                     initCustomerInfo();
-                    $scope.authenticationToken = portalServiceFactory.authenticationToken;
-                    $scope.loggedInUser = portalServiceFactory.loggedInUser;
+                    $scope.authenticationToken = $portalHttpService.authenticationToken;
+                    $scope.loggedInUser = $portalHttpService.loggedInUser;
                 };
                 
                 $scope.$on('set_logged_in_user.portal', function (e, loggedInUser) {
@@ -25,8 +25,8 @@
                 });
                 
                 $scope.logout = function (e) {
-                    portalServiceFactory
-                        .get("http://localhost:8082/com.ez.portal/rest/login/logout/" 
+                    $portalHttpService
+                        .get($portalHttpService.Url.LOGOUT 
                             + $cookies.get('a_token'))
                         .then(function (response) {
                             if (response && response.data.status) {

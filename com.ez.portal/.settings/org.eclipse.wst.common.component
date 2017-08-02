@@ -22,6 +22,18 @@
         <dependent-module archiveName="com.ez.portal.core.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.rest/com.ez.portal.core.rest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="com.ez.portal.library.core-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.core/com.ez.portal.library.core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.library.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.entity/com.ez.portal.library.entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.library.dao-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.dao/com.ez.portal.library.dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.library.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.rest/com.ez.portal.library.rest">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/com.ez.portal/target/classes"/>
         <property name="context-root" value="com.ez.portal"/>
     </wb-module>

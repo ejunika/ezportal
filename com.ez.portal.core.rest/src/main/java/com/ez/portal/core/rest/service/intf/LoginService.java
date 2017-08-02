@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.SignUpRequest;
-import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.shard.request.ShardRequest;

@@ -12,9 +12,9 @@
             '$scope',
             '$cookies',
             '$state',
-            'portal_service.fact', 
+            '$portalHttpService',
             'portal_interceptor.srvc',
-            function ($scope, $cookies, $state, portalServiceFactory, portalInterceptorService) {
+            function ($scope, $cookies, $state, $portalHttpService, portalInterceptorService) {
                 var tempEmailId;
                 $scope.init = function () {
                     $scope.userSpaces = [];
@@ -33,8 +33,8 @@
                 $scope.initUserSpaces = function (e, emailId) {
                     if (emailId && emailId != tempEmailId) {
                         tempEmailId = emailId;
-                        portalServiceFactory
-                            .post('http://localhost:8082/com.ez.portal/rest/login/get-all-user-spaces', {
+                        $portalHttpService
+                            .post($portalHttpService.Url.GET_ALL_USER_SPACES, {
                                 emailId: emailId
                             })
                             .then(function (response) {
@@ -48,21 +48,26 @@
                 
                 $scope.doLogin = function (e, login) {
                     if (login.password) {
-                        portalServiceFactory
-                            .post('http://localhost:8082/com.ez.portal/rest/login/do-login', {
+                        $portalHttpService
+                            .post($portalHttpService.Url.DO_LOGIN, {
                                 emailId: login.emailId,
                                 password: login.password
                             })
                             .then(function (response) {
                                 if (response.data.status) {
-                                    portalServiceFactory.authenticationToken = response.data.authenticationToken;
-                                    $cookies.put('a_token', portalServiceFactory.authenticationToken);
-                                    portalServiceFactory
-                                        .get("http://localhost:8082/com.ez.portal/rest/login/get-user-by-authentication-token/" 
-                                                + portalServiceFactory.authenticationToken)
+                                    var currentDate = new Date();
+                                    var expireDate = new Date(currentDate);
+                                    expireDate.setMinutes(currentDate.getMinutes() + 1);
+                                    $portalHttpService.authenticationToken = response.data.authenticationToken;
+                                    $cookies.put('a_token', $portalHttpService.authenticationToken, {
+                                        expires: expireDate
+                                    });
+                                    $portalHttpService
+                                        .get($portalHttpService.Url.GET_USER_BY_AUTH_TOKEN 
+                                                + $portalHttpService.authenticationToken)
                                         .then(function (response) {
                                             if (response && response.data.status) {
-                                                portalServiceFactory.loggedInUser = response.data.users[0];
+                                                $portalHttpService.loggedInUser = response.data.users[0];
                                                 $state.go('adminHome');
                                             }
                                         });

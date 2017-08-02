@@ -11,8 +11,8 @@
         .controller('admin_home.ctrl', [
             '$rootScope',
             '$scope',
-            'portal_service.fact',
-            function ($rootScope, $scope, portalServiceFactory) {
+            '$portalHttpService',
+            function ($rootScope, $scope, $portalHttpService) {
                 $scope.init = function () {
                     initAdminMenu();
                     $scope.checkSession(function (loggedInUser) {
@@ -21,20 +21,20 @@
                 };
                 
                 $scope.addUser = function (e, register) {
-                    portalServiceFactory
-                        .post('http://localhost:8082/com.ez.portal/rest/login/sign-up', {
+                    $portalHttpService
+                        .post($portalHttpService.Url.SIGN_UP, {
                             emailId: register.emailId,
                             password: register.password,
                             userType: register.userType || 1,
-                            shardKey: portalServiceFactory.loggedInUser.shardKey,
-                            createdBy: portalServiceFactory.loggedInUser.userId
+                            shardKey: $portalHttpService.loggedInUser.shardKey,
+                            createdBy: $portalHttpService.loggedInUser.userId
                         })
                         .then(function (response) {
                             debugger;
                         });
                 };
                 function initAdminMenu() {
-                    portalServiceFactory
+                    $portalHttpService
                         .getJson('app/data/portal_admin_menus.data.json')
                         .then(function (response) {
                             $scope.adminMenus = response.data;

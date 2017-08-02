@@ -14,6 +14,10 @@ public class UserAuthentication {
 
     private LoginDAO loginDAO;
 
+    private SessionController sessionController;
+    
+    private Thread sessionControllerThread;
+
     public LoginDAO getLoginDAO() {
         return loginDAO;
     }
@@ -65,11 +69,29 @@ public class UserAuthentication {
         return hexString.toString();
     }
 
+    public SessionController getSessionController() {
+        return sessionController;
+    }
+
+    public Thread getSessionControllerThread() {
+        return sessionControllerThread;
+    }
+
+    public void setSessionControllerThread(Thread sessionControllerThread) {
+        this.sessionControllerThread = sessionControllerThread;
+    }
+
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
+    }
+
     public String generateToken(String emailId, String password) {
-//        String token = UUID.randomUUID().toString().toUpperCase() + "|" + emailId + "|" + password;
-//        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-//        encryptor.setPassword("AuthenticationToken");
-//        token = encryptor.encrypt(token);
+        // String token = UUID.randomUUID().toString().toUpperCase() + "|" +
+        // emailId + "|" + password;
+        // StandardPBEStringEncryptor encryptor = new
+        // StandardPBEStringEncryptor();
+        // encryptor.setPassword("AuthenticationToken");
+        // token = encryptor.encrypt(token);
         String token = UUID.randomUUID().toString().toUpperCase();
         return token;
     }
@@ -80,7 +102,7 @@ public class UserAuthentication {
 
     public String createSession(User user, String password) {
         String authenticationToken = generateToken(user.getEmailId(), password);
-        PortalSession portalSession = new PortalSession();
+        final PortalSession portalSession = new PortalSession();
         portalSession.setCreatedAt(new Date());
         portalSession.setUpdatedAt(new Date());
         portalSession.setPortalSessionStatus(PortalSessionStatus.ACTIVE_SESSION);
@@ -90,6 +112,10 @@ public class UserAuthentication {
         portalSession.setShardKey(user.getShardKey());
         try {
             getLoginDAO().createSession(portalSession);
+//            sessionController.setPortalSessionId(portalSession.getPortalSessionId());
+//            sessionControllerThread = new Thread(getSessionController());
+//            sessionControllerThread.setName("SESSION_CONTROLLER_THREAD");
+//            sessionControllerThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

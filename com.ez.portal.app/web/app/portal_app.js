@@ -9,13 +9,15 @@
     angular
         .module('portal_app', [
             'ui.router',
-            'ngCookies'
+            'ngCookies',
+            'portal_service.sdk'
         ])
         .config([
             '$stateProvider',
             '$urlRouterProvider',
             '$httpProvider',
-            function ($stateProvider, $urlRouterProvider, $httpProvider) {
+            '$portalHttpServiceProvider',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $portalHttpServiceProvider) {
                 $stateProvider.state({
                    name: 'login',
                    url: '/login',
@@ -66,7 +68,20 @@
                     }
                 });
                 $urlRouterProvider.otherwise('/login');
+                
                 $httpProvider.interceptors.push('portal_interceptor.srvc');
+                
+                $portalHttpServiceProvider
+                    .setDomain('localhost')
+                    .setPort('8082')
+                    .setSecure(false)
+                    .setAppCtx('com.ez.portal')
+                    .setBaseUrl('rest')
+                    .addUrl('DO_LOGIN', 'login/do-login')
+                    .addUrl('SIGN_UP', 'login/sign-up')
+                    .addUrl('LOGOUT', 'login/logout/')
+                    .addUrl('GET_USER_BY_AUTH_TOKEN', 'login/get-user-by-authentication-token/')
+                    .addUrl('GET_ALL_USER_SPACES', 'login/get-all-user-spaces');
             }
         ]);
 });

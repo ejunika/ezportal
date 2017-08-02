@@ -71,6 +71,8 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
             session = getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.save(portalSession);
+            session.flush();
+            session.clear();
             transaction.commit();
             created = true;
         } catch(Exception e) {
@@ -123,6 +125,8 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
                 portalSession.setPortalSessionStatus(PortalSessionStatus.IN_ACTIVE_SESSION);
                 portalSession.setUpdatedAt(new Date());
                 session.saveOrUpdate(portalSession);
+                session.flush();
+                session.clear();
                 transaction.commit();
                 result = true;
             }
@@ -180,6 +184,8 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
             session = PortalHibernateUtil.sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(portalSession);
+            session.flush();
+            session.clear();
             transaction.commit();
             created = true;
         } catch(Exception e) {
@@ -250,6 +256,8 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
                     password.setPasswordStatus((byte) 1);
                     password.setUser(user);
                     session.save(password);
+                    session.flush();
+                    session.clear();
                 }
                 if (userInfos != null) {
                     for (UserInfo userInfo : userInfos) {
@@ -258,6 +266,8 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
                         userInfo.setShardKey(getEzShardUtil().getShardKey());
                         userInfo.setUser(user);
                         session.save(userInfo);
+                        session.flush();
+                        session.clear();
                     }
                 }
                 transaction.commit();
@@ -270,6 +280,37 @@ public class LoginDAOimpl extends CommonDAOimpl<User, Long> implements LoginDAO 
             session.close();
         }
         return created;
+    }
+
+    @Override
+    public Boolean makeSessionOut(Long portalSessionId) throws Exception {
+        Boolean sessionOut = false;
+        Session session = null;
+        Criteria criteria = null;
+        PortalSession portalSession = null;
+        Transaction transaction = null;
+        try {
+            session = getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            criteria = session.createCriteria(PortalSession.class);
+            criteria.add(Restrictions.eq("portalSessionId", portalSessionId));
+            portalSession = (PortalSession) criteria.uniqueResult();
+            if (portalSession != null) {
+                portalSession.setPortalSessionStatus(PortalSessionStatus.IN_ACTIVE_SESSION);
+                portalSession.setUpdatedAt(new Date());
+                session.saveOrUpdate(portalSession);
+                session.flush();
+                session.clear();
+            }
+            transaction.commit();
+            sessionOut = true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
+        return sessionOut;
     }
 
 }

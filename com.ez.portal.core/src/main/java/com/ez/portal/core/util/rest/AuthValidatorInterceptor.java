@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.ez.portal.core.entity.PortalSession;
+import com.ez.portal.core.security.UserAuthentication;
 import com.ez.portal.core.status.PortalSessionStatus;
 import com.ez.portal.shard.util.EZShardUtil;
 
@@ -23,9 +24,19 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
     Map<String, Object> headers = null;
 
     private EZShardUtil ezShardUtil;
+    
+    private UserAuthentication userAuthentication;
 
     public EZShardUtil getEzShardUtil() {
         return ezShardUtil;
+    }
+
+    public UserAuthentication getUserAuthentication() {
+        return userAuthentication;
+    }
+
+    public void setUserAuthentication(UserAuthentication userAuthentication) {
+        this.userAuthentication = userAuthentication;
     }
 
     public void setEzShardUtil(EZShardUtil ezShardUtil) {
@@ -46,6 +57,7 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
             try {
                 authTokens = (List<String>) headers.get("AUTH-TOKEN");
                 if (authTokens != null) {
+//                    userAuthentication.getSessionControllerThread().interrupt();
                     validSession = checkPortalSession(authTokens.get(0));
                     if (!validSession) {
                         HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()

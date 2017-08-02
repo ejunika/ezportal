@@ -1,11 +1,8 @@
 package com.ez.portal.core.rest.service.impl;
 
-import com.ez.portal.core.dao.intf.LoginDAO;
 import com.ez.portal.core.dao.manager.LoginManager;
-import com.ez.portal.core.entity.User;
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.SignUpRequest;
-import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.service.intf.LoginService;

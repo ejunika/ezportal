@@ -15,8 +15,8 @@
             '$state',
             '$log', 
             'portal_interceptor.srvc',
-            'portal_service.fact',
-            function ($rootScope, $scope, $cookies, $state, $log, portalInterceptorService, portalServiceFactory) {
+            '$portalHttpService',
+            function ($rootScope, $scope, $cookies, $state, $log, portalInterceptorService, $portalHttpService) {
                 $scope.showPassword = false;
                 $scope.togglePasswordVisiblity = function () {
                     $scope.showPassword = !$scope.showPassword;
@@ -30,16 +30,16 @@
                 };
                 
                 $scope.checkSession = function (cb) {
-                    portalServiceFactory
-                        .get("http://localhost:8082/com.ez.portal/rest/login/get-user-by-authentication-token/" 
+                    $portalHttpService
+                        .get($portalHttpService.Url.GET_USER_BY_AUTH_TOKEN
                                 + $cookies.get('a_token'))
                         .then(function (response) {
                             if (response && response.data && response.data.status) {
-                                portalServiceFactory.loggedInUser = response.data.users[0];
-                                portalInterceptorService.loggedInUser = portalServiceFactory.loggedInUser;
+                                $portalHttpService.loggedInUser = response.data.users[0];
+                                portalInterceptorService.loggedInUser = $portalHttpService.loggedInUser;
                                 if (angular.isFunction(cb)) {
-                                    cb.call(this, portalServiceFactory.loggedInUser);
-                                    $rootScope.$broadcast('set_logged_in_user.portal', portalServiceFactory.loggedInUser);
+                                    cb.call(this, $portalHttpService.loggedInUser);
+                                    $rootScope.$broadcast('set_logged_in_user.portal', $portalHttpService.loggedInUser);
                                 }
                                 $state.go('adminHome');
                             } else {
