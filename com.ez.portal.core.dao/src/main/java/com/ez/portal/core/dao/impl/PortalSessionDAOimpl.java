@@ -1,0 +1,31 @@
+package com.ez.portal.core.dao.impl;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import com.ez.portal.core.dao.intf.PortalSessionDAO;
+import com.ez.portal.core.entity.PortalSession;
+import com.ez.portal.core.util.dao.impl.CommonDAOimpl;
+
+public class PortalSessionDAOimpl extends CommonDAOimpl<PortalSession, Long> implements PortalSessionDAO {
+
+    @Override
+    public PortalSession getPortalSessionByPortalSessionToken(String portalSessionToken) throws Exception {
+        PortalSession portalSession = null;
+        Session session = null;
+        Criteria criteria = null;
+        try {
+            session = getSessionFactory().openSession();
+            criteria = session.createCriteria(PortalSession.class);
+            criteria.add(Restrictions.eq("portalSessionToken", portalSessionToken));
+            portalSession = (PortalSession) criteria.uniqueResult();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return portalSession;
+    }
+
+}

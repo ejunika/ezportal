@@ -10,13 +10,8 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-import com.ez.portal.core.entity.PortalSession;
-import com.ez.portal.core.security.UserAuthentication;
-import com.ez.portal.core.status.PortalSessionStatus;
+import com.ez.portal.core.dao.manager.CoreDAOManager;
 import com.ez.portal.shard.util.EZShardUtil;
 
 public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -25,26 +20,26 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
 
     private EZShardUtil ezShardUtil;
     
-    private UserAuthentication userAuthentication;
+    private CoreDAOManager coreDAOManager;
+
+    public AuthValidatorInterceptor() {
+        super(Phase.RECEIVE);
+    }
+    
+    public CoreDAOManager getCoreDAOManager() {
+        return coreDAOManager;
+    }
+
+    public void setCoreDAOManager(CoreDAOManager coreDAOManager) {
+        this.coreDAOManager = coreDAOManager;
+    }
 
     public EZShardUtil getEzShardUtil() {
         return ezShardUtil;
     }
 
-    public UserAuthentication getUserAuthentication() {
-        return userAuthentication;
-    }
-
-    public void setUserAuthentication(UserAuthentication userAuthentication) {
-        this.userAuthentication = userAuthentication;
-    }
-
     public void setEzShardUtil(EZShardUtil ezShardUtil) {
         this.ezShardUtil = ezShardUtil;
-    }
-
-    public AuthValidatorInterceptor() {
-        super(Phase.RECEIVE);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,14 +47,13 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
     public void handleMessage(Message message) throws Fault {
         List<String> authTokens = null;
         headers = (Map<String, Object>) message.get(Message.PROTOCOL_HEADERS);
-        Boolean validSession = false;
+        Boolean isValidPortalSession = false;
         if (headers != null) {
             try {
                 authTokens = (List<String>) headers.get("AUTH-TOKEN");
                 if (authTokens != null) {
-//                    userAuthentication.getSessionControllerThread().interrupt();
-                    validSession = checkPortalSession(authTokens.get(0));
-                    if (!validSession) {
+                    isValidPortalSession = coreDAOManager.getPortalSessionDAOManager().isValidPortalSession(authTokens.get(0));
+                    if (!isValidPortalSession) {
                         HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
                                 .get(AbstractHTTPDestination.HTTP_RESPONSE);
                         response.setStatus(500);
@@ -73,28 +67,6 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
                 e.printStackTrace();
             }
         }
-    }
-
-    private Boolean checkPortalSession(String portalSessionToken) {
-        Boolean activeSession = false;
-        Session session = null;
-        Criteria criteria = null;
-        PortalSession portalSession = null;
-        try {
-            session = getEzShardUtil().getSessionFactory().openSession();
-            criteria = session.createCriteria(PortalSession.class);
-            criteria.add(Restrictions.eq("portalSessionToken", portalSessionToken));
-            criteria.add(Restrictions.eq("portalSessionStatus", PortalSessionStatus.ACTIVE_SESSION));
-            portalSession = (PortalSession) criteria.uniqueResult();
-            if (portalSession != null) {
-                activeSession = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return activeSession;
     }
 
 }

@@ -30,6 +30,17 @@ public abstract class AbstractEntity implements Shardable {
     
     @Column(name = "SHARD_KEY")
     private String shardKey;
+    
+    public AbstractEntity() {
+        super();
+    }
+    
+    public AbstractEntity(User createdBy, User updatedBy) {
+        super();
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.shardKey = createdBy.getShardKey();
+    }
 
     public Date getCreatedAt() {
         return createdAt;

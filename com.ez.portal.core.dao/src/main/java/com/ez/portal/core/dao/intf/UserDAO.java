@@ -5,4 +5,6 @@ import com.ez.portal.core.util.dao.intf.CommonDAO;
 
 public interface UserDAO extends CommonDAO<User, Long> {
 
+    User getUserByEmailId(String emailId) throws Exception;
+        
 }

@@ -33,9 +33,23 @@ public class PortalSession extends AbstractEntity {
     @Column(name = "PORTAL_SESSION_TOKEN")
     private String portalSessionToken;
     
+    @Column(name = "PORTAL_SESSION_DURATION")
+    private Long portalSessionDuration;
+    
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+    
+    public PortalSession() {
+        super();
+    }
+    
+    public PortalSession(Byte portalSessionStatus, String portalSessionToken, User user) {
+        super(user, user);
+        this.portalSessionStatus = portalSessionStatus;
+        this.portalSessionToken = portalSessionToken;
+        this.user = user;
+    }
 
     public Long getPortalSessionId() {
         return portalSessionId;
@@ -67,6 +81,14 @@ public class PortalSession extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getPortalSessionDuration() {
+        return portalSessionDuration;
+    }
+
+    public void setPortalSessionDuration(Long portalSessionDuration) {
+        this.portalSessionDuration = portalSessionDuration;
     }
     
 }

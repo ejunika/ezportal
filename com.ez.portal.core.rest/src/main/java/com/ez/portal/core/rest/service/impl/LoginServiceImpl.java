@@ -1,5 +1,6 @@
 package com.ez.portal.core.rest.service.impl;
 
+import com.ez.portal.core.dao.manager.CoreDAOManager;
 import com.ez.portal.core.dao.manager.LoginManager;
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.SignUpRequest;
@@ -12,7 +13,9 @@ import com.ez.portal.shard.response.ShardResponse;
 public class LoginServiceImpl implements LoginService {
     
     private LoginManager loginManager;
-
+    
+    private CoreDAOManager coreDAOManager;
+    
     public LoginManager getLoginManager() {
         return loginManager;
     }
@@ -21,25 +24,22 @@ public class LoginServiceImpl implements LoginService {
         this.loginManager = loginManager;
     }
 
+    public CoreDAOManager getCoreDAOManager() {
+        return coreDAOManager;
+    }
+
+    public void setCoreDAOManager(CoreDAOManager coreDAOManager) {
+        this.coreDAOManager = coreDAOManager;
+    }
+
     @Override
     public UserResponse signUp(SignUpRequest signUpRequest) {
         return loginManager.signUp(signUpRequest);
     }
 
     @Override
-    public UserResponse getUser(Long userId) {
-        return getLoginManager().getUser(userId);
-    }
-
-    @Override
     public LoginResponse doLogin(LoginRequest loginRequest) {
-        return getLoginManager().doLogin(loginRequest);
-    }
-
-    @Override
-    public UserResponse getAllUser() {
-        // TODO Auto-generated method stub
-        return null;
+        return coreDAOManager.getUserDAOManager().doLogin(loginRequest);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public LoginResponse logout(String authenticationToken) throws Exception {
-        return getLoginManager().logout(authenticationToken);
+        return coreDAOManager.getUserDAOManager().doLogout(authenticationToken);
     }
 
 }

@@ -7,13 +7,13 @@
         <dependent-module archiveName="com.ez.portal.core-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core/com.ez.portal.core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="com.ez.portal.core.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.entity/com.ez.portal.core.entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="com.ez.portal.core.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.util/com.ez.portal.core.util">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="com.ez.portal.shard.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.shard.util/com.ez.portal.shard.util">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="com.ez.portal.core.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.entity/com.ez.portal.core.entity">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="com.ez.portal.core.dao-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.dao/com.ez.portal.core.dao">

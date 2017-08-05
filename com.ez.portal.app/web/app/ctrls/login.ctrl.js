@@ -57,7 +57,7 @@
                                 if (response.data.status) {
                                     var currentDate = new Date();
                                     var expireDate = new Date(currentDate);
-                                    expireDate.setMinutes(currentDate.getMinutes() + 1);
+                                    expireDate.setMinutes(currentDate.getMinutes() + 100);
                                     $portalHttpService.authenticationToken = response.data.authenticationToken;
                                     $cookies.put('a_token', $portalHttpService.authenticationToken, {
                                         expires: expireDate

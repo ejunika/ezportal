@@ -15,13 +15,6 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
     
-    <import resource="classpath:rest-shard.xml"/>
-     
-    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-<!--     <bean id="authInterceptor" class="com.ez.portal.core.util.rest.AuthInterceptor" autowire="byName" /> -->
-    <bean id="shardChangerInterceptor" class="com.ez.portal.core.util.rest.ShardChangerInterceptor" autowire="byName" />
-    <bean id="authValidatorInterceptor" class="com.ez.portal.core.util.rest.AuthValidatorInterceptor" autowire="byName" />
-    
     <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
     
     <jaxrs:server id="logService" address="/login">

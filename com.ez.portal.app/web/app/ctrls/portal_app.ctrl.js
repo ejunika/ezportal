@@ -43,6 +43,7 @@
                                 }
                                 $state.go('adminHome');
                             } else {
+                                $cookies.remove('a_token');
                                 $state.go('login');
                             }
                         });

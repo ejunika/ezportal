@@ -14,9 +14,15 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
+        
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
     
-    <context:annotation-config />
+    <bean id="shardChangerInterceptor" class="com.ez.portal.core.util.rest.ShardChangerInterceptor" autowire="byName" />
     
+    <bean id="authValidatorInterceptor" class="com.ez.portal.core.util.rest.AuthValidatorInterceptor" autowire="byName" />
+    
+    <import resource="classpath:rest-shard.xml"/>
+        
     <!-- PORTAL-CORE -->
     <import resource="classpath:entity-core-portal.xml"/>
     <import resource="classpath:dao-core-portal.xml"/>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:beans="http://cxf.apache.org/configuration/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://cxf.apache.org/configuration/beans 
+        http://cxf.apache.org/schemas/configuration/cxf-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
+    
+    <bean id="libraryObjectTypeDAO" class="com.ez.portal.library.dao.impl.LibraryObjectTypeDAOimpl" autowire="byName" />
+    
+    <bean id="libraryObjectDAO" class="com.ez.portal.library.dao.impl.LibraryObjectDAOimpl" autowire="byName" />
+    
+    <bean id="libraryObjectInfoDAO" class="com.ez.portal.library.dao.impl.LibraryObjectInfoDAOimpl" autowire="byName" />
+    
+    <bean id="libraryObjectBorrowRequestDAO" class="com.ez.portal.library.dao.impl.LibraryObjectBorrowRequestDAOimpl" autowire="byName" />
+    
+</beans>

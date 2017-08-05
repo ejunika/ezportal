@@ -1,4 +1,4 @@
-package com.ez.portal.core.entity;
+package com.ez.portal.library.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,12 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.ez.portal.core.entity.AbstractEntity;
 
 @Entity
 @Table(name = "LIBRARY_OBJECT")
@@ -27,8 +30,9 @@ public class LibraryObject extends AbstractEntity {
     @Column(name = "LIBRARY_OBJECT_ID")
     private Long libraryObjectId;
     
-    @Column(name = "LIBRARY_OBJECT_TYPE")
-    private Byte libraryObjectType;
+    @OneToOne
+    @JoinColumn(name = "LIBRARY_OBJECT_TYPE_ID")
+    private LibraryObjectType libraryObjectType;
     
     @Column(name = "LIBRARY_OBJECT_NAME")
     private String libraryObjectName;
@@ -45,14 +49,6 @@ public class LibraryObject extends AbstractEntity {
         this.libraryObjectId = libraryObjectId;
     }
 
-    public Byte getLibraryObjectType() {
-        return libraryObjectType;
-    }
-
-    public void setLibraryObjectType(Byte libraryObjectType) {
-        this.libraryObjectType = libraryObjectType;
-    }
-
     public String getLibraryObjectName() {
         return libraryObjectName;
     }
@@ -67,6 +63,14 @@ public class LibraryObject extends AbstractEntity {
 
     public void setLibraryObjectBorrowRequest(LibraryObjectBorrowRequest libraryObjectBorrowRequest) {
         this.libraryObjectBorrowRequest = libraryObjectBorrowRequest;
+    }
+
+    public LibraryObjectType getLibraryObjectType() {
+        return libraryObjectType;
+    }
+
+    public void setLibraryObjectType(LibraryObjectType libraryObjectType) {
+        this.libraryObjectType = libraryObjectType;
     }
 
 }

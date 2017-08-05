@@ -34,14 +34,6 @@ public interface LoginService {
     LoginResponse doLogin(LoginRequest loginRequest) throws Exception;
 
     @GET
-    @Path("/get-user/{userId}")
-    UserResponse getUser(@PathParam("userId") Long userId) throws Exception;
-
-    @GET
-    @Path("/get-all-user")
-    UserResponse getAllUser() throws Exception;
-    
-    @GET
     @Path("/logout/{authenticationToken}")
     LoginResponse logout(@PathParam("authenticationToken") String authenticationToken) throws Exception;
 

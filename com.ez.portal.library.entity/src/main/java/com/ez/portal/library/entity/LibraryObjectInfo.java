@@ -1,4 +1,4 @@
-package com.ez.portal.core.entity;
+package com.ez.portal.library.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.ez.portal.core.entity.AbstractEntity;
 
 @Entity
 @Table(name = "LIBRARY_OBJECT_INFO")

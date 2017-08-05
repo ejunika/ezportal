@@ -90,9 +90,10 @@
                 <value>com.ez.portal.core.entity.Login</value>
                 <value>com.ez.portal.core.entity.PortalSession</value>
                 
-                <value>com.ez.portal.core.entity.LibraryObject</value>
-                <value>com.ez.portal.core.entity.LibraryObjectInfo</value>
-                <value>com.ez.portal.core.entity.LibraryObjectBorrowRequest</value>
+                <value>com.ez.portal.library.entity.LibraryObjectType</value>
+                <value>com.ez.portal.library.entity.LibraryObject</value>
+                <value>com.ez.portal.library.entity.LibraryObjectInfo</value>
+                <value>com.ez.portal.library.entity.LibraryObjectBorrowRequest</value>
             </list>
         </property>
     </bean>
@@ -108,13 +109,15 @@
             <ref bean="coreEntities"/>
         </property>
     </bean>
-    
-<!--     <bean id="test" class="com.ez.portal.core.test.Test" init-method="init" autowire="byName"></bean> -->
-    
+        
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     
     <!-- PORTAL CORE -->
     <import resource="classpath:portal-core.xml"/>
     <!-- /PORTAL CORE -->
+    
+    <!-- PORTAL LIBRARY CORE -->
+    <import resource="classpath:portal-library-core.xml"/>
+    <!-- /PORTAL LIBRARY CORE -->
     
 </beans>

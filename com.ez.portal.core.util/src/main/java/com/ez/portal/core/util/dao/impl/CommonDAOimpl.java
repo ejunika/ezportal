@@ -94,6 +94,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
             e.printStackTrace();
         } finally {
             session.close();
+            getSessionFactory().close();
         }
         return entity;
     }

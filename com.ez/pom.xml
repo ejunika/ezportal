@@ -43,20 +43,24 @@
     <modules>
         <module>../com.ez.portal.shard.util</module>
         <module>../com.ez.portal.core.util</module>
-        <module>../com.ez.jdbc.util</module>
-        <module>../com.ez.portal.connection</module>
+        
+        
         <module>../com.ez.portal.core.entity</module>
         <module>../com.ez.portal.core.dao</module>
         <module>../com.ez.portal.core.rest</module>
         <module>../com.ez.portal.core</module>
-        <module>../com.ez.portal.api</module>
-        <module>../com.ez.portal.di</module>
-        <module>../com.ez.portal.di.dao</module>
-        <module>../com.ez.portal.di.entity</module>
-        <module>../com.ez.portal.di.rest</module>
-        <module>../com.ez.portal.osgi.di.rest</module>
-        <module>../com.ez.portal.osgi.core.rest</module>
+        
+        
+        
+        
+        
+        
+        
         <module>../com.ez.portal.core.service</module>
         <module>../com.ez.portal</module>
+        <module>../com.ez.portal.library.entity</module>
+        <module>../com.ez.portal.library.dao</module>
+        <module>../com.ez.portal.library.rest</module>
+        <module>../com.ez.portal.library.core</module>
     </modules>
 </project>
