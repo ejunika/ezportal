@@ -43,6 +43,23 @@ public class PortalSessionDAOManager {
         return portalSessionToken;
     }
     
+    public String createSuperUserSession(User user) {
+        String portalSessionToken = null;
+        if (user != null) {
+            try {
+                PortalSession portalSession = portalSessionDAO
+                        .createSuperUserSession(new PortalSession(PortalSessionStatus.ACTIVE_SESSION, generateSessionToken(), user));
+                if (portalSession != null) {
+                    portalSessionToken = portalSession.getPortalSessionToken();
+                    PORTAL_SESSION_MAP.put(portalSessionToken, portalSession);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return portalSessionToken;
+    }
+    
     public Boolean makeSessionOut(String portalSessionToken) {
         Boolean result = null;
         PortalSession portalSession = null;

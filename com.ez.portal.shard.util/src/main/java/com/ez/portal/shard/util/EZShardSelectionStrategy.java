@@ -3,7 +3,7 @@ package com.ez.portal.shard.util;
 import org.hibernate.shards.ShardId;
 import org.hibernate.shards.strategy.selection.ShardSelectionStrategy;
 
-import com.ez.portal.shard.Shardable;
+import com.ez.portal.core.entity.Shardable;
 
 public class EZShardSelectionStrategy implements ShardSelectionStrategy {
 

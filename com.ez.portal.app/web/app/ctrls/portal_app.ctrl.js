@@ -44,6 +44,7 @@
                                 $state.go('adminHome');
                             } else {
                                 $cookies.remove('a_token');
+                                portalInterceptorService.loggedInUser = null;
                                 $state.go('login');
                             }
                         });

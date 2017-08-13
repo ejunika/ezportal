@@ -9,9 +9,10 @@
     <artifactId>com.ez.portal.core.entity</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.ez</groupId>
-            <artifactId>com.ez.portal.core.util</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

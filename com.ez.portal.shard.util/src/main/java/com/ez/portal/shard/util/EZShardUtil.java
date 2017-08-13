@@ -23,7 +23,7 @@ import org.hibernate.shards.strategy.resolution.AllShardsShardResolutionStrategy
 import org.hibernate.shards.strategy.resolution.ShardResolutionStrategy;
 import org.hibernate.shards.strategy.selection.ShardSelectionStrategy;
 
-import com.ez.portal.shard.Shardable;
+import com.ez.portal.core.entity.Shardable;
 import com.ez.portal.shard.entity.HibernateProperty;
 import com.ez.portal.shard.entity.UserSpace;
 import com.ez.portal.shard.session.factory.EZShardSessionFactory;
@@ -35,21 +35,21 @@ public class EZShardUtil {
     private SessionFactory sessionFactory;
 
     private ShardedConfiguration shardedConfiguration;
-    
+
     private ShardedSessionFactory shardedSessionFactory;
 
     private ShardStrategyFactory shardStrategyFactory;
-    
+
     private EZShardSessionFactory ezShardSessionFactory;
-    
+
     private String shardKey;
-    
+
     private static final Map<Integer, Integer> VIRTUAL_SHARD = new HashMap<>();
 
     public EZShardUtil() {
         super();
     }
-    
+
     public List<Class<? extends Shardable>> getEntityClasses() {
         return entityClasses;
     }
@@ -61,15 +61,15 @@ public class EZShardUtil {
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
-    
+
     public void initSessionFactory(String[] shardKeys) {
         sessionFactory = getSessionFactory(shardKeys);
     }
-    
+
     public void initSessionFactory() {
         sessionFactory = shardedSessionFactory;
     }
-    
+
     public void initSessionFactory(List<String> shardKeys) {
         sessionFactory = getSessionFactory(shardKeys);
     }
@@ -83,7 +83,11 @@ public class EZShardUtil {
         ShardedSessionFactoryImpl shardedSessionFactoryImpl = (ShardedSessionFactoryImpl) shardedSessionFactory;
         if (shardKeys != null) {
             for (String shardKey : shardKeys) {
-                shardIds.add(new ShardId(Integer.parseInt(shardKey)));
+                try {
+                    shardIds.add(new ShardId(Integer.parseInt(shardKey)));
+                } catch (NumberFormatException numberFormatException) {
+                    numberFormatException.printStackTrace();
+                }
             }
         }
         return shardedSessionFactoryImpl.getSessionFactory(shardIds, shardStrategyFactory);
@@ -113,8 +117,36 @@ public class EZShardUtil {
         }
         return shardedSessionFactory.getSessionFactory(shardIds, shardStrategyFactory);
     }
+
+    public EZShardUtil configureNew(List<UserSpace> spaces) throws Exception {
+        Configuration ptConfig = null;
+        List<ShardConfiguration> shardConfigurations = null;
+        if (!spaces.isEmpty()) {
+            Integer i = 1;
+            Boolean ptConfigFound = false;
+            shardConfigurations = new ArrayList<>();
+            for (UserSpace space : spaces) {
+                if (space.getUserSpaceStatus() == 1) {
+                    if (!ptConfigFound) {
+                        ptConfig = getConfiguration(space.getHibernateProperties());
+                        ptConfigFound = true;
+                    }
+                    VIRTUAL_SHARD.put(i, space.getUserSpaceId().intValue());
+                    shardConfigurations.add(getShardConfiguration(getConfiguration(space.getHibernateProperties())));
+                }
+                i++;
+            }
+            shardStrategyFactory = buildShardStrategyFactory();
+            shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory,
+                    VIRTUAL_SHARD);
+            shardedSessionFactory = shardedConfiguration.buildShardedSessionFactory();
+        } else {
+            throw new Exception("UserSpaceNotFoundException");
+        }
+        return this;
+    }
     
-    public EZShardUtil configure(List<UserSpace> spaces) {
+    public EZShardUtil configure(List<UserSpace> spaces) throws Exception {
         if (shardStrategyFactory == null || shardedConfiguration == null) {
             Configuration ptConfig = getConfiguration(spaces.get(0).getHibernateProperties());
             List<ShardConfiguration> shardConfigurations = new ArrayList<>();
@@ -150,9 +182,9 @@ public class EZShardUtil {
 
         return configuration;
     }
-    
+
     public Configuration getConfiguration(List<HibernateProperty> hibernateProperties) {
-        Configuration configuration = new Configuration();;
+        Configuration configuration = new Configuration();
         for (HibernateProperty hibernateProperty : hibernateProperties) {
             configuration.setProperty(hibernateProperty.getPropertyName(), hibernateProperty.getPropertyValue());
         }
@@ -182,10 +214,12 @@ public class EZShardUtil {
             }
         };
     }
-    
-    public void buildShard(List<UserSpace> spaces) {
-        if (spaces != null) {
-            configure(spaces).getSessionFactory();
+
+    public void buildShard(List<UserSpace> spaces) throws Exception {
+        if (spaces != null && !spaces.isEmpty()) {
+            configure(spaces).initSessionFactory();
+        } else {
+            throw new Exception("UserSpaceNotFoundException");
         }
     }
 
@@ -204,7 +238,7 @@ public class EZShardUtil {
     public void setShardedSessionFactory(ShardedSessionFactory shardedSessionFactory) {
         this.shardedSessionFactory = shardedSessionFactory;
     }
-    
+
     public String getShardKey() {
         return shardKey;
     }
@@ -212,5 +246,5 @@ public class EZShardUtil {
     public void setShardKey(String shardKey) {
         this.shardKey = shardKey;
     }
-        
+
 }

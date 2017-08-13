@@ -20,7 +20,7 @@ import org.hibernate.shards.strategy.resolution.AllShardsShardResolutionStrategy
 import org.hibernate.shards.strategy.resolution.ShardResolutionStrategy;
 import org.hibernate.shards.strategy.selection.ShardSelectionStrategy;
 
-import com.ez.portal.shard.Shardable;
+import com.ez.portal.core.entity.Shardable;
 import com.ez.portal.shard.util.EZShardSelectionStrategy;
 
 public class EZShardSessionFactory {

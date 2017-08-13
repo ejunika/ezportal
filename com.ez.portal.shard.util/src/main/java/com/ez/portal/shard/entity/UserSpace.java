@@ -32,6 +32,9 @@ public class UserSpace implements Serializable {
     @Column(name = "USER_SPACE_NAME")
     private String userSpaceName;
     
+    @Column(name = "USER_SPACE_STATUS")
+    private Byte userSpaceStatus;
+    
     @Column(name = "CREATED_AT")
     private Date createdAt;
     
@@ -40,6 +43,15 @@ public class UserSpace implements Serializable {
     
     @OneToMany(mappedBy = "userSpace")
     private List<HibernateProperty> hibernateProperties;
+    
+    public UserSpace() {
+        super();
+    }
+    
+    public UserSpace(String userSpaceName) {
+        super();
+        this.userSpaceName = userSpaceName;
+    }
 
     public Long getUserSpaceId() {
         return userSpaceId;
@@ -79,6 +91,14 @@ public class UserSpace implements Serializable {
 
     public void setHibernateProperties(List<HibernateProperty> hibernateProperties) {
         this.hibernateProperties = hibernateProperties;
+    }
+
+    public Byte getUserSpaceStatus() {
+        return userSpaceStatus;
+    }
+
+    public void setUserSpaceStatus(Byte userSpaceStatus) {
+        this.userSpaceStatus = userSpaceStatus;
     }
 
 }

@@ -6,24 +6,48 @@
         <!-- Portal Breadcrumb -->
     </portal-breadcrumb>
     <div class="container-fluid">
-        <div ui-view="adminScreen">
-            <!-- ADMIN SCREEN -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-target="#home" data-toggle="tab">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a data-target="#office" data-toggle="tab">
+                            Office
+                        </a>
+                    </li>
+                </ul>
+                <div id="portalEditorTabContent" class="tab-content">
+                    <div class="tab-pane fade active in" id="home">
+                        <p>Home</p>
+                    </div>
+                    <div class="tab-pane fade" id="office">
+                        <p>Office</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2"">
                 <div class="row" style="margin-top: 100px">
                     <div class="col-md-4" 
-                        ng-click="launchMenu($event, adminMenu)" 
                         ng-repeat="adminMenu in adminMenus track by adminMenu.id">
-                        <div class="panel panel-default portal-tile-menu">
+                        <div class="panel panel-warning panel-default portal-tile-menu" 
+                            ng-click="launchMenu($event, adminMenu)" >
+                            <div class="panel-heading">
+                                {{adminMenu.label}}
+                            </div>
                             <div class="panel-body">
                                 <a href="javascript: void(0)">
                                     <i class="{{adminMenu.icon.group + ' ' + adminMenu.icon.clazz}}"></i>
                                 </a>
                             </div>
-                            <div class="panel-footer">
-                                {{adminMenu.label}}
-                            </div>
+<!--                             <div class="panel-footer"> -->
+<!--                                 {{adminMenu.label}} -->
+<!--                             </div> -->
                         </div>
                     </div>
                 </div>

@@ -7,31 +7,34 @@
         <dependent-module archiveName="com.ez.portal.core-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core/com.ez.portal.core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="com.ez.portal.core.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.entity/com.ez.portal.core.entity">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="com.ez.portal.core.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.util/com.ez.portal.core.util">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="com.ez.portal.shard.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.shard.util/com.ez.portal.shard.util">
+        <dependent-module archiveName="com.ez.portal.core.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.rest/com.ez.portal.core.rest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="com.ez.portal.core.dao-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.dao/com.ez.portal.core.dao">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="com.ez.portal.core.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.rest/com.ez.portal.core.rest">
+        <dependent-module archiveName="com.ez.portal.core.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.entity/com.ez.portal.core.entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.shard.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.shard.util/com.ez.portal.shard.util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.core.util-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.core.util/com.ez.portal.core.util">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="com.ez.portal.library.core-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.core/com.ez.portal.library.core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="com.ez.portal.library.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.entity/com.ez.portal.library.entity">
+        <dependent-module archiveName="com.ez.portal.library.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.rest/com.ez.portal.library.rest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="com.ez.portal.library.dao-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.dao/com.ez.portal.library.dao">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="com.ez.portal.library.rest-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.rest/com.ez.portal.library.rest">
+        <dependent-module archiveName="com.ez.portal.library.entity-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.library.entity/com.ez.portal.library.entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="com.ez.portal.installer-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/com.ez.portal.installer/com.ez.portal.installer">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/com.ez.portal/target/classes"/>

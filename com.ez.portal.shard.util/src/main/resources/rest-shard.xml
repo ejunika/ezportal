@@ -19,6 +19,10 @@
     
     <bean id="shardService" class="com.ez.portal.shard.rest.service.impl.ShardServiceImpl" autowire="byName" />
     
+    <bean id="shardManager" class="com.ez.portal.shard.manager.ShardManager" autowire="byName" />
+    
+    <bean id="shardResponse" class="com.ez.portal.shard.response.ShardResponse" autowire="byName" />
+    
     <bean id="shardDAO" class="com.ez.portal.shard.dao.impl.ShardDAOimpl" autowire="byName" />
     
     <jaxrs:server id="ShaService" address="/shard">

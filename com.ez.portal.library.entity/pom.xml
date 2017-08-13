@@ -9,9 +9,16 @@
     </parent>
     <dependencies>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.ez</groupId>
-            <artifactId>com.ez.portal.core.util</artifactId>
+            <artifactId>com.ez.portal.core.entity</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

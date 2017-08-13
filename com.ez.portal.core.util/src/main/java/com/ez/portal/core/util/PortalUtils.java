@@ -35,4 +35,29 @@ public class PortalUtils {
         }
         return hexString.toString().toUpperCase();
     }
+    
+    public static String getPasswordHash(String password) {
+        MessageDigest md = null;
+        StringBuffer hexString = null;
+        if (password != null) {
+            try {
+                md = MessageDigest.getInstance("MD5");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            byte[] defaultBytes = password.getBytes();
+            md.reset();
+            md.update(defaultBytes);
+            byte messageDigest[] = md.digest();
+            hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String hex = Integer.toHexString(0xFF & messageDigest[i]);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+        }
+        return hexString.toString();
+    }
 }

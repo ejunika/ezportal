@@ -30,7 +30,7 @@
                     portalInterceptorService.selectedUserSpace = selectedUserSpace;
                 };
                 
-                $scope.initUserSpaces = function (e, emailId) {
+                $scope.initUserSpaces = function (e, emailId) {debugger;
                     if (emailId && emailId != tempEmailId) {
                         tempEmailId = emailId;
                         $portalHttpService
@@ -62,15 +62,7 @@
                                     $cookies.put('a_token', $portalHttpService.authenticationToken, {
                                         expires: expireDate
                                     });
-                                    $portalHttpService
-                                        .get($portalHttpService.Url.GET_USER_BY_AUTH_TOKEN 
-                                                + $portalHttpService.authenticationToken)
-                                        .then(function (response) {
-                                            if (response && response.data.status) {
-                                                $portalHttpService.loggedInUser = response.data.users[0];
-                                                $state.go('adminHome');
-                                            }
-                                        });
+                                    $state.go('adminHome');
                                 }
                             });
                     } else {

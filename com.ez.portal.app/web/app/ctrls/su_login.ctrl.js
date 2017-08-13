@@ -12,9 +12,9 @@
             '$scope',
             '$cookies',
             '$state',
-            'portal_service.fact', 
+            '$portalHttpService',
             'portal_interceptor.srvc',
-            function ($scope, $cookies, $state, portalServiceFactory, portalInterceptorService) {
+            function ($scope, $cookies, $state, $portalHttpService, portalInterceptorService) {
                 var tempEmailId;
                 $scope.init = function () {
                     $scope.login = {
@@ -26,15 +26,22 @@
                 
                 $scope.doLogin = function (e, login) {
                     if (login.password) {
-                        portalServiceFactory
-                            .post('http://localhost:8082/com.ez.portal/rest/login/do-login', {
+                        $portalHttpService
+                            .post($portalHttpService.Url.DO_LOGIN, {
                                 emailId: login.emailId,
                                 password: login.password,
                                 userType: 1
                             })
                             .then(function (response) {
                                 if (response.data.status) {
-                                    
+                                    var currentDate = new Date();
+                                    var expireDate = new Date(currentDate);
+                                    expireDate.setMinutes(currentDate.getMinutes() + 100);
+                                    $portalHttpService.authenticationToken = response.data.authenticationToken;
+                                    $cookies.put('a_token', $portalHttpService.authenticationToken, {
+                                        expires: expireDate
+                                    });
+                                    $state.go('adminHome');
                                 }
                             });
                     } else {

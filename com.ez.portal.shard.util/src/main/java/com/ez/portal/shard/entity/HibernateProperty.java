@@ -46,6 +46,20 @@ public class HibernateProperty implements Serializable {
     @Column(name = "UPDATED_AT")
     private Date updatedAt;
     
+    public HibernateProperty() {
+        super();
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+    
+    public HibernateProperty(String propertyName, String propertyValue) {
+        super();
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+    
     public Long getPropertyId() {
         return propertyId;
     }

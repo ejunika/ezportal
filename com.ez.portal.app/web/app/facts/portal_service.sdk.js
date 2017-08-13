@@ -54,9 +54,13 @@
         var portalInterceptorService = this;
         portalInterceptorService.request = function (config) {
             $rootScope.$broadcast('portal.handle_loader', true);
-            if (portalInterceptorService.loggedInUser 
-                    && portalInterceptorService.loggedInUser.shardKey) {
+            if ((portalInterceptorService.loggedInUser && 
+                    portalInterceptorService.loggedInUser.shardKey)) {
                 config.headers['US-KEY'] = portalInterceptorService.loggedInUser.shardKey;
+                config.headers['AUTH-TOKEN'] = $cookies.get('a_token');
+            } else if ((portalInterceptorService.selectedUserSpace && 
+                    portalInterceptorService.selectedUserSpace.userSpaceId)) {
+                config.headers['US-KEY'] = portalInterceptorService.selectedUserSpace.userSpaceId;
                 config.headers['AUTH-TOKEN'] = $cookies.get('a_token');
             } else {
                 delete config.headers['AUTH-TOKEN'];

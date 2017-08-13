@@ -14,20 +14,13 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
-        
-    <bean id="loginManager" class="com.ez.portal.core.dao.manager.LoginManager" autowire="byName" />
-    <bean id="loginDAO" class="com.ez.portal.core.dao.impl.LoginDAOimpl" autowire="byName" />
-    <bean id="userAuthentication" class="com.ez.portal.core.security.UserAuthentication" autowire="byName" />
-    <bean id="sessionController" class="com.ez.portal.core.security.SessionController" autowire="byName" />
     
     <bean id="coreDAOManager" class="com.ez.portal.core.dao.manager.CoreDAOManager" autowire="byName" />
+    <bean id="userDAOManager" class="com.ez.portal.core.dao.manager.UserDAOManager" autowire="byName" />
+    <bean id="portalSessionDAOManager" class="com.ez.portal.core.dao.manager.PortalSessionDAOManager" autowire="byName" />
     
     <bean id="userDAO" class="com.ez.portal.core.dao.impl.UserDAOimpl" autowire="byName" />
-    <bean id="userDAOManager" class="com.ez.portal.core.dao.manager.UserDAOManager" autowire="byName" />
-    
     <bean id="passwordDAO" class="com.ez.portal.core.dao.impl.PasswordDAOimpl" autowire="byName" />
-    
     <bean id="portalSessionDAO" class="com.ez.portal.core.dao.impl.PortalSessionDAOimpl" autowire="byName" />
-    <bean id="portalSessionDAOManager" class="com.ez.portal.core.dao.manager.PortalSessionDAOManager" autowire="byName" />
     
 </beans>

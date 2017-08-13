@@ -39,7 +39,7 @@
         <!-- DATABASE INFORMATION ENDS -->
         
         <!-- CONNECTION POOL INFORMATION -->
-        <property name="maxPoolSize" value="5" /> 
+        <property name="maxPoolSize" value="50" /> 
         <property name="minPoolSize" value="1" />
         <property name="acquireIncrement" value="1" />
         <property name="initialPoolSize" value="1" />
@@ -87,6 +87,8 @@
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Password</value>
                 <value>com.ez.portal.core.entity.UserInfo</value>
+                <value>com.ez.portal.core.entity.UserRole</value>
+                <value>com.ez.portal.core.entity.AccessPermission</value>
                 <value>com.ez.portal.core.entity.Login</value>
                 <value>com.ez.portal.core.entity.PortalSession</value>
                 
@@ -118,6 +120,10 @@
     
     <!-- PORTAL LIBRARY CORE -->
     <import resource="classpath:portal-library-core.xml"/>
+    <!-- /PORTAL LIBRARY CORE -->
+    
+    <!-- PORTAL LIBRARY CORE -->
+    <import resource="classpath:portal-installer.xml"/>
     <!-- /PORTAL LIBRARY CORE -->
     
 </beans>

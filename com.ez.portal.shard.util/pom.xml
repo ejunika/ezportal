@@ -45,11 +45,6 @@
             <version>3.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.ez</groupId>
-            <artifactId>com.ez.portal.shard.util</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.12.1.GA</version>
@@ -68,6 +63,11 @@
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>
             <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ez</groupId>
+            <artifactId>com.ez.portal.core.entity</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,7 +1,6 @@
 package com.ez.portal.core.rest.service.impl;
 
 import com.ez.portal.core.dao.manager.CoreDAOManager;
-import com.ez.portal.core.dao.manager.LoginManager;
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.SignUpRequest;
 import com.ez.portal.core.response.LoginResponse;
@@ -11,18 +10,8 @@ import com.ez.portal.shard.request.ShardRequest;
 import com.ez.portal.shard.response.ShardResponse;
 
 public class LoginServiceImpl implements LoginService {
-    
-    private LoginManager loginManager;
-    
-    private CoreDAOManager coreDAOManager;
-    
-    public LoginManager getLoginManager() {
-        return loginManager;
-    }
 
-    public void setLoginManager(LoginManager loginManager) {
-        this.loginManager = loginManager;
-    }
+    private CoreDAOManager coreDAOManager;
 
     public CoreDAOManager getCoreDAOManager() {
         return coreDAOManager;
@@ -34,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public UserResponse signUp(SignUpRequest signUpRequest) {
-        return loginManager.signUp(signUpRequest);
+        return coreDAOManager.getUserDAOManager().signUp(signUpRequest);
     }
 
     @Override
@@ -44,12 +33,12 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ShardResponse getAllUserSpaces(ShardRequest request) throws Exception {
-        return getLoginManager().getAllUserSpaces(request);
+        return coreDAOManager.getUserDAOManager().getAllUserSpacesByEmailId(request.getEmailId());
     }
 
     @Override
     public UserResponse getUserByAuthenticationToken(String authenticationToken) throws Exception {
-        return getLoginManager().getUserByAuthenticationToken(authenticationToken);
+        return coreDAOManager.getUserDAOManager().getUserByAuthenticationToken(authenticationToken);
     }
 
     @Override

@@ -38,5 +38,13 @@
             "group": "glyphicon",
             "clazz": "glyphicon-piggy-bank"
         }
+    },
+    {
+        "id": "PORTAL_APPS",
+        "label": "Applications",
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-th-large"
+        }
     }
 ]

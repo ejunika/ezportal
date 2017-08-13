@@ -13,10 +13,5 @@
             <artifactId>jackson-jaxrs</artifactId>
             <version>1.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.ez</groupId>
-            <artifactId>com.ez.portal.shard.util</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 </project>
