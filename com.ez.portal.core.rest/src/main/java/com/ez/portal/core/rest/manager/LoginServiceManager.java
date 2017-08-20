@@ -5,9 +5,7 @@ import java.security.MessageDigest;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.request.LoginRequest;
-import com.ez.portal.core.request.SignUpRequest;
 import com.ez.portal.core.response.LoginResponse;
-import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.util.PortalUtils;
 
 /**
@@ -53,7 +51,7 @@ public class LoginServiceManager extends AbstractServiceManager {
 	public void setLoginResponse(LoginResponse loginResponse) {
 		this.loginResponse = loginResponse;
 	}
-
+	
 	/**
 	 * @param loginRequest
 	 * @return
@@ -96,6 +94,10 @@ public class LoginServiceManager extends AbstractServiceManager {
         return loginResponse;
 	}
 	
+	/**
+	 * @param password
+	 * @return
+	 */
 	public String getPasswordHash(String password) {
         MessageDigest md = null;
         StringBuffer hexString = null;
@@ -121,6 +123,11 @@ public class LoginServiceManager extends AbstractServiceManager {
         return hexString.toString();
     }
 
+	/**
+	 * @param user
+	 * @param password
+	 * @return
+	 */
 	private Boolean authenticateUser(User user, String password) {
 		Boolean isAuthorized = false;
         Password activePassword = null;
@@ -136,16 +143,6 @@ public class LoginServiceManager extends AbstractServiceManager {
 	}
 
 	private LoginResponse proceedForSuperUserLogin(String emailId, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public UserResponse signUp(SignUpRequest signUpRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public LoginResponse doLogout(String authenticationToken) {
 		// TODO Auto-generated method stub
 		return null;
 	}

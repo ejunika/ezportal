@@ -11,34 +11,64 @@ import com.ez.portal.core.dao.intf.UserSpaceDAO;
  */
 public class DAOManager {
 	
+	/**
+	 * 
+	 */
 	private UserDAO userDAO;
 	
+	/**
+	 * 
+	 */
 	private UserSpaceDAO userSpaceDAO;
 	
+	/**
+	 * 
+	 */
 	private PasswordDAO passwordDAO;
 	
+	/**
+	 * 
+	 */
 	private PortalSessionDAO portalSessionDAO;
 
+	/**
+	 * @return
+	 */
 	public UserDAO getUserDAO() {
 		return userDAO;
 	}
 
+	/**
+	 * @param userDAO
+	 */
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
 
+	/**
+	 * @return
+	 */
 	public UserSpaceDAO getUserSpaceDAO() {
 		return userSpaceDAO;
 	}
 
+	/**
+	 * @param userSpaceDAO
+	 */
 	public void setUserSpaceDAO(UserSpaceDAO userSpaceDAO) {
 		this.userSpaceDAO = userSpaceDAO;
 	}
 
+	/**
+	 * @return
+	 */
 	public PortalSessionDAO getPortalSessionDAO() {
 		return portalSessionDAO;
 	}
 
+	/**
+	 * @param portalSessionDAO
+	 */
 	public void setPortalSessionDAO(PortalSessionDAO portalSessionDAO) {
 		this.portalSessionDAO = portalSessionDAO;
 	}

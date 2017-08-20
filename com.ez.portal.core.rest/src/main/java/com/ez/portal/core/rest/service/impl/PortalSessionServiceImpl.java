@@ -59,4 +59,21 @@ public class PortalSessionServiceImpl implements PortalSessionService {
 		return portalSessionResponse;
 	}
 
+	@Override
+	public PortalSessionResponse logout(String portalSessionToken) throws Exception {
+		portalSessionResponse.resetResponse();
+		if (portalSessionServiceManager.makeSessionOut(portalSessionToken)) {
+			portalSessionResponse.setAuthenticationToken(null);
+			portalSessionResponse.setUser(null);
+			portalSessionResponse.setMessage("Logout successfully");
+			portalSessionResponse.setStatus(true);
+		} else {
+			portalSessionResponse.setAuthenticationToken(portalSessionToken);
+			portalSessionResponse.setUser(portalSessionServiceManager.getActiveUser(portalSessionToken));
+			portalSessionResponse.setMessage("Session is active");
+			portalSessionResponse.setStatus(true);
+		}
+		return portalSessionResponse;
+	}
+
 }
