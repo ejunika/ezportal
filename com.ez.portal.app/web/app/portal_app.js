@@ -79,7 +79,7 @@
                     .setBaseUrl('rest')
                     .addUrl('DO_LOGIN', 'login/do-login')
                     .addUrl('SIGN_UP', 'login/sign-up')
-                    .addUrl('LOGOUT', 'login/logout/')
+                    .addUrl('LOGOUT', 'portal-session/logout/')
                     .addUrl('CHECK_PORTAL_SESSION', 'portal-session/check-portal-session/')
                     .addUrl('GET_ALL_USER_SPACES', 'user-space/get-all-user-spaces');
             }

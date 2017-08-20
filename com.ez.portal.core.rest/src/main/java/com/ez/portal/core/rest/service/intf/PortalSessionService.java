@@ -26,5 +26,15 @@ public interface PortalSessionService {
 	@Path("check-portal-session/{portalSessionToken}")
 	PortalSessionResponse checkPortalSession(@PathParam("portalSessionToken") String portalSessionToken)
 			throws Exception;
+	
+	/**
+	 * @param portalSessionToken
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("logout/{portalSessionToken}")
+	PortalSessionResponse logout(@PathParam("portalSessionToken") String portalSessionToken)
+			throws Exception;
 
 }
