@@ -1,5 +1,6 @@
 package com.ez.portal.core.util.rest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,62 +12,99 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 
-import com.ez.portal.core.dao.manager.CoreDAOManager;
+import com.ez.portal.core.rest.manager.PortalSessionServiceManager;
 import com.ez.portal.shard.util.EZShardUtil;
 
+/**
+ * @author azaz.akhtar
+ *
+ */
 public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    Map<String, Object> headers = null;
+	/**
+	 * 
+	 */
+	Map<String, Object> headers = null;
 
-    private EZShardUtil ezShardUtil;
-    
-    private CoreDAOManager coreDAOManager;
+	/**
+	 * 
+	 */
+	private EZShardUtil ezShardUtil;
 
-    public AuthValidatorInterceptor() {
-        super(Phase.RECEIVE);
-    }
-    
-    public CoreDAOManager getCoreDAOManager() {
-        return coreDAOManager;
-    }
+	private PortalSessionServiceManager portalSessionServiceManager;
 
-    public void setCoreDAOManager(CoreDAOManager coreDAOManager) {
-        this.coreDAOManager = coreDAOManager;
-    }
+	public AuthValidatorInterceptor() {
+		super(Phase.RECEIVE);
+	}
 
-    public EZShardUtil getEzShardUtil() {
-        return ezShardUtil;
-    }
+	/**
+	 * @return
+	 */
+	public EZShardUtil getEzShardUtil() {
+		return ezShardUtil;
+	}
 
-    public void setEzShardUtil(EZShardUtil ezShardUtil) {
-        this.ezShardUtil = ezShardUtil;
-    }
+	/**
+	 * @param ezShardUtil
+	 */
+	public void setEzShardUtil(EZShardUtil ezShardUtil) {
+		this.ezShardUtil = ezShardUtil;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void handleMessage(Message message) throws Fault {
-        List<String> authTokens = null;
-        headers = (Map<String, Object>) message.get(Message.PROTOCOL_HEADERS);
-        Boolean isValidPortalSession = false;
-        if (headers != null) {
-            try {
-                authTokens = (List<String>) headers.get("AUTH-TOKEN");
-                if (authTokens != null) {
-                    isValidPortalSession = coreDAOManager.getPortalSessionDAOManager().isValidPortalSession(authTokens.get(0));
-                    if (!isValidPortalSession) {
-                        HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
-                                .get(AbstractHTTPDestination.HTTP_RESPONSE);
-                        response.setStatus(500);
-                        response.getOutputStream()
-                                .write("{\"status\": false, \"message\": \"Invalid session\"}".getBytes());
-                        response.getOutputStream().flush();
-                        message.getInterceptorChain().abort();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public void handleMessage(Message message) throws Fault {
+		List<String> authTokens = null;
+		headers = (Map<String, Object>) message.get(Message.PROTOCOL_HEADERS);
+		Boolean isValidPortalSession = false;
+		String portalSessionToken = null;
+		if (headers != null) {
+			try {
+				authTokens = (List<String>) headers.get("AUTH-TOKEN");
+				if (authTokens != null) {
+					portalSessionToken = authTokens.get(0);
+					isValidPortalSession = portalSessionServiceManager.checkPortalSession(portalSessionToken);
+					if (!isValidPortalSession) {
+						abortRequest(message);
+					}
+				} else {
+					ezShardUtil.initSessionFactory();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @param message
+	 */
+	private void abortRequest(Message message) {
+		HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
+				.get(AbstractHTTPDestination.HTTP_RESPONSE);
+		response.setStatus(201);
+		try {
+			response.getOutputStream().write("{\"status\": false, \"message\": \"Invalid session\"}".getBytes());
+			response.getOutputStream().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		message.getInterceptorChain().abort();
+	}
+
+	/**
+	 * @return the portalSessionServiceManager
+	 */
+	public PortalSessionServiceManager getPortalSessionServiceManager() {
+		return portalSessionServiceManager;
+	}
+
+	
+	/**
+	 * @param portalSessionServiceManager
+	 */
+	public void setPortalSessionServiceManager(PortalSessionServiceManager portalSessionServiceManager) {
+		this.portalSessionServiceManager = portalSessionServiceManager;
+	}
 
 }

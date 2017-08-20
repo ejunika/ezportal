@@ -1,49 +1,43 @@
 package com.ez.portal.core.rest.service.impl;
 
-import com.ez.portal.core.dao.manager.CoreDAOManager;
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.SignUpRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserResponse;
+import com.ez.portal.core.rest.manager.LoginServiceManager;
 import com.ez.portal.core.rest.service.intf.LoginService;
-import com.ez.portal.shard.request.ShardRequest;
-import com.ez.portal.shard.response.ShardResponse;
 
 public class LoginServiceImpl implements LoginService {
 
-    private CoreDAOManager coreDAOManager;
+	private LoginServiceManager loginServiceManager;
+	
+    /**
+	 * @return the loginServiceManager
+	 */
+	public LoginServiceManager getLoginServiceManager() {
+		return loginServiceManager;
+	}
 
-    public CoreDAOManager getCoreDAOManager() {
-        return coreDAOManager;
-    }
+	/**
+	 * @param loginServiceManager the loginServiceManager to set
+	 */
+	public void setLoginServiceManager(LoginServiceManager loginServiceManager) {
+		this.loginServiceManager = loginServiceManager;
+	}
 
-    public void setCoreDAOManager(CoreDAOManager coreDAOManager) {
-        this.coreDAOManager = coreDAOManager;
-    }
-
-    @Override
+	@Override
     public UserResponse signUp(SignUpRequest signUpRequest) {
-        return coreDAOManager.getUserDAOManager().signUp(signUpRequest);
+        return loginServiceManager.signUp(signUpRequest);
     }
 
     @Override
     public LoginResponse doLogin(LoginRequest loginRequest) {
-        return coreDAOManager.getUserDAOManager().doLogin(loginRequest);
-    }
-
-    @Override
-    public ShardResponse getAllUserSpaces(ShardRequest request) throws Exception {
-        return coreDAOManager.getUserDAOManager().getAllUserSpacesByEmailId(request.getEmailId());
-    }
-
-    @Override
-    public UserResponse getUserByAuthenticationToken(String authenticationToken) throws Exception {
-        return coreDAOManager.getUserDAOManager().getUserByAuthenticationToken(authenticationToken);
+        return loginServiceManager.proceedLogin(loginRequest);
     }
 
     @Override
     public LoginResponse logout(String authenticationToken) throws Exception {
-        return coreDAOManager.getUserDAOManager().doLogout(authenticationToken);
+        return loginServiceManager.doLogout(authenticationToken);
     }
 
 }

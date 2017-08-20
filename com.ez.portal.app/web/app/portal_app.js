@@ -80,8 +80,8 @@
                     .addUrl('DO_LOGIN', 'login/do-login')
                     .addUrl('SIGN_UP', 'login/sign-up')
                     .addUrl('LOGOUT', 'login/logout/')
-                    .addUrl('GET_USER_BY_AUTH_TOKEN', 'login/get-user-by-authentication-token/')
-                    .addUrl('GET_ALL_USER_SPACES', 'login/get-all-user-spaces');
+                    .addUrl('CHECK_PORTAL_SESSION', 'portal-session/check-portal-session/')
+                    .addUrl('GET_ALL_USER_SPACES', 'user-space/get-all-user-spaces');
             }
         ]);
 });

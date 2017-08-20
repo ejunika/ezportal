@@ -18,6 +18,10 @@ import com.ez.portal.core.status.PasswordStatus;
 import com.ez.portal.core.status.PortalSessionStatus;
 import com.ez.portal.shard.util.PortalHibernateUtil;
 
+/**
+ * @author azaz.akhtar
+ *
+ */
 public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 
     @Override
@@ -105,6 +109,29 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
         }
         return user;
     }
+    
+    @Override
+    public User getUser(String portalSessionToken) throws Exception {
+    	User user = null;
+    	PortalSession portalSession = null;
+    	Session session = null;
+    	Criteria criteria = null;
+    	try {
+    		session = getSessionFactory().openSession();
+    		criteria = session.createCriteria(PortalSession.class);
+    		criteria.add(Restrictions.eq("portalSessionToken", portalSessionToken));
+    		criteria.add(Restrictions.eq("portalSessionStatus", PortalSessionStatus.ACTIVE_SESSION));
+    		portalSession = (PortalSession) criteria.uniqueResult();
+    		if (portalSession != null) {
+    			user = portalSession.getCreatedBy();
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally {
+    		session.close();
+    	}
+    	return user;
+    }
 
     @Override
     public User createUser(User user, Password password) throws Exception {
@@ -178,5 +205,16 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
         }
         return user;
     }
+
+	@Override
+	public User getUserByEmailId(String emailId, String shardKey) throws Exception {
+		User user = null;
+		getEzShardUtil().initSessionFactory(shardKey);
+		user = getUserByEmailId(emailId);
+		if (user != null) {
+			getEzShardUtil().setActiveUser(user);
+		}
+		return user;
+	}
 
 }

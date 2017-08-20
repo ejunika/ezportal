@@ -17,12 +17,8 @@
         
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
     
-    <bean id="shardChangerInterceptor" class="com.ez.portal.core.util.rest.ShardChangerInterceptor" autowire="byName" />
-    
     <bean id="authValidatorInterceptor" class="com.ez.portal.core.util.rest.AuthValidatorInterceptor" autowire="byName" />
     
-    <import resource="classpath:rest-shard.xml"/>
-        
     <!-- PORTAL-CORE -->
     <import resource="classpath:entity-core-portal.xml"/>
     <import resource="classpath:dao-core-portal.xml"/>

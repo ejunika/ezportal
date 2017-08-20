@@ -47,4 +47,13 @@ public class PortalSessionDAOimpl extends CommonDAOimpl<PortalSession, Long> imp
         return portalSession;
     }
 
+	@Override
+	public void setActiveUserAndShard(PortalSession portalSession) throws Exception {
+		if (portalSession != null) {
+			getEzShardUtil().setActiveUser(portalSession.getUser());
+			getEzShardUtil().setShardKey(portalSession.getShardKey());
+			getEzShardUtil().initSessionFactory(portalSession.getShardKey());
+		}
+	}
+
 }

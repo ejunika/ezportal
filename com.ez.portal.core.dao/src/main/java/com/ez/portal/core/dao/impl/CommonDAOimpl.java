@@ -17,11 +17,33 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         implements CommonDAO<E, ID> {
 
     private Class<E> entityClass;
+    
+    private Boolean nonShard;
 
-    @SuppressWarnings("unchecked")
+    /**
+	 * @return the nonShard
+	 */
+	public Boolean getNonShard() {
+		return nonShard;
+	}
+
+	/**
+	 * @param nonShard the nonShard to set
+	 */
+	public void setNonShard(Boolean nonShard) {
+		this.nonShard = nonShard;
+	}
+
+	@SuppressWarnings("unchecked")
     public CommonDAOimpl() {
-        this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
+		this.nonShard = false;
+		this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
+    }
+    
+	public CommonDAOimpl(Boolean nonShard) {
+    	this();
+    	this.nonShard = nonShard;
     }
 
     @Override
@@ -29,7 +51,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         Session session = null;
         Transaction transaction = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             transaction = session.beginTransaction();
             entity.setCreatedAt(new Date());
             entity.setUpdatedAt(new Date());
@@ -49,7 +71,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         Session session = null;
         Transaction transaction = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             transaction = session.beginTransaction();
             entity.setUpdatedAt(new Date());
             session.update(entity);
@@ -68,7 +90,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         Session session = null;
         Transaction transaction = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             transaction = session.beginTransaction();
             entity.setUpdatedAt(new Date());
             session.saveOrUpdate(entity);
@@ -88,13 +110,12 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         Session session = null;
         E entity = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             entity = (E) session.get(entityClass, entityId);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             session.close();
-            getSessionFactory().close();
         }
         return entity;
     }
@@ -106,7 +127,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
         List<E> entities = null;
         Criteria criteria = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             criteria = session.createCriteria(entityClass);
             entities = criteria.list();
         } catch (Exception e) {
@@ -121,7 +142,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
     public E delete(E entity) throws Exception {
         Session session = null;
         try {
-            session = getSessionFactory().openSession();
+            session = getSessionFactory(nonShard).openSession();
             session.delete(entity);
         } catch (Exception e) {
             e.printStackTrace();

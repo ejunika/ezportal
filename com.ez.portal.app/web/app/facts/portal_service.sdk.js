@@ -54,17 +54,11 @@
         var portalInterceptorService = this;
         portalInterceptorService.request = function (config) {
             $rootScope.$broadcast('portal.handle_loader', true);
-            if ((portalInterceptorService.loggedInUser && 
-                    portalInterceptorService.loggedInUser.shardKey)) {
-                config.headers['US-KEY'] = portalInterceptorService.loggedInUser.shardKey;
-                config.headers['AUTH-TOKEN'] = $cookies.get('a_token');
-            } else if ((portalInterceptorService.selectedUserSpace && 
-                    portalInterceptorService.selectedUserSpace.userSpaceId)) {
-                config.headers['US-KEY'] = portalInterceptorService.selectedUserSpace.userSpaceId;
-                config.headers['AUTH-TOKEN'] = $cookies.get('a_token');
+            var authToken = $cookies.get('a_token');
+            if (authToken) {
+                config.headers['AUTH-TOKEN'] = authToken;
             } else {
                 delete config.headers['AUTH-TOKEN'];
-                delete config.headers['US-KEY'];
             }
             return config;
         };
@@ -87,8 +81,9 @@
         
         portalHttpService = new PortalHttpService();
         
-        this.$get = ['$http', function ($http) {
+        this.$get = ['$http', '$cookies', function ($http, $cookies) {
             portalHttpService.$http = $http;
+            portalHttpService.$cookies = $cookies;
             return portalHttpService;
         }];
         
@@ -98,6 +93,22 @@
                 method: 'GET',
                 url: portalHttpService.buildUrl(url)
             });
+        };
+        
+        portalHttpServiceProto.setAuthToken = function (authToken) {
+        	var portalHttpService = this,
+        		currentDate = new Date(),
+        		expireDate = new Date(currentDate);
+            
+        	expireDate.setMinutes(currentDate.getMinutes() + 100);
+            portalHttpService.$cookies.put('a_token', authToken, {
+                expires: expireDate
+            });
+        };
+        
+        portalHttpServiceProto.setLoggedInUser = function (loggedInUser) {
+        	var portalHttpService = this;
+        	portalHttpService.loggedInUser = loggedInUser;
         };
         
         portalHttpServiceProto.getJson = function (url) {

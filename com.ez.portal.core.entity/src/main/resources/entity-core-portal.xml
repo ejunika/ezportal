@@ -20,5 +20,9 @@
     <bean id="login" class="com.ez.portal.core.entity.Login" autowire="byName" />
 	
     <bean id="loginResponse" class="com.ez.portal.core.response.LoginResponse" autowire="byName" />
+    
+    <bean id="portalSessionResponse" class="com.ez.portal.core.response.PortalSessionResponse" autowire="byName" />
 
+    <bean id="userSpaceResponse" class="com.ez.portal.core.response.UserSpaceResponse" autowire="byName" />
+    
 </beans>

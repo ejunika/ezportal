@@ -8,10 +8,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
+import com.ez.portal.core.entity.HibernateProperty;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
-import com.ez.portal.shard.entity.HibernateProperty;
-import com.ez.portal.shard.entity.UserSpace;
+import com.ez.portal.core.entity.UserSpace;
 
 public class PortalHibernateUtil {
 
@@ -30,7 +30,15 @@ public class PortalHibernateUtil {
     public SessionFactory getSessionFactory() {
         return ezShardUtil.getSessionFactory();
     }
-
+    
+    public SessionFactory getSessionFactory(Boolean nonShard) {
+    	if (nonShard) {
+    		return sessionFactory;
+    	} else {
+    		return getSessionFactory();
+    	}
+    }
+    
     public EZShardUtil getEzShardUtil() {
         return ezShardUtil;
     }
@@ -54,12 +62,12 @@ public class PortalHibernateUtil {
             } else {
                 System.out.println("Installing default user space...");
                 transaction = session.beginTransaction();
-                installUserSpace("RKDF_CE", transaction);
-                installUserSpace("RKDF_MAIN", transaction);
-                installUserSpace("RADHA_RAMAN", transaction);
-                installUserSpace("BANSAL", transaction);
-                installUserSpace("RGTU", transaction);
-                installUserSpace("UIT", transaction);
+                installUserSpace("RKDF_CE", "RKDF College of Engineering", transaction);
+                installUserSpace("RKDF_MAIN", "RKDF Main", transaction);
+                installUserSpace("RADHA_RAMAN", "Radha Raman", transaction);
+                installUserSpace("BANSAL", "Bansal College of Engineering", transaction);
+                installUserSpace("RGTU", "Rajeev Gandhi Technical University", transaction);
+                installUserSpace("UIT", "University Institute of Technology", transaction);
                 installSuperAdmin(session, transaction);
                 spaces = criteria.list();
                 if (spaces != null && !spaces.isEmpty()) {
@@ -138,18 +146,18 @@ public class PortalHibernateUtil {
         return hibernateProperties;
     };
 
-    public UserSpace installUserSpace(String userSpaceName, Transaction transaction) {
-        UserSpace defaultUserSpace = new UserSpace(userSpaceName);
+    public UserSpace installUserSpace(String userSpaceName, String displayName, Transaction transaction) {
+        UserSpace userSpace = new UserSpace(userSpaceName, displayName);
         List<HibernateProperty> hibernateProperties = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            defaultUserSpace.setUserSpaceStatus((byte) 1);
-            session.save(defaultUserSpace);
+            userSpace.setUserSpaceStatus((byte) 1);
+            session.save(userSpace);
             session.flush();
-            hibernateProperties = getHibernateProperties(defaultUserSpace);
+            hibernateProperties = getHibernateProperties(userSpace);
             for (HibernateProperty hibernateProperty : hibernateProperties) {
-                hibernateProperty.setUserSpace(defaultUserSpace);
+                hibernateProperty.setUserSpace(userSpace);
                 session.save(hibernateProperty);
                 session.flush();
             }
@@ -157,7 +165,7 @@ public class PortalHibernateUtil {
             e.printStackTrace();
             transaction.rollback();
         } 
-        return defaultUserSpace;
+        return userSpace;
     }
 
 }

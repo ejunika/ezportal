@@ -1,5 +1,5 @@
 /**
- * 
+ * @author azaz.akhtar
  */
 (function (ctx, fn) {
     'use strict';
@@ -14,31 +14,38 @@
             '$cookies',
             '$portalHttpService',
             function ($scope, $state, $cookies, $portalHttpService) {
-                $scope.init = function () {
-                    initCustomerInfo();
-                    $scope.authenticationToken = $portalHttpService.authenticationToken;
-                    $scope.loggedInUser = $portalHttpService.loggedInUser;
+                
+            	/**
+            	 * 
+            	 * */
+            	$scope.init = function () {
+                	$scope.checkSession(function (loggedInUser, userSpace) {
+                		$scope.loggedInUser = loggedInUser;
+                		$portalHttpService.setLoggedInUser(loggedInUser);
+                		initCustomerInfo(userSpace);
+                    });
                 };
                 
-                $scope.$on('set_logged_in_user.portal', function (e, loggedInUser) {
-                    $scope.loggedInUser = loggedInUser;
-                });
-                
+                /**
+            	 * 
+            	 * */
                 $scope.logout = function (e) {
                     $portalHttpService
-                        .get($portalHttpService.Url.LOGOUT 
-                            + $cookies.get('a_token'))
+                        .get($portalHttpService.Url.LOGOUT + $cookies.get('a_token'))
                         .then(function (response) {
                             if (response && response.data.status) {
                                 $cookies.remove('a_token');
                                 $state.go('login');
                             }
-                        })
+                        });
                 };
                 
-                function initCustomerInfo() {
+                /**
+            	 * 
+            	 * */
+                function initCustomerInfo(userSpace) {
                     $scope.portalCustomer = {
-                        name: 'RKDF CE'
+                        name: userSpace ? userSpace.userSpaceName : 'EZ Portal'
                     };
                 }
             }

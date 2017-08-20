@@ -30,10 +30,14 @@ public abstract class AbstractEntity implements Shardable {
     @Column(name = "SHARD_KEY")
     private String shardKey;
     
+    @Column(name = "ENTRY_STATUS")
+    private Byte entryStatus;
+    
     public AbstractEntity() {
         super();
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.entryStatus = 1;
     }
     
     public AbstractEntity(User createdBy, User updatedBy) {
@@ -43,6 +47,7 @@ public abstract class AbstractEntity implements Shardable {
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.shardKey = createdBy.getShardKey();
+        this.entryStatus = 1;
     }
 
     public Date getCreatedAt() {
@@ -85,5 +90,13 @@ public abstract class AbstractEntity implements Shardable {
     public void setShardKey(String shardKey) {
         this.shardKey = shardKey;
     }
+
+	public Byte getEntryStatus() {
+		return entryStatus;
+	}
+
+	public void setEntryStatus(Byte entryStatus) {
+		this.entryStatus = entryStatus;
+	}
     
 }

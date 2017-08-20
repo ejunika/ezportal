@@ -1,23 +1,19 @@
-package com.ez.portal.core.dao.manager;
+package com.ez.portal.core.rest.manager;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.ez.portal.core.dao.intf.PortalSessionDAO;
 import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.status.PortalSessionStatus;
 
 /**
- * The {@code PortalSessionDAOManager} class manages all the operation related
- * to the {@code PortalSessionDAO} implementations.
- * 
  * @author azaz.akhtar
  *
  */
-public class PortalSessionDAOManager {
+public class PortalSessionServiceManager extends AbstractServiceManager {
 
 	/**
 	 * PortalSession timeout for every session
@@ -26,27 +22,8 @@ public class PortalSessionDAOManager {
 
 	/**
 	 * 
-	 * */
-	private PortalSessionDAO portalSessionDAO;
-
-	/**
-	 * 
 	 */
 	public static final Map<String, PortalSession> PORTAL_SESSION_MAP = new HashMap<>();
-
-	/**
-	 * @return
-	 */
-	public PortalSessionDAO getPortalSessionDAO() {
-		return portalSessionDAO;
-	}
-
-	/**
-	 * @param portalSessionDAO
-	 */
-	public void setPortalSessionDAO(PortalSessionDAO portalSessionDAO) {
-		this.portalSessionDAO = portalSessionDAO;
-	}
 
 	/**
 	 * @param user
@@ -56,7 +33,7 @@ public class PortalSessionDAOManager {
 		String portalSessionToken = null;
 		if (user != null) {
 			try {
-				PortalSession portalSession = portalSessionDAO
+				PortalSession portalSession = getDaoManager().getPortalSessionDAO()
 						.add(new PortalSession(PortalSessionStatus.ACTIVE_SESSION, generateSessionToken(), user));
 				if (portalSession != null) {
 					portalSessionToken = portalSession.getPortalSessionToken();
@@ -77,7 +54,7 @@ public class PortalSessionDAOManager {
 		String portalSessionToken = null;
 		if (user != null) {
 			try {
-				PortalSession portalSession = portalSessionDAO.createSuperUserSession(
+				PortalSession portalSession = getDaoManager().getPortalSessionDAO().createSuperUserSession(
 						new PortalSession(PortalSessionStatus.ACTIVE_SESSION, generateSessionToken(), user));
 				if (portalSession != null) {
 					portalSessionToken = portalSession.getPortalSessionToken();
@@ -99,7 +76,8 @@ public class PortalSessionDAOManager {
 		PortalSession portalSession = null;
 		Long portalSessionActivityDuration = 0l;
 		try {
-			portalSession = portalSessionDAO.getPortalSessionByPortalSessionToken(portalSessionToken);
+			portalSession = getDaoManager().getPortalSessionDAO()
+					.getPortalSessionByPortalSessionToken(portalSessionToken);
 			if (portalSession != null) {
 				portalSession.setPortalSessionStatus(PortalSessionStatus.IN_ACTIVE_SESSION);
 				portalSession.setUpdatedAt(new Date());
@@ -109,7 +87,7 @@ public class PortalSessionDAOManager {
 				} else {
 					portalSession.setPortalSessionDuration(portalSessionActivityDuration);
 				}
-				portalSessionDAO.addOrUpdate(portalSession);
+				getDaoManager().getPortalSessionDAO().addOrUpdate(portalSession);
 				PORTAL_SESSION_MAP.remove(portalSessionToken);
 				result = true;
 			}
@@ -131,13 +109,14 @@ public class PortalSessionDAOManager {
 			if (PORTAL_SESSION_MAP.containsKey(portalSessionToken)) {
 				portalSession = PORTAL_SESSION_MAP.get(portalSessionToken);
 			} else {
-				portalSession = portalSessionDAO.getPortalSessionByPortalSessionToken(portalSessionToken);
+				portalSession = getDaoManager().getPortalSessionDAO()
+						.getPortalSessionByPortalSessionToken(portalSessionToken);
 			}
 			if (portalSession != null) {
 				setActiveUserAndShard(portalSession);
 				if (portalSession.getPortalSessionStatus().equals(PortalSessionStatus.ACTIVE_SESSION)
 						&& getPortalSessionInActivityDuration(portalSession) < MAX_PORTAL_SESSION_DURATION) {
-					portalSession = portalSessionDAO.addOrUpdate(portalSession);
+					portalSession = getDaoManager().getPortalSessionDAO().addOrUpdate(portalSession);
 					PORTAL_SESSION_MAP.put(portalSessionToken, portalSession);
 					result = true;
 				} else {
@@ -158,7 +137,7 @@ public class PortalSessionDAOManager {
 	 */
 	private void setActiveUserAndShard(PortalSession portalSession) {
 		try {
-			portalSessionDAO.setActiveUserAndShard(portalSession);
+			getDaoManager().getPortalSessionDAO().setActiveUserAndShard(portalSession);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,6 +174,10 @@ public class PortalSessionDAOManager {
 	 */
 	public String generateSessionToken() {
 		return UUID.randomUUID().toString().toUpperCase();
+	}
+	
+	public User getActiveUser(String portalSessionToken) {
+		return PORTAL_SESSION_MAP.get(portalSessionToken).getUser();
 	}
 
 }

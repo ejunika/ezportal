@@ -47,7 +47,6 @@
         <module>../com.ez.portal.core.dao</module>
         <module>../com.ez.portal.core.rest</module>
         <module>../com.ez.portal.core</module>
-        <module>../com.ez.portal.core.service</module>
         <module>../com.ez.portal.library.entity</module>
         <module>../com.ez.portal.library.dao</module>
         <module>../com.ez.portal.library.rest</module>

@@ -4,12 +4,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.ez.portal.core.entity.User;
 
-/**
- * @author azaz.akhtar
- *
- */
-@XmlRootElement(name = "loginResponse")
-public class LoginResponse extends AbstractResponse {
+@XmlRootElement(name = "portalSessionResponse")
+public class PortalSessionResponse extends AbstractResponse {
 
 	/**
 	 * 
@@ -27,46 +23,29 @@ public class LoginResponse extends AbstractResponse {
 	private User user;
 
 	/**
-	 * 
-	 */
-	public LoginResponse() {
-		super();
-	}
-
-	/**
-	 * @param message
-	 * @param status
-	 */
-	public LoginResponse(String message, Boolean status) {
-		super();
-		setMessage(message);
-		setStatus(status);
-	}
-
-	@Override
-	public void resetResponse() {
-		super.resetResponse();
-		this.authenticationToken = null;
-	}
-
-	/**
-	 * @return
+	 * @return the authenticationToken
 	 */
 	public String getAuthenticationToken() {
 		return authenticationToken;
 	}
 
 	/**
-	 * @param authenticationToken
+	 * @param authenticationToken the authenticationToken to set
 	 */
 	public void setAuthenticationToken(String authenticationToken) {
 		this.authenticationToken = authenticationToken;
 	}
 
+	/**
+	 * @return the users
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * @param users the users to set
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

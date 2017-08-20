@@ -57,8 +57,8 @@
         <property name="dataSource" ref="comboPooledDataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.ez.portal.shard.entity.UserSpace</value>
-                <value>com.ez.portal.shard.entity.HibernateProperty</value>
+                <value>com.ez.portal.core.entity.UserSpace</value>
+                <value>com.ez.portal.core.entity.HibernateProperty</value>
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Password</value>
                 <value>com.ez.portal.core.entity.UserInfo</value>

@@ -16,6 +16,16 @@
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
     
     <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
+    <bean id="loginServiceManager" class="com.ez.portal.core.rest.manager.LoginServiceManager" autowire="byName" />
+    
+    <bean id="portalSessionService" class="com.ez.portal.core.rest.service.impl.PortalSessionServiceImpl" autowire="byName" />
+    <bean id="portalSessionServiceManager" class="com.ez.portal.core.rest.manager.PortalSessionServiceManager" autowire="byName" />
+    
+    <bean id="userService" class="com.ez.portal.core.rest.service.impl.UserServiceImpl" autowire="byName" />
+    <bean id="userServiceManager" class="com.ez.portal.core.rest.manager.UserServiceManager" autowire="byName" />
+    
+    <bean id="userSpaceService" class="com.ez.portal.core.rest.service.impl.UserSpaceServiceImpl" autowire="byName" />
+    <bean id="userSpaceServiceManager" class="com.ez.portal.core.rest.manager.UserSpaceServiceManager" autowire="byName" />
     
     <jaxrs:server id="logService" address="/login">
         <jaxrs:serviceBeans>
@@ -25,7 +35,42 @@
             <ref bean="jsonProvider" />
         </jaxrs:providers>
         <jaxrs:inInterceptors>
-        	<ref bean="shardChangerInterceptor"/>
+        	<ref bean="authValidatorInterceptor"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+    
+    <jaxrs:server id="portSessionService" address="/portal-session">
+        <jaxrs:serviceBeans>
+            <ref bean="portalSessionService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:inInterceptors>
+        	<ref bean="authValidatorInterceptor"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+    
+    <jaxrs:server id="usrSpaceService" address="/user-space">
+        <jaxrs:serviceBeans>
+            <ref bean="userSpaceService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:inInterceptors>
+        	<ref bean="authValidatorInterceptor"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+    
+    <jaxrs:server id="usrService" address="/user">
+        <jaxrs:serviceBeans>
+            <ref bean="userService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:inInterceptors>
         	<ref bean="authValidatorInterceptor"/>
         </jaxrs:inInterceptors>
     </jaxrs:server>

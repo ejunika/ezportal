@@ -17,38 +17,61 @@
             'portal_interceptor.srvc',
             '$portalHttpService',
             function ($rootScope, $scope, $cookies, $state, $log, portalInterceptorService, $portalHttpService) {
-                $scope.showPassword = false;
+            	
+            	/**
+            	 * Initialize portal_app.ctrl
+            	 * */
+            	$scope.init = function () {
+            		
+            		/**
+            		 * Flag to tell whether password in password field will be visible or hidden.
+            		 * */
+            		$scope.showPassword = false;
+            	};
+            	
+            	
+            	/**
+            	 * Toggle visibility of password in password field
+            	 * */
                 $scope.togglePasswordVisiblity = function () {
                     $scope.showPassword = !$scope.showPassword;
                 };
-                $scope.$on('portal.handle_loader', function (e, flag) {
-                    $scope.showLoader = flag; 
-                });
                 
+                /**
+                 * Launches the menu
+                 * */
                 $scope.launchMenu = function (e, menu) {
                     $log.info(menu);
                 };
                 
+                /**
+                 * Checks the validity of the session
+                 * */
                 $scope.checkSession = function (cb) {
-                    $portalHttpService
-                        .get($portalHttpService.Url.GET_USER_BY_AUTH_TOKEN
-                                + $cookies.get('a_token'))
-                        .then(function (response) {
-                            if (response && response.data && response.data.status) {
-                                $portalHttpService.loggedInUser = response.data.users[0];
-                                portalInterceptorService.loggedInUser = $portalHttpService.loggedInUser;
-                                if (angular.isFunction(cb)) {
-                                    cb.call(this, $portalHttpService.loggedInUser);
-                                    $rootScope.$broadcast('set_logged_in_user.portal', $portalHttpService.loggedInUser);
-                                }
-                                $state.go('adminHome');
-                            } else {
-                                $cookies.remove('a_token');
-                                portalInterceptorService.loggedInUser = null;
-                                $state.go('login');
-                            }
-                        });
-                }
+                    var authToken = $cookies.get('a_token');
+                    if (authToken) {
+                    	$portalHttpService
+                    		.get($portalHttpService.Url.CHECK_PORTAL_SESSION + authToken)
+                			.then(function (response) {
+                				if (response && response.data && response.data.status) {
+                					$portalHttpService.setLoggedInUser(response.data.user);
+                					if (angular.isFunction(cb)) {
+                						cb.call(this, response.data.user);
+                					}
+                					$state.go('adminHome');
+                				} else {
+                					$cookies.remove('a_token');
+                					$state.go('login');
+                				}
+                			});
+                    } else {
+                    	$state.go('login');
+                    }
+                };
+                
+                $scope.$on('portal.handle_loader', function (e, flag) {
+                    $scope.showLoader = flag; 
+                });
             }
         ]);
 });
