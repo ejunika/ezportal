@@ -7,8 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import com.ez.portal.core.dao.intf.PasswordDAO;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
-import com.ez.portal.core.status.PasswordStatus;
-import com.ez.portal.shard.util.PortalHibernateUtil;
+import com.ez.portal.core.util.EntityUtil;
 
 public class PasswordDAOimpl extends CommonDAOimpl<Password, Long> implements PasswordDAO {
 
@@ -21,7 +20,7 @@ public class PasswordDAOimpl extends CommonDAOimpl<Password, Long> implements Pa
             session = getSessionFactory().openSession();
             criteria = session.createCriteria(Password.class);
             criteria.add(Restrictions.eq("user", user));
-            criteria.add(Restrictions.eq("passwordStatus", PasswordStatus.ACTIVE_PASSWORD));
+            criteria.add(Restrictions.eq("entryStatus", EntityUtil.ACTIVE_ENTRY));
             password = (Password) criteria.uniqueResult();
         } catch(Exception e) {
             e.printStackTrace();
@@ -37,10 +36,10 @@ public class PasswordDAOimpl extends CommonDAOimpl<Password, Long> implements Pa
         Session session = null;
         Criteria criteria = null;
         try {
-            session = PortalHibernateUtil.sessionFactory.openSession();
+            session = getSessionFactory(true).openSession();
             criteria = session.createCriteria(Password.class);
             criteria.add(Restrictions.eq("user", user));
-            criteria.add(Restrictions.eq("passwordStatus", PasswordStatus.ACTIVE_PASSWORD));
+            criteria.add(Restrictions.eq("entryStatus", EntityUtil.ACTIVE_ENTRY));
             password = (Password) criteria.uniqueResult();
         } catch(Exception e) {
             e.printStackTrace();

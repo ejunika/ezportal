@@ -60,7 +60,7 @@ public abstract class AbstractResponse implements Serializable {
      */
     public void resetResponse() {
         this.message = null;
-        this.status = null;
+        this.status = false;
     }
     
 }

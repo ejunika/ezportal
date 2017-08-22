@@ -27,6 +27,22 @@
             		 * Flag to tell whether password in password field will be visible or hidden.
             		 * */
             		$scope.showPassword = false;
+            		
+            		
+            		var ws = new WebSocket('ws://192.168.0.101:8082/com.ez.portal/questions');
+//            		ws.onopen = function() {
+//            		     console.log('open');
+//            		     ws.send('test');
+//            		 };
+
+            		 ws.onmessage = function(e) {
+            		     console.log('message', e.data);
+            		     alert(e.data);
+            		 };
+
+            		 ws.onclose = function() {
+            		     console.log('close');
+            		 };
             	};
             	
             	

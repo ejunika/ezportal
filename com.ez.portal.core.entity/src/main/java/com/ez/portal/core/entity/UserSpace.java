@@ -59,12 +59,6 @@ public class UserSpace extends AbstractEntity {
 	public void setUserSpaceDisplayName(String userSpaceDisplayName) {
 		this.userSpaceDisplayName = userSpaceDisplayName;
 	}
-
-	/**
-     * 
-     */
-    @Column(name = "USER_SPACE_STATUS")
-    private Byte userSpaceStatus;
     
     /**
      * 
@@ -93,6 +87,17 @@ public class UserSpace extends AbstractEntity {
      */
     public UserSpace(String userSpaceName, String userSpaceDisplayName) {
     	super();
+    	this.userSpaceName = userSpaceName;
+    	this.userSpaceDisplayName = userSpaceDisplayName;
+    }
+    
+    /**
+     * @param userSpaceName
+     * @param userSpaceDisplayName
+     * @param entryStatus
+     */
+    public UserSpace(String userSpaceName, String userSpaceDisplayName, Byte entryStatus) {
+    	super(entryStatus);
     	this.userSpaceName = userSpaceName;
     	this.userSpaceDisplayName = userSpaceDisplayName;
     }
@@ -137,20 +142,6 @@ public class UserSpace extends AbstractEntity {
      */
     public void setHibernateProperties(List<HibernateProperty> hibernateProperties) {
         this.hibernateProperties = hibernateProperties;
-    }
-
-    /**
-     * @return
-     */
-    public Byte getUserSpaceStatus() {
-        return userSpaceStatus;
-    }
-
-    /**
-     * @param userSpaceStatus
-     */
-    public void setUserSpaceStatus(Byte userSpaceStatus) {
-        this.userSpaceStatus = userSpaceStatus;
     }
 
 }

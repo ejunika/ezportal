@@ -8,10 +8,20 @@
 	</parent>
 	<artifactId>com.ez.portal.core</artifactId>
 	<dependencies>
-	    <dependency>
-	        <groupId>com.ez</groupId>
-	        <artifactId>com.ez.portal.core.rest</artifactId>
-	        <version>1.0.0</version>
-	    </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ez</groupId>
+			<artifactId>com.ez.portal.core.rest</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>

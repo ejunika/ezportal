@@ -27,10 +27,16 @@ public class PortalSessionServiceImpl implements PortalSessionService {
 		return portalSessionResponse;
 	}
 
+	/**
+	 * @return
+	 */
 	public PortalSessionServiceManager getPortalSessionServiceManager() {
 		return portalSessionServiceManager;
 	}
 
+	/**
+	 * @param portalSessionServiceManager
+	 */
 	public void setPortalSessionServiceManager(PortalSessionServiceManager portalSessionServiceManager) {
 		this.portalSessionServiceManager = portalSessionServiceManager;
 	}

@@ -37,7 +37,13 @@ public abstract class AbstractEntity implements Shardable {
         super();
         this.createdAt = new Date();
         this.updatedAt = new Date();
-        this.entryStatus = 1;
+    }
+    
+    public AbstractEntity(Byte entryStatus) {
+    	super();
+    	this.createdAt = new Date();
+    	this.updatedAt = new Date();
+    	this.entryStatus = entryStatus;
     }
     
     public AbstractEntity(User createdBy, User updatedBy) {
@@ -47,7 +53,16 @@ public abstract class AbstractEntity implements Shardable {
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.shardKey = createdBy.getShardKey();
-        this.entryStatus = 1;
+    }
+    
+    public AbstractEntity(User createdBy, User updatedBy, Byte entryStatus) {
+    	super();
+    	this.createdAt = new Date();
+    	this.updatedAt = new Date();
+    	this.createdBy = createdBy;
+    	this.updatedBy = updatedBy;
+    	this.entryStatus = entryStatus;
+    	this.shardKey = createdBy.getShardKey();
     }
 
     public Date getCreatedAt() {

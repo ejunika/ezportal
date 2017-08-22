@@ -25,9 +25,8 @@ public class UserResponse extends AbstractResponse {
 
     @Override
     public void resetResponse() {
-        this.setMessage(null);
-        this.setStatus(false);
         this.setUsers(null);
+        super.resetResponse();
     }
     
 }

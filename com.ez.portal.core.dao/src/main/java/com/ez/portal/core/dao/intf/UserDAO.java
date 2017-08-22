@@ -70,5 +70,20 @@ public interface UserDAO extends CommonDAO<User, Long> {
      * @throws Exception
      */
     User getSuperUserByEmailId(String emailId) throws Exception;
+
+	/**
+	 * @param emailId
+	 * @return
+	 * @throws Exception
+	 */
+	User getActiveUserByEmailId(String emailId) throws Exception;
+
+	/**
+	 * @param emailId
+	 * @param shardKey
+	 * @return
+	 * @throws Exception
+	 */
+	User getActiveUserByEmailId(String emailId, String shardKey) throws Exception;
         
 }

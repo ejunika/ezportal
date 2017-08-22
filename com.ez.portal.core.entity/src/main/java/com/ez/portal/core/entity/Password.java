@@ -29,10 +29,7 @@ public class Password extends AbstractEntity {
     
     @Column(name = "PASSWORD_HASH")
     private String passwordHash;
-    
-    @Column(name = "PASSWORD_STATUS")
-    private Byte passwordStatus;
-    
+        
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -41,10 +38,9 @@ public class Password extends AbstractEntity {
         super();
     }
     
-    public Password(User user, String passwordHash, Byte passwordStatus) {
-        super(user, user);
+    public Password(User user, String passwordHash, Byte entryStatus) {
+        super(user, user, entryStatus);
         this.passwordHash = passwordHash;
-        this.passwordStatus = passwordStatus;
     }
 
     public Long getPasswordId() {
@@ -53,14 +49,6 @@ public class Password extends AbstractEntity {
 
     public void setPasswordId(Long passwordId) {
         this.passwordId = passwordId;
-    }
-
-    public Byte getPasswordStatus() {
-        return passwordStatus;
-    }
-
-    public void setPasswordStatus(Byte passwordStatus) {
-        this.passwordStatus = passwordStatus;
     }
 
     public String getPasswordHash() {

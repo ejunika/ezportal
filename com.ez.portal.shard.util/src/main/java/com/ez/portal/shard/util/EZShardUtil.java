@@ -27,6 +27,7 @@ import com.ez.portal.core.entity.HibernateProperty;
 import com.ez.portal.core.entity.Shardable;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserSpace;
+import com.ez.portal.core.util.EntityUtil;
 import com.ez.portal.shard.session.factory.EZShardSessionFactory;
 
 /**
@@ -274,7 +275,7 @@ public class EZShardUtil {
 			Boolean ptConfigFound = false;
 			shardConfigurations = new ArrayList<>();
 			for (UserSpace space : spaces) {
-				if (space.getUserSpaceStatus() == 1) {
+				if (space.getEntryStatus() == EntityUtil.ACTIVE_ENTRY) {
 					if (!ptConfigFound) {
 						ptConfig = getConfiguration(space.getHibernateProperties());
 						ptConfigFound = true;

@@ -40,12 +40,6 @@ public class PortalSession extends AbstractEntity {
     /**
      * 
      */
-    @Column(name = "PORTAL_SESSION_STATUS")
-    private Byte portalSessionStatus;
-        
-    /**
-     * 
-     */
     @Column(name = "PORTAL_SESSION_TOKEN")
     private String portalSessionToken;
     
@@ -74,9 +68,8 @@ public class PortalSession extends AbstractEntity {
      * @param portalSessionToken
      * @param user
      */
-    public PortalSession(Byte portalSessionStatus, String portalSessionToken, User user) {
-        super(user, user);
-        this.portalSessionStatus = portalSessionStatus;
+    public PortalSession(Byte entryStatus, String portalSessionToken, User user) {
+        super(user, user, entryStatus);
         this.portalSessionToken = portalSessionToken;
         this.user = user;
     }
@@ -93,20 +86,6 @@ public class PortalSession extends AbstractEntity {
      */
     public void setPortalSessionId(Long portalSessionId) {
         this.portalSessionId = portalSessionId;
-    }
-
-    /**
-     * @return
-     */
-    public Byte getPortalSessionStatus() {
-        return portalSessionStatus;
-    }
-
-    /**
-     * @param portalSessionStatus
-     */
-    public void setPortalSessionStatus(Byte portalSessionStatus) {
-        this.portalSessionStatus = portalSessionStatus;
     }
 
     /**

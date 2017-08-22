@@ -49,5 +49,12 @@ public class PortalSessionResponse extends AbstractResponse {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	@Override
+	public void resetResponse() {
+		this.authenticationToken = null;
+		this.user = null;
+		super.resetResponse();
+	}
 
 }

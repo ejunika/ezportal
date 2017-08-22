@@ -12,6 +12,8 @@ import com.ez.portal.core.entity.HibernateProperty;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserSpace;
+import com.ez.portal.core.util.EntityUtil;
+import com.ez.portal.core.util.UserUtil;
 
 public class PortalHibernateUtil {
 
@@ -63,10 +65,10 @@ public class PortalHibernateUtil {
                 System.out.println("Installing default user space...");
                 transaction = session.beginTransaction();
                 installUserSpace("RKDF_CE", "RKDF College of Engineering", transaction);
-                installUserSpace("RKDF_MAIN", "RKDF Main", transaction);
-                installUserSpace("RADHA_RAMAN", "Radha Raman", transaction);
-                installUserSpace("BANSAL", "Bansal College of Engineering", transaction);
-                installUserSpace("RGTU", "Rajeev Gandhi Technical University", transaction);
+//                installUserSpace("RKDF_MAIN", "RKDF Main", transaction);
+//                installUserSpace("RADHA_RAMAN", "Radha Raman", transaction);
+//                installUserSpace("BANSAL", "Bansal College of Engineering", transaction);
+//                installUserSpace("RGTU", "Rajeev Gandhi Technical University", transaction);
                 installUserSpace("UIT", "University Institute of Technology", transaction);
                 installSuperAdmin(session, transaction);
                 spaces = criteria.list();
@@ -85,7 +87,7 @@ public class PortalHibernateUtil {
     }
     
     private void installFirstUserIn(UserSpace userSpace) {
-        User user = new User("akhtar.azaz@live.com", "ejudo", (byte) 1);
+        User user = new User("akhtar.azaz@live.com", "ejudo", UserUtil.USER_TYPE_ADMIN, EntityUtil.ACTIVE_ENTRY);
         user.setShardKey(userSpace.getUserSpaceId().toString());
         Password password = null;
         Session session = null;
@@ -97,7 +99,7 @@ public class PortalHibernateUtil {
             transaction = session.beginTransaction();
             session.save(user);
             session.flush();
-            password = new Password(user, "21232f297a57a5a743894a0e4a801fc3", (byte) 1);
+            password = new Password(user, "21232f297a57a5a743894a0e4a801fc3", EntityUtil.ACTIVE_ENTRY);
             password.setUser(user);
             session.save(password);
             session.flush();
@@ -111,13 +113,13 @@ public class PortalHibernateUtil {
     }
 
     public Boolean installSuperAdmin(Session session, Transaction transaction) {
-        User user = new User("akhtar.azaz@live.com", "ejudo", (byte) 1);
+        User user = new User("akhtar.azaz@live.com", "ejudo", UserUtil.USER_TYPE_SUPER_USER, EntityUtil.ACTIVE_ENTRY);
         Password password = null;
         Boolean success = false;
         try {
             session.save(user);
             session.flush();
-            password = new Password(user, "21232f297a57a5a743894a0e4a801fc3", (byte) 1);
+            password = new Password(user, "21232f297a57a5a743894a0e4a801fc3", EntityUtil.ACTIVE_ENTRY);
             password.setUser(user);
             session.save(password);
             session.flush();
@@ -133,26 +135,25 @@ public class PortalHibernateUtil {
     
     public List<HibernateProperty> getHibernateProperties(UserSpace userSpace) {
         List<HibernateProperty> hibernateProperties = new ArrayList<>();
-        hibernateProperties.add(new HibernateProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"));
-        hibernateProperties.add(new HibernateProperty("hibernate.session_factory_name", userSpace.getUserSpaceName() + "_HibernateSessionFactory"));
-        hibernateProperties.add(new HibernateProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver"));
-        hibernateProperties.add(new HibernateProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/" + userSpace.getUserSpaceName() + "_PORTAL?createDatabaseIfNotExist=true"));
-        hibernateProperties.add(new HibernateProperty("hibernate.connection.username", "root"));
-        hibernateProperties.add(new HibernateProperty("hibernate.connection.password", "Admin"));
-        hibernateProperties.add(new HibernateProperty("hibernate.connection.shard_id", userSpace.getUserSpaceId().toString()));
-        hibernateProperties.add(new HibernateProperty("hibernate.hbm2ddl.auto", "update"));
-        hibernateProperties.add(new HibernateProperty("hibernate.shard.enable_cross_shard_relationship_checks", "true"));
-        hibernateProperties.add(new HibernateProperty("hibernate.show_sql", "true"));
+        hibernateProperties.add(new HibernateProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.session_factory_name", userSpace.getUserSpaceName() + "_HibernateSessionFactory", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/" + userSpace.getUserSpaceName() + "_PORTAL?createDatabaseIfNotExist=true", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.connection.username", "root", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.connection.password", "Admin", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.connection.shard_id", userSpace.getUserSpaceId().toString(), EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.hbm2ddl.auto", "update", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.shard.enable_cross_shard_relationship_checks", "true", EntityUtil.ACTIVE_ENTRY));
+        hibernateProperties.add(new HibernateProperty("hibernate.show_sql", "true", EntityUtil.ACTIVE_ENTRY));
         return hibernateProperties;
     };
 
     public UserSpace installUserSpace(String userSpaceName, String displayName, Transaction transaction) {
-        UserSpace userSpace = new UserSpace(userSpaceName, displayName);
+        UserSpace userSpace = new UserSpace(userSpaceName, displayName, EntityUtil.ACTIVE_ENTRY);
         List<HibernateProperty> hibernateProperties = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            userSpace.setUserSpaceStatus((byte) 1);
             session.save(userSpace);
             session.flush();
             hibernateProperties = getHibernateProperties(userSpace);

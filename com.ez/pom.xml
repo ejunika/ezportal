@@ -6,7 +6,8 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <properties>
-        <spring.version>3.2.9.RELEASE</spring.version>
+<!--         <spring.version>3.2.9.RELEASE</spring.version> -->
+        <spring.version>4.3.9.RELEASE</spring.version>
         <hibernate.version>3.6.4.Final</hibernate.version>
         <cxf.version>3.0.0</cxf.version>
     </properties>

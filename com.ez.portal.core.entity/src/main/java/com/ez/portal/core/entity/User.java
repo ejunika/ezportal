@@ -72,6 +72,13 @@ public class User extends AbstractEntity {
         this.userType = userType;
     }
     
+    public User(String emailId, String username, Byte userType, Byte entryStatus) {
+    	super(entryStatus);
+    	this.emailId = emailId;
+    	this.username = username;
+    	this.userType = userType;
+    }
+    
     /**
      * @return
      */

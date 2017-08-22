@@ -45,8 +45,8 @@ public class LoginResponse extends AbstractResponse {
 
 	@Override
 	public void resetResponse() {
-		super.resetResponse();
 		this.authenticationToken = null;
+		super.resetResponse();
 	}
 
 	/**

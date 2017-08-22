@@ -7,7 +7,6 @@ import org.hibernate.criterion.Restrictions;
 
 import com.ez.portal.core.dao.intf.PortalSessionDAO;
 import com.ez.portal.core.entity.PortalSession;
-import com.ez.portal.shard.util.PortalHibernateUtil;
 
 public class PortalSessionDAOimpl extends CommonDAOimpl<PortalSession, Long> implements PortalSessionDAO {
 
@@ -34,7 +33,7 @@ public class PortalSessionDAOimpl extends CommonDAOimpl<PortalSession, Long> imp
         Session session = null;
         Transaction transaction = null;
         try {
-            session = PortalHibernateUtil.sessionFactory.openSession();
+            session = getSessionFactory(true).openSession();
             transaction = session.beginTransaction();
             session.save(portalSession);
             session.flush();

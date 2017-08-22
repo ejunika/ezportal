@@ -99,7 +99,6 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
 		return portalSessionServiceManager;
 	}
 
-	
 	/**
 	 * @param portalSessionServiceManager
 	 */

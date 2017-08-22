@@ -6,7 +6,7 @@ import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.response.LoginResponse;
-import com.ez.portal.core.util.PortalUtils;
+import com.ez.portal.core.util.UserUtil;
 
 /**
  * @author azaz.akhtar
@@ -59,7 +59,7 @@ public class LoginServiceManager extends AbstractServiceManager {
 	public LoginResponse proceedLogin(LoginRequest loginRequest) {
 		loginResponse.resetResponse();
 		if (loginRequest != null) {
-			if (loginRequest.getUserType() == PortalUtils.SUPER_USER) {
+			if (loginRequest.getUserType() == UserUtil.USER_TYPE_SUPER_USER) {
 				loginResponse = proceedForSuperUserLogin(loginRequest.getEmailId(), loginRequest.getPassword());
 			} else {
 				loginResponse = proceedForNormalUserLogin(loginRequest.getEmailId(), loginRequest.getPassword(),
@@ -75,7 +75,7 @@ public class LoginServiceManager extends AbstractServiceManager {
         User user = null;
         String authenticationToken = null;
         try {
-            user = getDaoManager().getUserDAO().getUserByEmailId(emailId, shardKey);
+            user = getDaoManager().getUserDAO().getActiveUserByEmailId(emailId, shardKey);
             if (user != null) {
                 authority = authenticateUser(user, password);
                 if (authority) {

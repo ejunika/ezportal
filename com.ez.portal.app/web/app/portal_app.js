@@ -72,7 +72,7 @@
                 $httpProvider.interceptors.push('portal_interceptor.srvc');
                 
                 $portalHttpServiceProvider
-                    .setDomain('localhost')
+                    .setDomain('192.168.0.101')
                     .setPort('8082')
                     .setSecure(false)
                     .setAppCtx('com.ez.portal')

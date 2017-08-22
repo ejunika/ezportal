@@ -74,6 +74,16 @@ public class HibernateProperty extends AbstractEntity {
     }
     
     /**
+     * @param propertyName
+     * @param propertyValue
+     */
+    public HibernateProperty(String propertyName, String propertyValue, Byte entryStatus) {
+    	super(entryStatus);
+    	this.propertyName = propertyName;
+    	this.propertyValue = propertyValue;
+    }
+    
+    /**
      * @return
      */
     public Long getPropertyId() {

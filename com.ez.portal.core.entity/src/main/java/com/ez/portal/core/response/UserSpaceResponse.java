@@ -33,4 +33,10 @@ public class UserSpaceResponse extends AbstractResponse {
 		this.userSpaces = userSpaces;
 	}
 	
+	@Override
+	public void resetResponse() {
+		this.userSpaces = null;
+		super.resetResponse();
+	}
+	
 }
