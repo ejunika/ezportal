@@ -91,6 +91,7 @@
                 <value>com.ez.portal.core.entity.AccessPermission</value>
                 <value>com.ez.portal.core.entity.Login</value>
                 <value>com.ez.portal.core.entity.PortalSession</value>
+                <value>com.ez.portal.core.entity.FileFolderNode</value>
                 
                 <value>com.ez.portal.library.entity.LibraryObjectType</value>
                 <value>com.ez.portal.library.entity.LibraryObject</value>

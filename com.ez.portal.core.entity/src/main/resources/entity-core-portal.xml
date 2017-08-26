@@ -16,13 +16,21 @@
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
         
 	<bean id="user" class="com.ez.portal.core.entity.User" autowire="byName" />
-	
+	<bean id="userResponse" class="com.ez.portal.core.response.UserResponse" autowire="byName" />
+
     <bean id="login" class="com.ez.portal.core.entity.Login" autowire="byName" />
-	
     <bean id="loginResponse" class="com.ez.portal.core.response.LoginResponse" autowire="byName" />
     
+    <bean id="portalSession" class="com.ez.portal.core.entity.PortalSession" autowire="byName" />
     <bean id="portalSessionResponse" class="com.ez.portal.core.response.PortalSessionResponse" autowire="byName" />
 
+    <bean id="userSpace" class="com.ez.portal.core.entity.UserSpace" autowire="byName" />
     <bean id="userSpaceResponse" class="com.ez.portal.core.response.UserSpaceResponse" autowire="byName" />
+    
+    <bean id="userRole" class="com.ez.portal.core.entity.UserRole" autowire="byName" />
+    <bean id="userRoleResponse" class="com.ez.portal.core.response.UserRoleResponse" autowire="byName" />
+    
+    <bean id="accessPermission" class="com.ez.portal.core.entity.AccessPermission" autowire="byName" />
+    <bean id="accessPermissionResponse" class="com.ez.portal.core.response.AccessPermissionResponse" autowire="byName" />
     
 </beans>

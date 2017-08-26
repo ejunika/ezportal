@@ -61,7 +61,7 @@
                     if (emailId && emailId != lastUsedEmailId) {
                     	lastUsedEmailId = emailId;
                         $portalHttpService
-                            .post($portalHttpService.Url.GET_ALL_USER_SPACES, {
+                            .post($portalHttpService.Url.GET_ALL_USER_SPACES_FOR_LOGIN, {
                                 emailId: emailId
                             })
                             .then(function (response) {

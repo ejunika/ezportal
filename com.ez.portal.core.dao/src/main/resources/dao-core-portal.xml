@@ -15,10 +15,18 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
         
-    <bean id="daoManager" class="com.ez.portal.core.dao.manager.DAOManager" autowire="byName" />
+    <bean id="daoManager" class="com.ez.portal.core.dao.manager.impl.DAOManagerImpl" autowire="byName" />
+    
     <bean id="userDAO" class="com.ez.portal.core.dao.impl.UserDAOimpl" autowire="byName" />
+    
     <bean id="userSpaceDAO" class="com.ez.portal.core.dao.impl.UserSpaceDAOimpl" autowire="byName" />
+    
     <bean id="passwordDAO" class="com.ez.portal.core.dao.impl.PasswordDAOimpl" autowire="byName" />
+    
     <bean id="portalSessionDAO" class="com.ez.portal.core.dao.impl.PortalSessionDAOimpl" autowire="byName" />
+    
+    <bean id="userRoleDAO" class="com.ez.portal.core.dao.impl.UserRoleDAOimpl" autowire="byName" />
+    
+    <bean id="accessPermissionDAO" class="com.ez.portal.core.dao.impl.AccessPermissionDAOimpl" autowire="byName" />
     
 </beans>

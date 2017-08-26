@@ -8,4 +8,5 @@ import com.ez.portal.core.entity.UserSpace;
  */
 public interface UserSpaceDAO extends CommonDAO<UserSpace, Long> {
 	
+	
 }

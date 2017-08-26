@@ -1,9 +1,9 @@
-package com.ez.portal.core.rest.manager;
+package com.ez.portal.core.rest.manager.impl;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ez.portal.core.dao.manager.intf.DAOManager;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserSpace;
@@ -11,14 +11,18 @@ import com.ez.portal.core.request.LoginRequest;
 import com.ez.portal.core.request.UserSpaceRequest;
 import com.ez.portal.core.response.LoginResponse;
 import com.ez.portal.core.response.UserSpaceResponse;
+import com.ez.portal.core.rest.manager.PortalSessionServiceManager;
+import com.ez.portal.core.rest.manager.intf.LoginServiceManager;
+import com.ez.portal.core.util.PortalUtils;
 import com.ez.portal.core.util.UserUtil;
 
-/**
- * @author azaz.akhtar
- *
- */
-public class LoginServiceManager extends AbstractServiceManager {
-
+public class LoginServiceManagerImpl implements LoginServiceManager {
+	
+	/**
+	 * 
+	 */
+	private DAOManager daoManager;
+	
 	/**
 	 * 
 	 */
@@ -71,6 +75,20 @@ public class LoginServiceManager extends AbstractServiceManager {
 	}
 	
 	/**
+	 * @return the daoManager
+	 */
+	public DAOManager getDaoManager() {
+		return daoManager;
+	}
+
+	/**
+	 * @param daoManager the daoManager to set
+	 */
+	public void setDaoManager(DAOManager daoManager) {
+		this.daoManager = daoManager;
+	}
+
+	/**
 	 * @param loginRequest
 	 * @return
 	 */
@@ -113,35 +131,6 @@ public class LoginServiceManager extends AbstractServiceManager {
 	}
 	
 	/**
-	 * @param password
-	 * @return
-	 */
-	public String getPasswordHash(String password) {
-        MessageDigest md = null;
-        StringBuffer hexString = null;
-        if (password != null) {
-            try {
-                md = MessageDigest.getInstance("MD5");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            byte[] defaultBytes = password.getBytes();
-            md.reset();
-            md.update(defaultBytes);
-            byte messageDigest[] = md.digest();
-            hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++) {
-                String hex = Integer.toHexString(0xFF & messageDigest[i]);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-        }
-        return hexString.toString();
-    }
-
-	/**
 	 * @param user
 	 * @param password
 	 * @return
@@ -151,7 +140,7 @@ public class LoginServiceManager extends AbstractServiceManager {
         Password activePassword = null;
         try {
             activePassword = getDaoManager().getPasswordDAO().getActivePasswordByUser(user);
-            if (activePassword != null && getPasswordHash(password).equals(activePassword.getPasswordHash())) {
+            if (activePassword != null && PortalUtils.getPasswordHash(password).equals(activePassword.getPasswordHash())) {
             	isAuthorized = true;
             }
         } catch (Exception e) {
@@ -160,11 +149,17 @@ public class LoginServiceManager extends AbstractServiceManager {
         return isAuthorized;
 	}
 
+	/**
+	 * @param emailId
+	 * @param password
+	 * @return
+	 */
 	private LoginResponse proceedForSuperUserLogin(String emailId, String password) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public UserSpaceResponse getAllUserSpaces(UserSpaceRequest userSpaceRequest) {
 		userSpaceResponse.resetResponse();
 		String emailId = userSpaceRequest.getEmailId();
@@ -202,5 +197,4 @@ public class LoginServiceManager extends AbstractServiceManager {
 		}
 		return userSpaceResponse;
 	}
-
 }

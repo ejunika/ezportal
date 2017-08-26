@@ -8,7 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.UserSpaceRequest;
 import com.ez.portal.core.response.LoginResponse;
+import com.ez.portal.core.response.UserSpaceResponse;
 
 /**
  * @author azaz.akhtar
@@ -27,5 +29,13 @@ public interface LoginService {
 	@POST
 	@Path("/do-login")
 	LoginResponse doLogin(LoginRequest loginRequest) throws Exception;
+	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("/get-all-user-spaces")
+	UserSpaceResponse getAllUserSpaces(UserSpaceRequest userSpaceRequest) throws Exception;
 
 }

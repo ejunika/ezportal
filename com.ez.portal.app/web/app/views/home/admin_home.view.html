@@ -1,41 +1,17 @@
-<div class="portal-home-container" ng-init="init()">
+<div class="portal-home-container full-size" ng-init="init()">
     <portal-header>
         <!-- Portal Header -->
     </portal-header>
     <portal-breadcrumb>
         <!-- Portal Breadcrumb -->
     </portal-breadcrumb>
-    <div class="container-fluid">
-        <div class="row" ng-show="false">
-            <div class="col-md-12">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a data-target="#home" data-toggle="tab">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a data-target="#office" data-toggle="tab">
-                            Office
-                        </a>
-                    </li>
-                </ul>
-                <div id="portalEditorTabContent" class="tab-content">
-                    <div class="tab-pane fade active in" id="home">
-                        <p>Home</p>
-                    </div>
-                    <div class="tab-pane fade" id="office">
-                        <p>Office</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2"">
-                <div class="row" style="margin-top: 100px">
+    <div class="container-fluid portal-home-main">
+        <div class="row" ng-if="!isMenuLaunched">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="row" style="margin-top: 60px">
                     <div class="col-md-4 col-sm-6" 
                         ng-repeat="adminMenu in adminMenus track by adminMenu.id">
-                        <div class="panel panel-warning panel-default portal-tile-menu" 
+                        <div class="panel panel-default portal-tile-menu" 
                             ng-click="launchMenu($event, adminMenu)" >
                             <div class="panel-heading">
                                 {{adminMenu.label}}
@@ -45,152 +21,67 @@
                                     <i class="{{adminMenu.icon.group + ' ' + adminMenu.icon.clazz}}"></i>
                                 </a>
                             </div>
-<!--                             <div class="panel-footer"> -->
-<!--                                 {{adminMenu.label}} -->
-<!--                             </div> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row"  ng-hide="true">
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Portal Users
-                        <div class="btn-group pull-right">
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </a>
-                                </div>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span>
-                                    Md Azaz Akhtar
-                                </span>
-                                <div class="btn-group pull-right">
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <span>
-                                    Md Azaz Akhtar
-                                </span>
-                                <div class="btn-group pull-right">
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <span>
-                                    Md Azaz Akhtar
-                                </span>
-                                <div class="btn-group pull-right">
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
-                                    <a href="javascript: void(0)" 
-                                        class="btn btn-sm btn-default">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        User Details
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="inputEmail" 
-                                    class="col-md-4 control-label">
-                                    Email ID
-                                </label>
-                                <div class="col-md-4">
-                                    <input ng-model="register.emailId" 
-                                        type="text" 
-                                        class="form-control" 
-                                        id="inputEmail"
-                                        placeholder="Email" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword" 
-                                    class="col-md-4 control-label">
-                                    Password
-                                </label>
-                                <div class="col-md-4">
-                                    <input ng-model="register.password" 
-                                        ng-attr-type="{{showPassword ? 'text' : 'password'}}"
-                                        class="form-control"
-                                        id="inputPassword" 
-                                        placeholder="Password" />
-                                    <a href="javascript: void(0)" 
-                                        class="portal-show-pwd-btn"
-                                        ng-click="togglePasswordVisiblity($event)" >
-                                        <i class="glyphicon" 
-                                            ng-class="{'glyphicon-eye-open': !showPassword, 'glyphicon-eye-close': showPassword}">
-                                        </i>    
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPasswordConfirm" 
-                                    class="col-md-4 control-label">
-                                    Confirm Password
-                                </label>
-                                <div class="col-md-4">
-                                    <input ng-model="register.confirmPassword" 
-                                        ng-attr-type="{{showPassword ? 'text' : 'password'}}"
-                                        class="form-control"
-                                        id="inputPasswordConfirm" 
-                                        placeholder="Confirm Password" />
-                                    <a href="javascript: void(0)" 
-                                        class="portal-show-pwd-btn"
-                                        ng-click="togglePasswordVisiblity($event)" >
-                                        <i class="glyphicon" 
-                                            ng-class="{'glyphicon-eye-open': !showPassword, 'glyphicon-eye-close': showPassword}">
-                                        </i> 
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <div class="pull-right">
-                                        <a href="javascript: void(0)" 
-                                            ng-click="addUser($event, register)"
-                                            class="btn btn-success">
-                                            Save
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="portal-left-menu" ng-if="isMenuLaunched">
+        	<div class="fixed-table-container hidden-head">
+      			<div class="header-background"></div>
+		      	<div class="fixed-table-container-inner">
+		        <table cellspacing="0">
+		        	<thead>
+		            	<tr>
+		              		<th class="first">
+		                		<div class="th-inner">Email Id</div>
+		              		</th>
+		              		<th>
+		                		<div class="th-inner">User Name</div>
+		              		</th>
+		              		<th>
+		                		<div class="th-inner">User Type</div>
+		              		</th>
+		              		<th>
+		                		<div class="th-inner">Actions</div>
+		              		</th>
+						</tr>
+						<tr class="hidden-header">
+							<th class="first">
+								<div class="th-inner">Email Id</div>
+							</th>
+							<th>
+								<div class="th-inner">User Name</div>
+							</th>
+							<th>
+								<div class="th-inner">User Type</div>
+							</th>
+							<th>
+								<div class="th-inner">Actions</div>
+							</th>
+						</tr>
+					</thead>
+			        <tbody>
+			        	<tr ng-repeat="user in users track by user.userId">
+		              		<td>{{user.emailId}}</td>
+		              		<td>{{user.username}}</td>
+		              		<td>{{user.userType}}</td>
+		              		<td style="width: 115px;">
+   								<a href="#" class="btn btn-sm btn-default">
+   									<i class="glyphicon glyphicon-ban-circle"></i>
+   								</a>
+   								<a href="#" class="btn btn-sm btn-default">
+   									<i class="glyphicon glyphicon-edit"></i>
+   								</a>
+   								<a href="#" class="btn btn-sm btn-default">
+   									<i class="glyphicon glyphicon-trash"></i>
+   								</a>
+		              		</td>
+			            </tr>
+			        </tbody>
+		        </table>
+		      </div>
+		    </div>
         </div>
     </div>
 </div>

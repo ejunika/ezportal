@@ -159,6 +159,7 @@ public class PortalHibernateUtil {
             hibernateProperties = getHibernateProperties(userSpace);
             for (HibernateProperty hibernateProperty : hibernateProperties) {
                 hibernateProperty.setUserSpace(userSpace);
+                hibernateProperty.setShardKey(userSpace.getUserSpaceId().toString());
                 session.save(hibernateProperty);
                 session.flush();
             }

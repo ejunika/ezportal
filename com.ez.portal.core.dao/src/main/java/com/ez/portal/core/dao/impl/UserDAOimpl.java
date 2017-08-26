@@ -177,6 +177,7 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 		List<User> users = null;
 		Session session = null;
 		try {
+			getEzShardUtil().initSessionFactory();
 			session = getSessionFactory().openSession();
 			users = session.createCriteria(User.class).add(Restrictions.eq("emailId", emailId))
 					.addOrder(Order.asc("shardKey")).list();

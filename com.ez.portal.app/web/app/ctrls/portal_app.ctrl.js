@@ -28,21 +28,24 @@
             		 * */
             		$scope.showPassword = false;
             		
+            		$scope.breadcrumbStack = [
+            			{
+            				label: 'Home',
+            				isActive: true
+            			}
+            		];
             		
-            		var ws = new WebSocket('ws://192.168.0.101:8082/com.ez.portal/questions');
-//            		ws.onopen = function() {
-//            		     console.log('open');
-//            		     ws.send('test');
+            		
+//            		var ws = new WebSocket('ws://192.168.0.101:8082/com.ez.portal/questions');
+//
+//            		 ws.onmessage = function(e) {
+//            		     console.log('message', e.data);
+//            		     alert(e.data);
 //            		 };
-
-            		 ws.onmessage = function(e) {
-            		     console.log('message', e.data);
-            		     alert(e.data);
-            		 };
-
-            		 ws.onclose = function() {
-            		     console.log('close');
-            		 };
+//
+//            		 ws.onclose = function() {
+//            		     console.log('close');
+//            		 };
             	};
             	
             	
@@ -58,6 +61,22 @@
                  * */
                 $scope.launchMenu = function (e, menu) {
                     $log.info(menu);
+                    angular.forEach($scope.breadcrumbStack, function (breadcrumbStackItem, index) {
+                    	breadcrumbStackItem.isActive = false;
+                    });
+                    $scope.breadcrumbStack.push({
+                    	label: menu.label,
+                    	isActive: true
+                    });
+                    $scope.isMenuLaunched = true;
+                };
+                
+                /**
+                 * Launches the menu
+                 * */
+                $scope.backToMainMenu = function (e) {
+                	$scope.breadcrumbStack.pop();
+                	$scope.isMenuLaunched = false;
                 };
                 
                 /**

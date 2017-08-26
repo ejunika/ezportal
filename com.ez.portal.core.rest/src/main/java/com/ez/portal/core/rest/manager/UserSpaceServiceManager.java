@@ -3,7 +3,6 @@ package com.ez.portal.core.rest.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ez.portal.core.dao.manager.DAOManager;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserSpace;
 import com.ez.portal.core.request.UserSpaceRequest;
@@ -13,16 +12,8 @@ import com.ez.portal.core.response.UserSpaceResponse;
  * @author azaz.akhtar
  *
  */
-public class UserSpaceServiceManager {
+public class UserSpaceServiceManager extends AbstractServiceManager {
 
-	/**
-	 * 
-	 */
-	private DAOManager daoManager;
-	
-	/**
-	 * 
-	 */
 	private UserSpaceResponse userSpaceResponse;
 	
 	/**
@@ -40,26 +31,12 @@ public class UserSpaceServiceManager {
 	}
 
 	/**
-	 * @return the daoManager
-	 */
-	public DAOManager getDaoManager() {
-		return daoManager;
-	}
-
-	/**
-	 * @param daoManager the daoManager to set
-	 */
-	public void setDaoManager(DAOManager daoManager) {
-		this.daoManager = daoManager;
-	}
-
-	/**
 	 * @param portalUserSpaceRequest
 	 * @return
 	 */
-	public UserSpaceResponse getAllUserSpaces(UserSpaceRequest portalUserSpaceRequest) {
+	public UserSpaceResponse getAllUserSpaces(UserSpaceRequest userSpaceRequest) {
 		userSpaceResponse.resetResponse();
-		String emailId = portalUserSpaceRequest.getEmailId();
+		String emailId = userSpaceRequest.getEmailId();
 		List<User> users = null;
 		List<UserSpace> userSpaces = null;
 		String shardKey = null;

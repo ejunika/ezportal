@@ -27,6 +27,9 @@
     <bean id="userSpaceService" class="com.ez.portal.core.rest.service.impl.UserSpaceServiceImpl" autowire="byName" />
     <bean id="userSpaceServiceManager" class="com.ez.portal.core.rest.manager.UserSpaceServiceManager" autowire="byName" />
     
+    <bean id="userRoleService" class="com.ez.portal.core.rest.service.impl.UserRoleServiceImpl" autowire="byName" />
+    <bean id="userRoleServiceManager" class="com.ez.portal.core.rest.manager.impl.UserRoleServiceManagerImpl" autowire="byName" />
+    
     <jaxrs:server id="logService" address="/login">
         <jaxrs:serviceBeans>
             <ref bean="loginService" />
@@ -34,9 +37,6 @@
         <jaxrs:providers>
             <ref bean="jsonProvider" />
         </jaxrs:providers>
-        <jaxrs:inInterceptors>
-        	<ref bean="authValidatorInterceptor"/>
-        </jaxrs:inInterceptors>
     </jaxrs:server>
     
     <jaxrs:server id="portSessionService" address="/portal-session">
@@ -66,6 +66,18 @@
     <jaxrs:server id="usrService" address="/user">
         <jaxrs:serviceBeans>
             <ref bean="userService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:inInterceptors>
+        	<ref bean="authValidatorInterceptor"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+    
+    <jaxrs:server id="usrRoleService" address="/user-role">
+        <jaxrs:serviceBeans>
+            <ref bean="userRoleService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />

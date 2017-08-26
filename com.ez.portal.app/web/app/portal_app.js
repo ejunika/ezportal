@@ -77,6 +77,7 @@
                     .setSecure(false)
                     .setAppCtx('com.ez.portal')
                     .setBaseUrl('rest')
+                    .addUrl('GET_ALL_USER_SPACES_FOR_LOGIN', 'login/get-all-user-spaces')
                     .addUrl('DO_LOGIN', 'login/do-login')
                     .addUrl('SIGN_UP', 'login/sign-up')
                     .addUrl('LOGOUT', 'portal-session/logout/')

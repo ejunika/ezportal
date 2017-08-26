@@ -6,9 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 
 @MappedSuperclass
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractEntity implements Shardable {
 
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,12 @@
 <ul class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Library</a></li>
-    <li class="active">Add Object</li>
+    <li ng-repeat="breadcrumbStackItem in breadcrumbStack track by $index">
+    	<a href="javascript: void(0)" 
+    		ng-click="backToMainMenu($event)" 
+    		ng-if="!breadcrumbStackItem.isActive">
+    		{{breadcrumbStackItem.label}}
+   		</a>
+    	<span ng-if="breadcrumbStackItem.isActive">
+    		{{breadcrumbStackItem.label}}
+   		</span>
+   	</li>
 </ul>

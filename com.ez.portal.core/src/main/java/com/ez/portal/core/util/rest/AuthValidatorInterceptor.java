@@ -65,10 +65,10 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
 					portalSessionToken = authTokens.get(0);
 					isValidPortalSession = portalSessionServiceManager.checkPortalSession(portalSessionToken);
 					if (!isValidPortalSession) {
-						abortRequest(message);
+						abortRequest(message, "Session out or Invalid session");
 					}
 				} else {
-					ezShardUtil.initSessionFactory();
+					abortRequest(message, "Un-Authorized Access");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -79,12 +79,14 @@ public class AuthValidatorInterceptor extends AbstractPhaseInterceptor<Message> 
 	/**
 	 * @param message
 	 */
-	private void abortRequest(Message message) {
+	private void abortRequest(Message message, String causedBy) {
+		String responseText = "{\"status\": false, \"message\": \"" + causedBy + "\"}";
 		HttpServletResponse response = (HttpServletResponse) message.getExchange().getInMessage()
 				.get(AbstractHTTPDestination.HTTP_RESPONSE);
-		response.setStatus(201);
+		response.setStatus(401);
+		response.setContentType("application/json");
 		try {
-			response.getOutputStream().write("{\"status\": false, \"message\": \"Invalid session\"}".getBytes());
+			response.getOutputStream().write(responseText.getBytes());
 			response.getOutputStream().flush();
 		} catch (IOException e) {
 			e.printStackTrace();

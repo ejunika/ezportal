@@ -1,12 +1,17 @@
 package com.ez.portal.core.rest.service.impl;
 
 import com.ez.portal.core.request.LoginRequest;
+import com.ez.portal.core.request.UserSpaceRequest;
 import com.ez.portal.core.response.LoginResponse;
+import com.ez.portal.core.response.UserSpaceResponse;
 import com.ez.portal.core.rest.manager.LoginServiceManager;
 import com.ez.portal.core.rest.service.intf.LoginService;
 
 public class LoginServiceImpl implements LoginService {
 
+	/**
+	 * 
+	 */
 	private LoginServiceManager loginServiceManager;
 	
     /**
@@ -27,5 +32,10 @@ public class LoginServiceImpl implements LoginService {
     public LoginResponse doLogin(LoginRequest loginRequest) {
         return loginServiceManager.proceedLogin(loginRequest);
     }
+
+	@Override
+	public UserSpaceResponse getAllUserSpaces(UserSpaceRequest userSpaceRequest) throws Exception {
+		return loginServiceManager.getAllUserSpaces(userSpaceRequest);
+	}
 
 }

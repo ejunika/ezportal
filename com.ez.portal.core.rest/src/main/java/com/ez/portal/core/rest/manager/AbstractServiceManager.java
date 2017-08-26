@@ -1,6 +1,6 @@
 package com.ez.portal.core.rest.manager;
 
-import com.ez.portal.core.dao.manager.DAOManager;
+import com.ez.portal.core.dao.manager.intf.DAOManager;
 
 /**
  * @author azaz.akhtar

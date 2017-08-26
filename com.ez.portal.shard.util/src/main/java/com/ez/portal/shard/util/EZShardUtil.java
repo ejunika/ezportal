@@ -134,13 +134,14 @@ public class EZShardUtil {
 	}
 
 	/**
-	 * 
+	 * Initialize {@link SessionFactory} with all Shards
 	 */
 	public void initSessionFactory() {
 		sessionFactory = shardedSessionFactory;
 	}
 
 	/**
+	 * Initialize {@link SessionFactory} with specified Shards
 	 * @param shardKeys
 	 */
 	public void initSessionFactory(List<String> shardKeys) {
