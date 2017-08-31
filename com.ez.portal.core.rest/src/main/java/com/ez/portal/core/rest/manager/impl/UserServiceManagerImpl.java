@@ -8,7 +8,7 @@ import com.ez.portal.core.entity.User;
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.manager.intf.UserServiceManager;
-import com.ez.portal.core.util.EntityUtil;
+import com.ez.portal.core.util.EntryStatus;
 
 public class UserServiceManagerImpl implements UserServiceManager {
 
@@ -212,7 +212,7 @@ public class UserServiceManagerImpl implements UserServiceManager {
 
 	@Override
 	public UserResponse activateUser(Long userId) {
-		return changeUserEntryStatus(userId, EntityUtil.ACTIVE_ENTRY);
+		return changeUserEntryStatus(userId, EntryStatus.ACTIVE_ENTRY);
 	}
 
 	@Override
@@ -224,7 +224,7 @@ public class UserServiceManagerImpl implements UserServiceManager {
 			try {
 				user = daoManager.getUserDAO().get(userId);
 				if (user != null) {
-					user.setEntryStatus(EntityUtil.DELETED_ENTRY);
+					user.setEntryStatus(EntryStatus.DELETED_ENTRY);
 					try {
 						user = daoManager.getUserDAO().update(user);
 						if (user != null) {

@@ -13,7 +13,7 @@ import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserInfo;
-import com.ez.portal.core.util.EntityUtil;
+import com.ez.portal.core.util.EntryStatus;
 import com.ez.portal.core.util.PortalUtils;
 import com.ez.portal.core.util.UserUtil;
 
@@ -50,7 +50,7 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			session = getSessionFactory().openSession();
 			criteria = session.createCriteria(User.class);
 			criteria.add(Restrictions.eq("emailId", emailId));
-			criteria.add(Restrictions.eq("entryStatus", EntityUtil.ACTIVE_ENTRY));
+			criteria.add(Restrictions.eq("entryStatus", EntryStatus.ACTIVE_ENTRY));
 			user = (User) criteria.uniqueResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			session = getSessionFactory().openSession();
 			criteria = session.createCriteria(PortalSession.class);
 			criteria.add(Restrictions.eq("portalSessionToken", authenticationToken));
-			criteria.add(Restrictions.eq("entryStatus", EntityUtil.ACTIVE_ENTRY));
+			criteria.add(Restrictions.eq("entryStatus", EntryStatus.ACTIVE_ENTRY));
 			portalSession = (PortalSession) criteria.uniqueResult();
 			if (portalSession != null) {
 				user = portalSession.getCreatedBy();
@@ -130,7 +130,7 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			session = getSessionFactory().openSession();
 			criteria = session.createCriteria(PortalSession.class);
 			criteria.add(Restrictions.eq("portalSessionToken", portalSessionToken));
-			criteria.add(Restrictions.eq("entryStatus", EntityUtil.ACTIVE_ENTRY));
+			criteria.add(Restrictions.eq("entryStatus", EntryStatus.ACTIVE_ENTRY));
 			portalSession = (PortalSession) criteria.uniqueResult();
 			if (portalSession != null) {
 				user = portalSession.getCreatedBy();
@@ -235,10 +235,10 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 
 	@Override
 	public User createUser(User user) throws Exception {
-		user.setEntryStatus(EntityUtil.NEW_ENTRY);
+		user.setEntryStatus(EntryStatus.NEW_ENTRY);
 		user.setCreatedBy(getEzShardUtil().getActiveUser());
 		user.setUpdatedBy(getEzShardUtil().getActiveUser());
-		Password password = new Password(user, PortalUtils.getPasswordHash("admin"), EntityUtil.NEW_ENTRY);
+		Password password = new Password(user, PortalUtils.getPasswordHash("admin"), EntryStatus.NEW_ENTRY);
 		return createUser(user, password);
 	}
 
@@ -266,45 +266,21 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 
 	@Override
 	public Boolean unblockUser(Long userId) throws Exception {
-		Boolean result = false;
-		User user = null;
-		Password password = null;
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			session = getSessionFactory().openSession();
-			transaction = session.beginTransaction();
-			user = (User) session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).uniqueResult();
-			if (user != null) {
-				password = (Password) session.createCriteria(Password.class).add(Restrictions.eq("user", user))
-						.uniqueResult();
-				if (password != null) {
-					password.setEntryStatus(EntityUtil.ACTIVE_ENTRY);
-					session.update(password);
-					session.flush();
-					session.clear();
-					user.setEntryStatus(EntityUtil.ACTIVE_ENTRY);
-					session.update(user);
-					session.flush();
-					session.clear();
-					result = true;
-				}
-			}
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		} finally {
-			session.close();
-		}
-		return result;
+		return changeEntryStatusOfUser(userId, EntryStatus.ACTIVE_ENTRY);
 	}
 
 	@Override
 	public Boolean blockUser(Long userId) throws Exception {
+		return changeEntryStatusOfUser(userId, EntryStatus.BLOCKED_ENTRY);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Boolean changeEntryStatusOfUser(Long userId, Byte entryStatus) {
 		Boolean result = false;
 		User user = null;
 		Password password = null;
+		List<Password> passwords = null;
+		List<PortalSession> portalSessions;
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -312,14 +288,29 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			transaction = session.beginTransaction();
 			user = (User) session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).uniqueResult();
 			if (user != null) {
-				password = (Password) session.createCriteria(Password.class).add(Restrictions.eq("user", user))
-						.uniqueResult();
-				if (password != null) {
-					password.setEntryStatus(EntityUtil.BLOCKED_ENTRY);
-					session.update(password);
-					session.flush();
-					session.clear();
-					user.setEntryStatus(EntityUtil.BLOCKED_ENTRY);
+				if (entryStatus.equals(EntryStatus.BLOCKED_ENTRY)) {
+					portalSessions = session.createCriteria(PortalSession.class).add(Restrictions.eq("user", user))
+							.add(Restrictions.eq("entryStatus", EntryStatus.ACTIVE_ENTRY)).list();
+					if (portalSessions != null) {
+						for (PortalSession portalSession : portalSessions) {
+							portalSession.setEntryStatus(entryStatus);
+							session.update(portalSession);
+							session.flush();
+							session.clear();
+						}
+					}
+				}
+				passwords = session.createCriteria(Password.class).add(Restrictions.eq("user", user))
+						.addOrder(Order.desc("createdAt")).list();
+				if (passwords != null && !passwords.isEmpty()) {
+					password = passwords.get(0);
+					if (password != null) {
+						password.setEntryStatus(entryStatus);
+						session.update(password);
+						session.flush();
+						session.clear();
+					}
+					user.setEntryStatus(entryStatus);
 					session.update(user);
 					session.flush();
 					session.clear();

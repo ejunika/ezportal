@@ -9,6 +9,7 @@
     angular
         .module('portal_app', [
             'ngAnimate',
+            'toastr',
             'ui.router',
             'ngCookies',
             'portal_service.sdk'
@@ -18,7 +19,8 @@
             '$urlRouterProvider',
             '$httpProvider',
             '$portalHttpServiceProvider',
-            function ($stateProvider, $urlRouterProvider, $httpProvider, $portalHttpServiceProvider) {
+            'toastrConfig',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $portalHttpServiceProvider, toastrConfig) {
                 $stateProvider.state({
                    name: 'login',
                    url: '/login',
@@ -89,6 +91,17 @@
                     .addUrl('BLOCK_USER', 'user/block-user/')
                     .addUrl('UNBLOCK_USER', 'user/unblock-user/')
                     .addUrl('GET_ALL_USER_SPACES', 'user-space/get-all-user-spaces');
+                
+                angular.extend(toastrConfig, {
+                    autoDismiss: false,
+                    containerId: 'toast-container',
+                    maxOpened: 0,    
+                    newestOnTop: true,
+                    positionClass: 'toast-bottom-right',
+                    preventDuplicates: false,
+                    preventOpenDuplicates: false,
+                    target: 'body'
+                });
             }
         ]);
 });

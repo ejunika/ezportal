@@ -96,7 +96,7 @@
 			           		<td>{{user.username}}</td>
 			           		<td>{{user.userType}}</td>
 			           		<td>
-			           			<span class="label" ng-class="{'label-default': user.entryStatus == 'NEW', 'label-success': user.entryStatus == 'ACTIVE', 'label-warning': user.entryStatus == 'BLOCKED', 'label-info': user.entryStatus == 'ARCHIVED', 'label-danger': user.entryStatus == 'DELETED'}">
+			           			<span class="label" ng-class="{'label-default': user.entryStatus == ENTRY_STATUS.NEW, 'label-success': user.entryStatus == ENTRY_STATUS.ACTIVE, 'label-warning': user.entryStatus == ENTRY_STATUS.BLOCKED, 'label-info': user.entryStatus == ENTRY_STATUS.ARCHIVED, 'label-danger': user.entryStatus == ENTRY_STATUS.DELETED}">
 				           			{{user.entryStatus}}
 			           			</span>
 			           		</td>
@@ -105,13 +105,13 @@
 									ng-click="toggleBlockUser($event, user)" 
 									class="btn btn-sm btn-default">
 									<i class="glyphicon" 
-										ng-class="{'glyphicon-ban-circle': user.entryStatus == 'ACTIVE', 'glyphicon-flash': user.entryStatus == 'NEW' || user.entryStatus == 'BLOCKED', 'glyphicon-retweet': user.entryStatus == 'DELETED'}"></i>
+										ng-class="{'glyphicon-ban-circle': user.entryStatus == ENTRY_STATUS.ACTIVE, 'glyphicon-flash': user.entryStatus == ENTRY_STATUS.NEW || user.entryStatus == ENTRY_STATUS.BLOCKED, 'glyphicon-retweet': user.entryStatus == ENTRY_STATUS.DELETED}"></i>
 								</a>
 								<a href="#" class="btn btn-sm btn-default">
 									<i class="glyphicon glyphicon-edit"></i>
 								</a>
 								<a href="javascript: void(0)" 
-									ng-if="user.entryStatus != 'DELETED'"
+									ng-if="user.entryStatus != ENTRY_STATUS.DELETED"
 									ng-click="removeUser($event, user)"
 									class="btn btn-sm btn-default">
 									<i class="glyphicon glyphicon-trash"></i>

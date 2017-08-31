@@ -11,7 +11,7 @@ public abstract class AbstractServiceManager {
 	/**
 	 * 
 	 */
-	private DAOManager daoManager;
+	protected DAOManager daoManager;
 
 	/**
 	 * @return

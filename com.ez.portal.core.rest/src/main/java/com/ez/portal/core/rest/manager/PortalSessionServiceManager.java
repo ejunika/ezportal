@@ -1,13 +1,11 @@
 package com.ez.portal.core.rest.manager;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
-import com.ez.portal.core.util.EntityUtil;
+import com.ez.portal.core.util.EntryStatus;
 
 /**
  * @author azaz.akhtar
@@ -16,14 +14,9 @@ import com.ez.portal.core.util.EntityUtil;
 public class PortalSessionServiceManager extends AbstractServiceManager {
 
 	/**
-	 * PortalSession timeout for every session
+	 * PortalSession timeout in millisecond for every session
 	 */
 	public static final Long MAX_PORTAL_SESSION_DURATION = (long) (15 * 60 * 1000);
-
-	/**
-	 * 
-	 */
-	public static final Map<String, PortalSession> PORTAL_SESSION_MAP = new HashMap<>();
 
 	/**
 	 * @param user
@@ -33,11 +26,10 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 		String portalSessionToken = null;
 		if (user != null) {
 			try {
-				PortalSession portalSession = getDaoManager().getPortalSessionDAO()
-						.add(new PortalSession(EntityUtil.ACTIVE_ENTRY, generateSessionToken(), user));
+				PortalSession portalSession = daoManager.getPortalSessionDAO()
+						.add(new PortalSession(EntryStatus.ACTIVE_ENTRY, generateSessionToken(), user));
 				if (portalSession != null) {
 					portalSessionToken = portalSession.getPortalSessionToken();
-					PORTAL_SESSION_MAP.put(portalSessionToken, portalSession);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -54,11 +46,10 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 		String portalSessionToken = null;
 		if (user != null) {
 			try {
-				PortalSession portalSession = getDaoManager().getPortalSessionDAO().createSuperUserSession(
-						new PortalSession(EntityUtil.ACTIVE_ENTRY, generateSessionToken(), user));
+				PortalSession portalSession = daoManager.getPortalSessionDAO().createSuperUserSession(
+						new PortalSession(EntryStatus.ACTIVE_ENTRY, generateSessionToken(), user));
 				if (portalSession != null) {
 					portalSessionToken = portalSession.getPortalSessionToken();
-					PORTAL_SESSION_MAP.put(portalSessionToken, portalSession);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -76,10 +67,10 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 		PortalSession portalSession = null;
 		Long portalSessionActivityDuration = 0l;
 		try {
-			portalSession = getDaoManager().getPortalSessionDAO()
+			portalSession = daoManager.getPortalSessionDAO()
 					.getPortalSessionByPortalSessionToken(portalSessionToken);
 			if (portalSession != null) {
-				portalSession.setEntryStatus(EntityUtil.ARCHIVED_ENTRY);
+				portalSession.setEntryStatus(EntryStatus.ARCHIVED_ENTRY);
 				portalSession.setUpdatedAt(new Date());
 				portalSessionActivityDuration = getPortalSessionActivityDuration(portalSession);
 				if (portalSessionActivityDuration > MAX_PORTAL_SESSION_DURATION) {
@@ -87,8 +78,7 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 				} else {
 					portalSession.setPortalSessionDuration(portalSessionActivityDuration);
 				}
-				getDaoManager().getPortalSessionDAO().addOrUpdate(portalSession);
-				PORTAL_SESSION_MAP.remove(portalSessionToken);
+				daoManager.getPortalSessionDAO().addOrUpdate(portalSession);
 				result = true;
 			}
 		} catch (Exception e) {
@@ -106,18 +96,13 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 		Boolean result = false;
 		PortalSession portalSession = null;
 		try {
-			if (PORTAL_SESSION_MAP.containsKey(portalSessionToken)) {
-				portalSession = PORTAL_SESSION_MAP.get(portalSessionToken);
-			} else {
-				portalSession = getDaoManager().getPortalSessionDAO()
-						.getPortalSessionByPortalSessionToken(portalSessionToken);
-			}
+			portalSession = daoManager.getPortalSessionDAO()
+					.getPortalSessionByPortalSessionToken(portalSessionToken);
 			if (portalSession != null) {
 				setActiveUserAndShard(portalSession);
-				if (portalSession.getEntryStatus().equals(EntityUtil.ACTIVE_ENTRY)
+				if (portalSession.getEntryStatus().equals(EntryStatus.ACTIVE_ENTRY)
 						&& getPortalSessionInActivityDuration(portalSession) < MAX_PORTAL_SESSION_DURATION) {
-					portalSession = getDaoManager().getPortalSessionDAO().addOrUpdate(portalSession);
-					PORTAL_SESSION_MAP.put(portalSessionToken, portalSession);
+					portalSession = daoManager.getPortalSessionDAO().addOrUpdate(portalSession);
 					result = true;
 				} else {
 					makeSessionOut(portalSessionToken);
@@ -137,7 +122,7 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 	 */
 	private void setActiveUserAndShard(PortalSession portalSession) {
 		try {
-			getDaoManager().getPortalSessionDAO().setActiveUserAndShard(portalSession);
+			daoManager.getPortalSessionDAO().setActiveUserAndShard(portalSession);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,7 +162,14 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 	}
 
 	public User getActiveUser(String portalSessionToken) {
-		return PORTAL_SESSION_MAP.get(portalSessionToken).getUser();
+		User user = null;
+		try {
+			user = daoManager.getPortalSessionDAO().getPortalSessionByPortalSessionToken(portalSessionToken)
+					.getUser();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 }

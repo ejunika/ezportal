@@ -11,6 +11,7 @@
     	.factory('portal_util.fact', [
     		function () {
     			var portalUtil = PortalUtil.prototype;
+    			
     			portalUtil.getUserTypeFactory = function () {
     				return {
     					0: 'SUPER_USER',
@@ -23,6 +24,20 @@
     					7: 'OTHER_STAFF'
     				};
     			};
+    			
+    			portalUtil.getUserType = function () {
+    				return {
+    					'SUPER_USER'	: 0,
+    					'FIRST_USER'	: 1,
+    					'ADMIN'			: 2,
+    					'PRINCIPAL'		: 3,
+    					'FACULTY'		: 4,
+    					'ACCOUNTENT'	: 5,
+    					'STUDENT'		: 6,
+    					'OTHER_STAFF'	: 7
+    				};
+    			};
+    			
     			portalUtil.getEntryStatusFactory = function () {
     				return {
     					0: 'NEW',
@@ -32,6 +47,17 @@
     					4: 'ARCHIVED'
     				};
     			};
+    			
+    			portalUtil.getEntryStatus = function () {
+    				return {
+    					'NEW' 		: 0,
+    					'ACTIVE' 	: 1,
+    					'BLOCKED' 	: 2,
+    					'DELETED' 	: 3,
+    					'ARCHIVED' 	: 4
+    				};
+    			};
+    			
     			return new PortalUtil();
     			function PortalUtil() {}
     		}

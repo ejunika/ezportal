@@ -1,6 +1,6 @@
 package com.ez.portal.core.util;
 
-public class EntityUtil {
+public class EntryStatus {
 
 	public static final Byte NEW_ENTRY 			= 0;
 	public static final Byte ACTIVE_ENTRY 		= 1;

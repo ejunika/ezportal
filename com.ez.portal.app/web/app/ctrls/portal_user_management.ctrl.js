@@ -13,12 +13,21 @@
             '$state',
             '$portalHttpService',
             'portal_util.fact',
-            function ($scope, $state, $portalHttpService, portalUtilFactory) {
+            'toastr',
+            function ($scope, $state, $portalHttpService, portalUtilFactory, messageToaster) {
                 
+            	var TOASTER_OWNER = 'User Manager';
+            	var userTypeFactory = portalUtilFactory.getUserTypeFactory();
+        		var entryStatusFactory = portalUtilFactory.getEntryStatusFactory();
+        		var USER_TYPE = portalUtilFactory.getUserType();
+        		var ENTRY_STATUS = portalUtilFactory.getEntryStatus();
+            	
             	/**
                  * 
                  * */
             	$scope.init = function () {
+            		$scope.USER_TYPE = USER_TYPE;
+            		$scope.ENTRY_STATUS = ENTRY_STATUS;
             		$scope.isUserFormVisible = false;
             		$scope.user = {};
             		getAllUsers(function (users) {
@@ -127,6 +136,7 @@
 	                            if (response && response.data && response.data.status) {
 	                            	arguments[0] = response.data.users;
 	                            	cb.apply(this, arguments);
+	                            	messageToaster.success(TOASTER_OWNER, 'User List refreshed');
 	                            }
 	                        });
                 	}
@@ -172,8 +182,6 @@
                  * 
                  * */
             	function initUsers(users) {
-            		var userTypeFactory = portalUtilFactory.getUserTypeFactory();
-            		var entryStatusFactory = portalUtilFactory.getEntryStatusFactory();
             		angular.forEach(users, function (user, index) {
             			user.userType = userTypeFactory[user.userType];
             			user.entryStatus = entryStatusFactory[user.entryStatus];
@@ -185,10 +193,9 @@
                  * 
                  * */
             	function getUserTypes() {
-            		var userTypeFactory = portalUtilFactory.getUserTypeFactory();
             		var userTypes = [];
             		angular.forEach(userTypeFactory, function (typeName, typeKey) {
-            			if (typeKey != 0) {
+            			if (typeKey != USER_TYPE.SUPER_USER && typeKey != USER_TYPE.FIRST_USER) {
             				userTypes.push({
             					typeName: typeName,
             					typeKey: typeKey
