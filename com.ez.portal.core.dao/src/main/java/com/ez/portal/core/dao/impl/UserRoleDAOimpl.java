@@ -16,7 +16,6 @@ import com.ez.portal.core.entity.UserRole;
 public class UserRoleDAOimpl extends CommonDAOimpl<UserRole, Long> implements UserRoleDAO {
 
 	@Override
-	@SuppressWarnings("null")
 	public List<UserRole> createUserRoles(List<UserRole> userRoles) throws Exception {
 		Session session = null;
 		Transaction transaction = null;

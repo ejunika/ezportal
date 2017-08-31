@@ -58,7 +58,7 @@ public interface UserService {
 	 */
 	@GET
 	@Path("activate-user/{userId}")
-	UserResponse activeUser(@PathParam("userId") Long userId) throws Exception;
+	UserResponse activateUser(@PathParam("userId") Long userId) throws Exception;
 	
 	/**
 	 * @param userRequest

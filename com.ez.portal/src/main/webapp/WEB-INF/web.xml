@@ -55,6 +55,10 @@
                 US-KEY
             </param-value>
 		</init-param>
+		<init-param>
+			<param-name>cors.supportedMethods </param-name>
+			<param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>CORS</filter-name>

@@ -18,7 +18,7 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 	/**
 	 * PortalSession timeout for every session
 	 */
-	public static final Long MAX_PORTAL_SESSION_DURATION = (long) (5 * 60 * 1000);
+	public static final Long MAX_PORTAL_SESSION_DURATION = (long) (15 * 60 * 1000);
 
 	/**
 	 * 

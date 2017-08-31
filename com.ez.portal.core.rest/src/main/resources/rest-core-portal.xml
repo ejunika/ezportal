@@ -22,7 +22,7 @@
     <bean id="portalSessionServiceManager" class="com.ez.portal.core.rest.manager.PortalSessionServiceManager" autowire="byName" />
     
     <bean id="userService" class="com.ez.portal.core.rest.service.impl.UserServiceImpl" autowire="byName" />
-    <bean id="userServiceManager" class="com.ez.portal.core.rest.manager.UserServiceManager" autowire="byName" />
+    <bean id="userServiceManager" class="com.ez.portal.core.rest.manager.impl.UserServiceManagerImpl" autowire="byName" />
     
     <bean id="userSpaceService" class="com.ez.portal.core.rest.service.impl.UserSpaceServiceImpl" autowire="byName" />
     <bean id="userSpaceServiceManager" class="com.ez.portal.core.rest.manager.UserSpaceServiceManager" autowire="byName" />

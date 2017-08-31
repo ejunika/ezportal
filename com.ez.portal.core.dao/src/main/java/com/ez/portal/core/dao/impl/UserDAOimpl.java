@@ -14,6 +14,8 @@ import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
 import com.ez.portal.core.entity.UserInfo;
 import com.ez.portal.core.util.EntityUtil;
+import com.ez.portal.core.util.PortalUtils;
+import com.ez.portal.core.util.UserUtil;
 
 /**
  * @author azaz.akhtar
@@ -38,7 +40,7 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 		}
 		return user;
 	}
-	
+
 	@Override
 	public User getActiveUserByEmailId(String emailId) throws Exception {
 		User user = null;
@@ -229,6 +231,109 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			getEzShardUtil().setActiveUser(user);
 		}
 		return user;
+	}
+
+	@Override
+	public User createUser(User user) throws Exception {
+		user.setEntryStatus(EntityUtil.NEW_ENTRY);
+		user.setCreatedBy(getEzShardUtil().getActiveUser());
+		user.setUpdatedBy(getEzShardUtil().getActiveUser());
+		Password password = new Password(user, PortalUtils.getPasswordHash("admin"), EntityUtil.NEW_ENTRY);
+		return createUser(user, password);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<User> getAllPossibleUsers() throws Exception {
+		List<User> users = null;
+		Session session = null;
+		Criteria criteria = null;
+		try {
+			session = getSessionFactory().openSession();
+			criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.ne("userType", UserUtil.USER_TYPE_FIRST_USER));
+			criteria.add(Restrictions.ne("userId", getEzShardUtil().getActiveUser().getUserId()));
+			users = criteria.list();
+			session.flush();
+			session.clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return users;
+	}
+
+	@Override
+	public Boolean unblockUser(Long userId) throws Exception {
+		Boolean result = false;
+		User user = null;
+		Password password = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			user = (User) session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).uniqueResult();
+			if (user != null) {
+				password = (Password) session.createCriteria(Password.class).add(Restrictions.eq("user", user))
+						.uniqueResult();
+				if (password != null) {
+					password.setEntryStatus(EntityUtil.ACTIVE_ENTRY);
+					session.update(password);
+					session.flush();
+					session.clear();
+					user.setEntryStatus(EntityUtil.ACTIVE_ENTRY);
+					session.update(user);
+					session.flush();
+					session.clear();
+					result = true;
+				}
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return result;
+	}
+
+	@Override
+	public Boolean blockUser(Long userId) throws Exception {
+		Boolean result = false;
+		User user = null;
+		Password password = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			user = (User) session.createCriteria(User.class).add(Restrictions.eq("userId", userId)).uniqueResult();
+			if (user != null) {
+				password = (Password) session.createCriteria(Password.class).add(Restrictions.eq("user", user))
+						.uniqueResult();
+				if (password != null) {
+					password.setEntryStatus(EntityUtil.BLOCKED_ENTRY);
+					session.update(password);
+					session.flush();
+					session.clear();
+					user.setEntryStatus(EntityUtil.BLOCKED_ENTRY);
+					session.update(user);
+					session.flush();
+					session.clear();
+					result = true;
+				}
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 }

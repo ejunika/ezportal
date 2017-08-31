@@ -1,0 +1,4 @@
+.entertainer.ng-hide {
+	transition: 0.3s linear all;
+	opacity: 0;
+}

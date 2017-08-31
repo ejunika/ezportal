@@ -15,24 +15,47 @@ import com.ez.portal.core.entity.UserSpace;
 import com.ez.portal.core.util.EntityUtil;
 import com.ez.portal.core.util.UserUtil;
 
+/**
+ * @author azaz.akhtar
+ *
+ */
 public class PortalHibernateUtil {
 
+    /**
+     * 
+     */
     public static SessionFactory sessionFactory;
 
+    /**
+     * 
+     */
     private EZShardUtil ezShardUtil;
 
+    /**
+     * 
+     */
     public PortalHibernateUtil() {
         super();
     }
 
+    /**
+     * @param sessionFactory
+     */
     public void setSessionFactory(SessionFactory sessionFactory) {
         PortalHibernateUtil.sessionFactory = sessionFactory;
     }
 
+    /**
+     * @return
+     */
     public SessionFactory getSessionFactory() {
         return ezShardUtil.getSessionFactory();
     }
     
+    /**
+     * @param nonShard
+     * @return
+     */
     public SessionFactory getSessionFactory(Boolean nonShard) {
     	if (nonShard) {
     		return sessionFactory;
@@ -41,14 +64,23 @@ public class PortalHibernateUtil {
     	}
     }
     
+    /**
+     * @return
+     */
     public EZShardUtil getEzShardUtil() {
         return ezShardUtil;
     }
 
+    /**
+     * @param ezShardUtil
+     */
     public void setEzShardUtil(EZShardUtil ezShardUtil) {
         this.ezShardUtil = ezShardUtil;
     }
 
+    /**
+     * 
+     */
     @SuppressWarnings("unchecked")
     public void initShard() {
         Session session = null;
@@ -86,8 +118,11 @@ public class PortalHibernateUtil {
         }
     }
     
+    /**
+     * @param userSpace
+     */
     private void installFirstUserIn(UserSpace userSpace) {
-        User user = new User("akhtar.azaz@live.com", "ejudo", UserUtil.USER_TYPE_ADMIN, EntityUtil.ACTIVE_ENTRY);
+        User user = new User("akhtar.azaz@live.com", "ejudo", UserUtil.USER_TYPE_FIRST_USER, EntityUtil.ACTIVE_ENTRY);
         user.setShardKey(userSpace.getUserSpaceId().toString());
         Password password = null;
         Session session = null;
@@ -112,6 +147,11 @@ public class PortalHibernateUtil {
         }
     }
 
+    /**
+     * @param session
+     * @param transaction
+     * @return
+     */
     public Boolean installSuperAdmin(Session session, Transaction transaction) {
         User user = new User("akhtar.azaz@live.com", "ejudo", UserUtil.USER_TYPE_SUPER_USER, EntityUtil.ACTIVE_ENTRY);
         Password password = null;

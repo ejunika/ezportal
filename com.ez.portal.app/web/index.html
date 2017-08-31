@@ -7,11 +7,13 @@
         <link type="text/css" rel="stylesheet" href="css/portal_loader.style.css">
         <link type="text/css" rel="stylesheet" href="assets/contenttools-angularjs/contenttools-build/content-tools.min.css">
         <link type="text/css" rel="stylesheet" href="css/portal_fixed_header_table.css">
+        <link type="text/css" rel="stylesheet" href="css/portal_animation.style.css">
         <link type="text/css" rel="stylesheet" href="css/portal_app.style.css">
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js"></script>
         <script type="text/javascript" src="assets/contenttools-angularjs/contenttools-build/content-tools.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
@@ -19,11 +21,15 @@
     </head>
     <body ng-controller="portal_app.ctrl" ng-init="init()">
         <div class="full-size" ui-view="mainScreen"></div>
-        <portal-loader ng-show="showLoader"></portal-loader>
-        <script type="text/javascript" src="app/facts/portal_service.sdk.js"></script>
+        <portal-loader class="entertainer" ng-show="showLoader"></portal-loader>
         <script type="text/javascript" src="app/portal_app.js"></script>
+        <script type="text/javascript" src="app/facts/portal_service.sdk.js"></script>
+        <script type="text/javascript" src="app/facts/portal_util.fact.js"></script>
         <script type="text/javascript" src="app/dirs/portal_loader.dir.js"></script>
+        <script type="text/javascript" src="app/dirs/load_module.dir.js"></script>
         <script type="text/javascript" src="app/dirs/portal_header.dir.js"></script>
+        <script type="text/javascript" src="app/dirs/portal_menu.dir.js"></script>
+        <script type="text/javascript" src="app/dirs/portal_user_management.dir.js"></script>
         <script type="text/javascript" src="app/ctrls/portal_header.ctrl.js"></script>
         <script type="text/javascript" src="app/dirs/portal_breadcrumb.dir.js"></script>
         <script type="text/javascript" src="app/ctrls/portal_app.ctrl.js"></script>
@@ -31,5 +37,6 @@
         <script type="text/javascript" src="app/ctrls/su_login.ctrl.js"></script>
         <script type="text/javascript" src="app/ctrls/login.ctrl.js"></script>
         <script type="text/javascript" src="app/ctrls/sign_up.ctrl.js"></script>
+        <script type="text/javascript" src="app/ctrls/portal_user_management.ctrl.js"></script>
     </body>
 </html>

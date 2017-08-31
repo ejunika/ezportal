@@ -19,9 +19,6 @@
             	 * */
             	$scope.init = function () {
             		initAdminMenu();
-            		getAllUsers(function (users) {
-            			initUsers(users);
-            		});
                 };
                 
                 /**
@@ -55,26 +52,6 @@
                         .then(function (response) {
                             $scope.adminMenus = response.data;
                         });
-                }
-                
-                function getAllUsers(cb) {
-                	var users = [];
-                	if (angular.isFunction(cb)) {
-                		for (var i = 1; i < 100; i++) {
-                			users.push({
-                				userId: i,
-                				emailId: 'akhtar.azaz@live.com',
-                				username: 'ejudo',
-                				userType: 'ADMIN'
-                			});
-                		}
-                		arguments[0] = users;
-                		cb.apply(this, arguments);
-                	}
-                }
-                
-                function initUsers(users) {
-                	$scope.users = users;
                 }
             }
         ]);

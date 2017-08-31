@@ -2,14 +2,25 @@
     {
         "id": "USER_MANAGEMENT",
         "label": "User Management",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-user"
         }
     },
     {
+        "id": "ROLES_N_PERMISSIONS_MANAGEMENT",
+        "label": "User Roles and Access Permissions Management",
+        "isEnable": true,
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-cog"
+        }
+    },
+    {
         "id": "LIBRARY_MANAGEMENT",
         "label": "Library Management",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-book"
@@ -18,6 +29,7 @@
     {
         "id": "DATA_MANAGEMENT",
         "label": "Data Management",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-briefcase"
@@ -26,6 +38,7 @@
     {
         "id": "STUDENT_MANAGEMENT",
         "label": "Student Management",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-briefcase"
@@ -34,6 +47,7 @@
     {
         "id": "ACCOUNT_MANAGEMENT",
         "label": "Account Management",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-piggy-bank"
@@ -42,6 +56,7 @@
     {
         "id": "PORTAL_APPS",
         "label": "Applications",
+        "isEnable": true,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-th-large"

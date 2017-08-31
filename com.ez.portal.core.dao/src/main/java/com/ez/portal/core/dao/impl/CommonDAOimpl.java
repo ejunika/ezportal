@@ -74,6 +74,7 @@ public abstract class CommonDAOimpl<E extends AbstractEntity, ID extends Seriali
             session = getSessionFactory(nonShard).openSession();
             transaction = session.beginTransaction();
             entity.setUpdatedAt(new Date());
+            entity.setUpdatedBy(getEzShardUtil().getActiveUser());
             session.update(entity);
             transaction.commit();
         } catch (Exception e) {

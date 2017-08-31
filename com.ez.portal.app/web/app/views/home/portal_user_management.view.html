@@ -1,0 +1,126 @@
+<div class="portal-user-management-wrapper" ng-init="init()">
+	<form class="form-horizontal" ng-if="isUserFormVisible">
+   		<div class="form-group">
+   			<label for="emailId" class="col-md-3 control-label">Email</label>
+   			<div class="col-md-6">
+   				<input type="text" 
+   					class="form-control" 
+   					id="emailId" 
+   					ng-model="user.emailId" 
+   					placeholder="Email" />
+   			</div>
+   		</div>
+   		<div class="form-group">
+   			<label for="username" class="col-md-3 control-label">User Name</label>
+   			<div class="col-md-6">
+   				<input type="text" 
+   					class="form-control" 
+   					id="username" 
+   					ng-model="user.username"
+   					placeholder="User Name" />
+   			</div>
+   		</div>
+   		<div class="form-group">
+   			<label for="userType" class="col-md-3 control-label">User Type</label>
+   			<div class="col-md-6">
+   				<select class="form-control" 
+   					ng-model="selectedUserType" 
+   					ng-change="onChangeUserType($event, selectedUserType)" 
+   					ng-options="userType as userType.typeName for userType in userTypes">
+   				</select>
+   			</div>
+   		</div>
+   		<div class="form-group">
+	      	<div class="col-md-6 col-lg-offset-3">
+	        	<div class="pull-right">
+	        		<button type="reset" class="btn btn-sm btn-default">Reset</button>
+	        		<button ng-click="saveUser($event, user)" 
+	        			type="submit" class="btn btn-sm btn-primary">Save</button>
+	        	</div>
+	      	</div>
+	    </div>
+   	</form>
+	<div class="portal-user-management-details" ng-if="!isUserFormVisible">
+		<div class="pull-right">
+			<a ng-click="showUserForm()" class="btn btn-sm btn-default">
+				Add User
+			</a>
+			<a ng-click="reloadUsers()" class="btn btn-sm btn-default">
+				<i class="glyphicon glyphicon-refresh"></i>
+			</a>
+		</div>
+		<div class="clearFix"></div>
+		<div class="fixed-table-container hidden-head">
+	 		<div class="header-background"></div>
+	   		<div class="fixed-table-container-inner">
+	     		<table cellspacing="0">
+	     			<thead>
+	         			<tr>
+			           		<th class="first">
+			             		<div class="th-inner">Email Id</div>
+			           		</th>
+			           		<th>
+			             		<div class="th-inner">User Name</div>
+			           		</th>
+			           		<th>
+			             		<div class="th-inner">User Type</div>
+			           		</th>
+			           		<th>
+								<div class="th-inner">Status</div>
+							</th>
+			           		<th>
+			             		<div class="th-inner">Actions</div>
+			           		</th>
+						</tr>
+						<tr class="hidden-header">
+							<th class="first">
+								<div class="th-inner">Email Id</div>
+							</th>
+							<th>
+								<div class="th-inner">User Name</div>
+							</th>
+							<th>
+								<div class="th-inner">User Type</div>
+							</th>
+							<th>
+								<div class="th-inner">Status</div>
+							</th>
+							<th>
+								<div class="th-inner">Actions</div>
+							</th>
+						</tr>
+					</thead>
+	      			<tbody>
+	      				<tr ng-repeat="user in users track by user.userId">
+			           		<td><a href="javascript: void(0)">{{user.emailId}}</a></td>
+			           		<td>{{user.username}}</td>
+			           		<td>{{user.userType}}</td>
+			           		<td>
+			           			<span class="label" ng-class="{'label-default': user.entryStatus == 'NEW', 'label-success': user.entryStatus == 'ACTIVE', 'label-warning': user.entryStatus == 'BLOCKED', 'label-info': user.entryStatus == 'ARCHIVED', 'label-danger': user.entryStatus == 'DELETED'}">
+				           			{{user.entryStatus}}
+			           			</span>
+			           		</td>
+			           		<td style="width: 115px;">
+								<a href="javascript: void(0)" 
+									ng-click="toggleBlockUser($event, user)" 
+									class="btn btn-sm btn-default">
+									<i class="glyphicon" 
+										ng-class="{'glyphicon-ban-circle': user.entryStatus == 'ACTIVE', 'glyphicon-flash': user.entryStatus == 'NEW' || user.entryStatus == 'BLOCKED', 'glyphicon-retweet': user.entryStatus == 'DELETED'}"></i>
+								</a>
+								<a href="#" class="btn btn-sm btn-default">
+									<i class="glyphicon glyphicon-edit"></i>
+								</a>
+								<a href="javascript: void(0)" 
+									ng-if="user.entryStatus != 'DELETED'"
+									ng-click="removeUser($event, user)"
+									class="btn btn-sm btn-default">
+									<i class="glyphicon glyphicon-trash"></i>
+								</a>
+			           		</td>
+	          			</tr>
+	      			</tbody>
+	     		</table>
+	   		</div>
+	 	</div>
+	</div>
+</div>

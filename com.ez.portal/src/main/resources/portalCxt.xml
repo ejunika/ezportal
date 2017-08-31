@@ -52,8 +52,7 @@
         
     </bean>
     
-    <bean id="sessionFactory" 
-        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="comboPooledDataSource" />
         <property name="annotatedClasses">
             <list>
@@ -91,6 +90,7 @@
                 <value>com.ez.portal.core.entity.AccessPermission</value>
                 <value>com.ez.portal.core.entity.Login</value>
                 <value>com.ez.portal.core.entity.PortalSession</value>
+                <value>com.ez.portal.core.entity.PortalConfiguration</value>
                 <value>com.ez.portal.core.entity.FileFolderNode</value>
                 
                 <value>com.ez.portal.library.entity.LibraryObjectType</value>

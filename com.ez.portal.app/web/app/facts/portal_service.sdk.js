@@ -128,6 +128,15 @@
             });
         };
         
+        portalHttpServiceProto.put = function (url, reqData) {
+        	var portalHttpService = this;
+        	return portalHttpService.$http({
+        		method: 'PUT',
+        		url: portalHttpService.buildUrl(url),
+        		data: reqData
+        	});
+        };
+        
         portalHttpServiceProto.buildUrl = function (url) {
             var portalHttpService = this, 
             urlToken = url.split('/'), 

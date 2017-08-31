@@ -35,6 +35,8 @@
             			}
             		];
             		
+            		$scope.launchedModule = {};
+            		
             		
 //            		var ws = new WebSocket('ws://192.168.0.101:8082/com.ez.portal/questions');
 //
@@ -68,6 +70,7 @@
                     	label: menu.label,
                     	isActive: true
                     });
+                    $scope.launchedModule = '<portal-user-management></portal-user-management>';
                     $scope.isMenuLaunched = true;
                 };
                 

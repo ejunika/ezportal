@@ -44,6 +44,13 @@ public interface UserDAO extends CommonDAO<User, Long> {
     User createUser(User user, Password password, List<UserInfo> userInfos) throws Exception;
     
     /**
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    User createUser(User user) throws Exception;
+    
+    /**
      * @param authenticationToken
      * @return
      * @throws Exception
@@ -85,5 +92,25 @@ public interface UserDAO extends CommonDAO<User, Long> {
 	 * @throws Exception
 	 */
 	User getActiveUserByEmailId(String emailId, String shardKey) throws Exception;
+	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	List<User> getAllPossibleUsers() throws Exception;
+	
+	/**
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean unblockUser(Long userId) throws Exception;
+
+	/**
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean blockUser(Long userId) throws Exception;
         
 }

@@ -8,6 +8,7 @@
     'use strict';
     angular
         .module('portal_app', [
+            'ngAnimate',
             'ui.router',
             'ngCookies',
             'portal_service.sdk'
@@ -72,7 +73,7 @@
                 $httpProvider.interceptors.push('portal_interceptor.srvc');
                 
                 $portalHttpServiceProvider
-                    .setDomain('192.168.0.101')
+                    .setDomain('localhost')
                     .setPort('8082')
                     .setSecure(false)
                     .setAppCtx('com.ez.portal')
@@ -82,6 +83,11 @@
                     .addUrl('SIGN_UP', 'login/sign-up')
                     .addUrl('LOGOUT', 'portal-session/logout/')
                     .addUrl('CHECK_PORTAL_SESSION', 'portal-session/check-portal-session/')
+                    .addUrl('GET_ALL_USERS', 'user/get-all-users')
+                    .addUrl('CREATE_USER', 'user/add-user')
+                    .addUrl('REMOVE_USER', 'user/remove-user/')
+                    .addUrl('BLOCK_USER', 'user/block-user/')
+                    .addUrl('UNBLOCK_USER', 'user/unblock-user/')
                     .addUrl('GET_ALL_USER_SPACES', 'user-space/get-all-user-spaces');
             }
         ]);
