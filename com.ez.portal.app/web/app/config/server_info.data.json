@@ -1,0 +1,6 @@
+{
+	"domain": "localhost",
+	"port": "8082",
+	"appCtx": "ezportal",
+	"secure": false
+}

@@ -1,0 +1,14 @@
+{
+    "GET_ALL_USER_SPACES_FOR_LOGIN": "login/get-all-user-spaces",
+    "DO_LOGIN": "login/do-login",
+    "SIGN_UP": "login/sign-up",
+    "LOGOUT": "portal-session/logout/",
+    "CHECK_PORTAL_SESSION": "portal-session/check-portal-session/",
+    "GET_ALL_USERS": "user/get-all-users",
+    "CREATE_USER": "user/add-user",
+    "REMOVE_USER": "user/remove-user/",
+    "BLOCK_USER": "user/block-user/",
+    "UNBLOCK_USER": "user/unblock-user/",
+    "GET_ALL_USER_SPACES": "user-space/get-all-user-spaces",
+    "GET_USER_SPACES": "user-space/get-user-spaces"
+}

@@ -1,5 +1,7 @@
 package com.ez.portal.core.request;
 
+import com.ez.portal.core.entity.UserSpace;
+
 public class UserSpaceRequest extends AbstractRequest {
 
 	/**
@@ -11,6 +13,11 @@ public class UserSpaceRequest extends AbstractRequest {
 	 * 
 	 */
 	private String emailId;
+	
+	/**
+	 * 
+	 */
+	private UserSpace userSpace;
 
 	/**
 	 * @return the emailId
@@ -24,6 +31,20 @@ public class UserSpaceRequest extends AbstractRequest {
 	 */
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
+	}
+
+	/**
+	 * @return the userSpace
+	 */
+	public UserSpace getUserSpace() {
+		return userSpace;
+	}
+
+	/**
+	 * @param userSpace the userSpace to set
+	 */
+	public void setUserSpace(UserSpace userSpace) {
+		this.userSpace = userSpace;
 	}
 
 }

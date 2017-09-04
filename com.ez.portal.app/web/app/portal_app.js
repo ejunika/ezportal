@@ -10,6 +10,7 @@
         .module('portal_app', [
             'ngAnimate',
             'toastr',
+            'cp.ngConfirm',
             'ui.router',
             'ngCookies',
             'portal_service.sdk'

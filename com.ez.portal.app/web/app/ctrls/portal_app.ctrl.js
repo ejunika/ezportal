@@ -13,10 +13,9 @@
             '$scope', 
             '$cookies',
             '$state',
-            '$log', 
-            'portal_interceptor.srvc',
             '$portalHttpService',
-            function ($rootScope, $scope, $cookies, $state, $log, portalInterceptorService, $portalHttpService) {
+            'toastr',
+            function ($rootScope, $scope, $cookies, $state, $portalHttpService, messageToaster) {
             	
             	/**
             	 * Initialize portal_app.ctrl
@@ -62,7 +61,6 @@
                  * Launches the menu
                  * */
                 $scope.launchMenu = function (e, menu) {
-                    $log.info(menu);
                     angular.forEach($scope.breadcrumbStack, function (breadcrumbStackItem, index) {
                     	breadcrumbStackItem.isActive = false;
                     });
@@ -70,7 +68,14 @@
                     	label: menu.label,
                     	isActive: true
                     });
-                    $scope.launchedModule = '<portal-user-management></portal-user-management>';
+                    switch(menu.id) {
+                    case 'USER_MANAGEMENT':
+                    	$scope.launchedModule = '<portal-user-management></portal-user-management>';
+                    	break;
+                    case 'DATABASE_MANAGEMENT':
+                    	$scope.launchedModule = '<portal-db-manager></portal-db-manager>';
+                    	break;
+                    }
                     $scope.isMenuLaunched = true;
                 };
                 
@@ -109,6 +114,11 @@
                 
                 $scope.$on('portal.handle_loader', function (e, flag) {
                     $scope.showLoader = flag; 
+                });
+                
+                $scope.$on('portal.message_toaster', function (e, data) {
+                	messageToaster.error(data.message, 'Session Manager');
+                	$state.go('login');
                 });
             }
         ]);

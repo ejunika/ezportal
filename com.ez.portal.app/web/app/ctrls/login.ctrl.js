@@ -13,8 +13,11 @@
             '$cookies',
             '$state',
             '$portalHttpService',
-            function ($scope, $cookies, $state, $portalHttpService) {
+            'toastr',
+            function ($scope, $cookies, $state, $portalHttpService, messageToaster) {
                 
+            	var TOASTER_OWNER = 'Login Manager';
+            	
             	/**
                  * A temporary variable to hold the emailId for last emailId used for querying
                  * the userSpaces for specified emailId.
@@ -92,11 +95,15 @@
                             })
                             .then(function (response) {
                                 if (response.data.status) {
-                                	if (response.data.authenticationToken) {
-                                		$portalHttpService.setAuthToken(response.data.authenticationToken);
-                                		$portalHttpService.setLoggedInUser(response.data.user);
+                                	if (response.data.portalResponseCode == 200) {
+                                		if (response.data.authenticationToken) {
+                                			$portalHttpService.setAuthToken(response.data.authenticationToken);
+                                			$portalHttpService.setLoggedInUser(response.data.user);
+                                			$state.go('adminHome');
+                                		}
+                                	} else {
+                                		messageToaster.info(response.data.message, TOASTER_OWNER);
                                 	}
-                                    $state.go('adminHome');
                                 }
                             });
                     }

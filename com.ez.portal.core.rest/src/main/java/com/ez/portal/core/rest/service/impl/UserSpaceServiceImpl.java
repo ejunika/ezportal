@@ -35,4 +35,14 @@ public class UserSpaceServiceImpl implements UserSpaceService {
 		return userSpaceServiceManager.getAllUserSpaces(portalUserSpaceRequest);
 	}
 
+	@Override
+	public UserSpaceResponse getUserSpaces() throws Exception {
+		return userSpaceServiceManager.getUserSpaces();
+	}
+
+	@Override
+	public UserSpaceResponse createUserSpace(UserSpaceRequest portalUserSpaceRequest) throws Exception {
+		return userSpaceServiceManager.createUserSpace(portalUserSpaceRequest);
+	}
+
 }

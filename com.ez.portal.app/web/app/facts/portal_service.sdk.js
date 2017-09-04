@@ -72,6 +72,9 @@
         };
         portalInterceptorService.responseError = function (rejection) {
             $rootScope.$broadcast('portal.handle_loader', false);
+            if (rejection.data && !rejection.data.status) {
+            	$rootScope.$broadcast('portal.message_toaster', rejection.data);
+            }
             return rejection;
         };
     }
@@ -81,9 +84,11 @@
         
         portalHttpService = new PortalHttpService();
         
-        this.$get = ['$http', '$cookies', function ($http, $cookies) {
+        this.$get = ['$http', '$cookies', 'toastr', function ($http, $cookies, messageToaster) {
             portalHttpService.$http = $http;
             portalHttpService.$cookies = $cookies;
+            portalHttpService.messageToaster = messageToaster;
+            portalHttpService.loadConfig();
             return portalHttpService;
         }];
         
@@ -152,6 +157,20 @@
             
             absoluteUrl += urlToken.join('/');
             return absoluteUrl;
+        };
+        
+        portalHttpServiceProto.loadConfig = function () {
+        	var portalHttpService = this;
+        	portalHttpService
+        		.getJson('app/config/server_info.data.json')
+        		.then(function (serverInfoResponse) {
+        			angular.extend(portalHttpService, serverInfoResponse.data);
+        		});
+        	portalHttpService
+        		.getJson('app/config/portal_url.data.json')
+        		.then(function (portalUrlResponse) {
+        			angular.extend(portalHttpService.Url, portalUrlResponse.data);
+        		});
         };
         
         function PortalHttpService($http) {

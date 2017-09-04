@@ -28,6 +28,11 @@ public abstract class AbstractResponse implements Serializable {
     private Boolean status;
     
     /**
+     * 
+     */
+    private Integer portalResponseCode;
+    
+    /**
      * @return
      */
     public String getMessage() {
@@ -56,6 +61,20 @@ public abstract class AbstractResponse implements Serializable {
     }
     
     /**
+	 * @return the portalResponseCode
+	 */
+	public Integer getPortalResponseCode() {
+		return portalResponseCode;
+	}
+
+	/**
+	 * @param portalResponseCode the portalResponseCode to set
+	 */
+	public void setPortalResponseCode(Integer portalResponseCode) {
+		this.portalResponseCode = portalResponseCode;
+	}
+
+	/**
      * 
      */
     public void resetResponse() {

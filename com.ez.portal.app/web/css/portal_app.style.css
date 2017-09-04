@@ -4,7 +4,7 @@ html {
 }
 
 body {
-	height: 100%;
+	height: calc(100% - 1px);
 	width: 100%;
 }
 
@@ -45,7 +45,7 @@ body {
 }
 
 .portal-home-main {
-	height: calc(100% - 103px);
+	height: calc(100% - 102px);
     overflow: auto;
 }
 

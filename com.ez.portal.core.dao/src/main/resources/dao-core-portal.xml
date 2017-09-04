@@ -19,6 +19,8 @@
     
     <bean id="userDAO" class="com.ez.portal.core.dao.impl.UserDAOimpl" autowire="byName" />
     
+    <bean id="dbServerDAO" class="com.ez.portal.core.dao.impl.DBServerDAOimpl" autowire="byName" />
+    
     <bean id="userSpaceDAO" class="com.ez.portal.core.dao.impl.UserSpaceDAOimpl" autowire="byName" />
     
     <bean id="passwordDAO" class="com.ez.portal.core.dao.impl.PasswordDAOimpl" autowire="byName" />

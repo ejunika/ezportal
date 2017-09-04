@@ -24,6 +24,8 @@
     <bean id="userService" class="com.ez.portal.core.rest.service.impl.UserServiceImpl" autowire="byName" />
     <bean id="userServiceManager" class="com.ez.portal.core.rest.manager.impl.UserServiceManagerImpl" autowire="byName" />
     
+    <bean id="dbServerServiceManager" class="com.ez.portal.core.rest.manager.impl.DBServerServiceManagerImpl" autowire="byName" />
+    
     <bean id="userSpaceService" class="com.ez.portal.core.rest.service.impl.UserSpaceServiceImpl" autowire="byName" />
     <bean id="userSpaceServiceManager" class="com.ez.portal.core.rest.manager.UserSpaceServiceManager" autowire="byName" />
     

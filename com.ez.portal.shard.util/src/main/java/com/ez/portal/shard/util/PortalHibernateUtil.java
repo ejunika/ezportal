@@ -77,7 +77,7 @@ public class PortalHibernateUtil {
     public void setEzShardUtil(EZShardUtil ezShardUtil) {
         this.ezShardUtil = ezShardUtil;
     }
-
+    
     /**
      * 
      */
@@ -97,10 +97,10 @@ public class PortalHibernateUtil {
                 System.out.println("Installing default user space...");
                 transaction = session.beginTransaction();
                 installUserSpace("RKDF_CE", "RKDF College of Engineering", transaction);
-//                installUserSpace("RKDF_MAIN", "RKDF Main", transaction);
-//                installUserSpace("RADHA_RAMAN", "Radha Raman", transaction);
-//                installUserSpace("BANSAL", "Bansal College of Engineering", transaction);
-//                installUserSpace("RGTU", "Rajeev Gandhi Technical University", transaction);
+                installUserSpace("RKDF_MAIN", "RKDF Main", transaction);
+                installUserSpace("RADHA_RAMAN", "Radha Raman", transaction);
+                installUserSpace("BANSAL", "Bansal College of Engineering", transaction);
+                installUserSpace("RGTU", "Rajeev Gandhi Technical University", transaction);
                 installUserSpace("UIT", "University Institute of Technology", transaction);
                 installSuperAdmin(session, transaction);
                 spaces = criteria.list();
@@ -173,6 +173,10 @@ public class PortalHibernateUtil {
         return success;
     }
     
+    /**
+     * @param userSpace
+     * @return
+     */
     public List<HibernateProperty> getHibernateProperties(UserSpace userSpace) {
         List<HibernateProperty> hibernateProperties = new ArrayList<>();
         hibernateProperties.add(new HibernateProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect", EntryStatus.ACTIVE_ENTRY));
@@ -188,6 +192,12 @@ public class PortalHibernateUtil {
         return hibernateProperties;
     };
 
+    /**
+     * @param userSpaceName
+     * @param displayName
+     * @param transaction
+     * @return
+     */
     public UserSpace installUserSpace(String userSpaceName, String displayName, Transaction transaction) {
         UserSpace userSpace = new UserSpace(userSpaceName, displayName, EntryStatus.ACTIVE_ENTRY);
         List<HibernateProperty> hibernateProperties = null;

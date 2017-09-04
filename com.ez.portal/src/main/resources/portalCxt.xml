@@ -19,7 +19,7 @@
     
     <cxf:bus>
         <cxf:features>
-            <cxf:logging/>
+<!--             <cxf:logging/> -->
         </cxf:features>
     </cxf:bus>
     
@@ -57,6 +57,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.ez.portal.core.entity.UserSpace</value>
+                <value>com.ez.portal.core.entity.DBServer</value>
                 <value>com.ez.portal.core.entity.HibernateProperty</value>
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Password</value>

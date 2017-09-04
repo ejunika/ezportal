@@ -99,15 +99,25 @@ public class LoginServiceManager extends AbstractServiceManager {
                 if (authority) {
                     authenticationToken = portalSessionServiceManager.createSession(user);
                     loginResponse.setAuthenticationToken(authenticationToken);
-                    loginResponse.setUser(user);
                     loginResponse.setMessage("Logged in successful");
                     loginResponse.setStatus(true);
+                    loginResponse.setPortalResponseCode(200);
+                } else {
+                	loginResponse.setMessage("Invalid Email/Password");
+                    loginResponse.setStatus(true);
+                    loginResponse.setPortalResponseCode(500);
                 }
+                loginResponse.setUser(user);
+            } else {
+            	loginResponse.setMessage("Not authorized to login");
+                loginResponse.setStatus(true);
+                loginResponse.setPortalResponseCode(401);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            loginResponse.setMessage("Logged in un-successful");
+            loginResponse.setMessage(e.getMessage());
             loginResponse.setStatus(false);
+            loginResponse.setPortalResponseCode(500);
         }
         return loginResponse;
 	}

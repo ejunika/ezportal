@@ -9,6 +9,8 @@ import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.ez.portal.core.util.EntryStatus;
+
 
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -40,6 +42,7 @@ public abstract class AbstractEntity implements Shardable {
         super();
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.entryStatus = EntryStatus.NEW_ENTRY;
     }
     
     public AbstractEntity(Byte entryStatus) {

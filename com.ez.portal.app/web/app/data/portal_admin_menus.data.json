@@ -18,6 +18,15 @@
         }
     },
     {
+        "id": "DATABASE_MANAGEMENT",
+        "label": "Database Management",
+        "isEnable": true,
+        "icon": {
+            "group": "glyphicon",
+            "clazz": "glyphicon-align-justify"
+        }
+    },
+    {
         "id": "LIBRARY_MANAGEMENT",
         "label": "Library Management",
         "isEnable": true,

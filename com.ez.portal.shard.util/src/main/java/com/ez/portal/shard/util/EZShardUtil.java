@@ -107,6 +107,9 @@ public class EZShardUtil {
 	 * @param shardKeys
 	 */
 	public void initSessionFactory(String[] shardKeys) {
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 		sessionFactory = getSessionFactory(shardKeys);
 	}
 
@@ -114,6 +117,9 @@ public class EZShardUtil {
 	 * @param shardKey
 	 */
 	public void initSessionFactory(String shardKey) {
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 		sessionFactory = getSessionFactory(shardKey);
 	}
 
@@ -121,6 +127,9 @@ public class EZShardUtil {
 	 * Initialize {@link SessionFactory} with all shardKeys
 	 */
 	public void initSessionFactory() {
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 		sessionFactory = shardedConfiguration.buildShardedSessionFactory();
 	}
 
@@ -130,6 +139,9 @@ public class EZShardUtil {
 	 * @param shardKeys
 	 */
 	public void initSessionFactory(List<String> shardKeys) {
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 		sessionFactory = getSessionFactory(shardKeys);
 	}
 
@@ -262,7 +274,7 @@ public class EZShardUtil {
 			shardStrategyFactory = buildShardStrategyFactory();
 			shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory,
 					VIRTUAL_SHARD);
-			shardedConfiguration.buildShardedSessionFactory();
+			sessionFactory = shardedConfiguration.buildShardedSessionFactory();
 		} else {
 			throw new Exception("UserSpaceNotFoundException");
 		}
@@ -287,7 +299,7 @@ public class EZShardUtil {
 			shardStrategyFactory = buildShardStrategyFactory();
 			shardedConfiguration = new ShardedConfiguration(ptConfig, shardConfigurations, shardStrategyFactory,
 					VIRTUAL_SHARD);
-			shardedConfiguration.buildShardedSessionFactory();
+			sessionFactory = shardedConfiguration.buildShardedSessionFactory();
 		}
 		return this;
 	}
@@ -345,7 +357,7 @@ public class EZShardUtil {
 	 */
 	public void buildShard(List<UserSpace> spaces) throws Exception {
 		if (spaces != null && !spaces.isEmpty()) {
-			configure(spaces).initSessionFactory();
+			configure(spaces);
 		} else {
 			throw new Exception("UserSpaceNotFoundException");
 		}

@@ -1,6 +1,7 @@
 package com.ez.portal.core.dao.manager.intf;
 
 import com.ez.portal.core.dao.intf.AccessPermissionDAO;
+import com.ez.portal.core.dao.intf.DBServerDAO;
 import com.ez.portal.core.dao.intf.PasswordDAO;
 import com.ez.portal.core.dao.intf.PortalSessionDAO;
 import com.ez.portal.core.dao.intf.UserDAO;
@@ -38,5 +39,10 @@ public interface DAOManager {
 	 * @return
 	 */
 	AccessPermissionDAO getAccessPermissionDAO();
+
+	/**
+	 * @return
+	 */
+	DBServerDAO getDbServerDAO();
 	
 }

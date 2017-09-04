@@ -1,0 +1,219 @@
+<div class="portal-db-manager-wrapper" ng-init="init()" style="margin-top: 15px">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					<form class="panel-form" 
+  						role="search" 
+  						style="display: inline-block;">
+        				<div class="">
+          					<input type="text" 
+          						class="form-control" 
+          						placeholder="Search" 
+          						style="height: 28px">
+        				</div>
+      				</form>
+  					<span class="pull-right">
+  						<a href="javascript: void(0)" 
+  							class="btn btn-sm btn-default">
+	  						<i class="glyphicon glyphicon-plus"></i>
+	  					</a>
+	  					<a ng-click="reloadUserSpaces()" class="btn btn-sm btn-default">
+							<i class="glyphicon glyphicon-refresh"></i>
+						</a>
+  					</span>
+  					<div class="clear-fix"></div>
+  				</div>
+			  	<div class="panel-body">
+			    	<ul class="list-group">
+						<li class="list-group-item" ng-repeat="userSpace in userSpaces track by userSpace.userSpaceId">
+    						<span>{{userSpace.userSpaceDisplayName}}</span>
+    						<span class="pull-right">
+		  						<a href="javascript: void(0)" 
+		  							class="btn btn-sm btn-default">
+			  						<i class="glyphicon glyphicon-eye-open"></i>
+			  					</a>
+		  						<a href="javascript: void(0)" 
+		  							class="btn btn-sm btn-default">
+			  						<i class="glyphicon glyphicon-edit"></i>
+			  					</a>
+		  						<a href="javascript: void(0)" 
+		  							class="btn btn-sm btn-default">
+			  						<i class="glyphicon glyphicon-ban-circle"></i>
+			  					</a>
+		  					</span>
+		  					<span class="clear-fix"></span>
+  						</li>
+  					</ul>
+			  	</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					Create Space
+  				</div>
+			  	<div class="panel-body">
+			    	<div class="row">
+			    		<div class="col-md-12" ng-if="!isEnableServerForm">
+			    			<form class="form-horizontal">
+    							<div class="form-group">
+      								<label for="spaceName" 
+      									class="col-md-4 control-label">
+      									Space Name
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="spaceName" 
+        									placeholder="Space Name" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="spaceDisplayName" 
+      									class="col-md-4 control-label">
+      									Space Display Name
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="spaceDisplayName" 
+        									placeholder="Space Display Name" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="dbServer" 
+      									class="col-md-4 control-label">
+      									Database Server
+   									</label>
+      								<div class="col-md-5">
+        								<select id="dbServer" class="form-control">
+        									<option>RKDF MySql 1</option>
+        									<option>RKDF MySql 2</option>
+        									<option>RKDF MySql 3</option>
+        								</select>
+      								</div>
+      								<div class="col-md-2">
+        								<a href="javascript: void(0)" 
+        									ng-click="enableServerForm($event)" 
+				  							class="btn btn-sm btn-default">
+					  						<i class="glyphicon glyphicon-plus"></i>
+					  					</a>
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<div class="col-md-5 col-md-offset-4">
+								        <div class="pull-right">
+								        	<a href="javascript: void(0)" class="btn btn-sm btn-default">Cancel</a>
+								        	<a href="javascript: void(0)" class="btn btn-sm btn-primary">Save</a>
+								        </div>
+								        <div class="clear-fix"></div>
+							      	</div>
+							    </div>
+    						</form>
+			    		</div>
+			    		<div class="col-md-12" ng-if="isEnableServerForm">
+			    			<form class="form-horizontal">
+    							<div class="form-group">
+      								<label for="serverName" 
+      									class="col-md-4 control-label">
+      									Server Name
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="serverName" 
+        									placeholder="Server Name" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverIP" 
+      									class="col-md-4 control-label">
+      									Server IP
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="serverIP" 
+        									placeholder="172.0.0.1" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverPort" 
+      									class="col-md-4 control-label">
+      									Server Port
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="serverPort" 
+        									placeholder="3306" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverType" 
+      									class="col-md-4 control-label">
+      									Server Type
+   									</label>
+      								<div class="col-md-5">
+        								<select id="serverType" class="form-control">
+        									<option>MySql Server</option>
+        									<option>MS SQL Server</option>
+        									<option>Oracle Server</option>
+        								</select>
+      								</div>
+      								<div class="col-md-2">
+        								<a href="javascript: void(0)" 
+				  							class="btn btn-sm btn-default">
+					  						<i class="glyphicon glyphicon-plus"></i>
+					  					</a>
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverUsername" 
+      									class="col-md-4 control-label">
+      									Server Username
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									id="serverUsername" 
+        									placeholder="3306" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverPassword" 
+      									class="col-md-4 control-label">
+      									Server Password
+   									</label>
+      								<div class="col-md-5">
+        								<input type="password" 
+        									class="form-control" 
+        									id="serverPassword" 
+        									placeholder="S3cr1t" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<div class="col-md-5 col-md-offset-4">
+								        <div class="pull-right">
+								        	<a href="javascript: void(0)" 
+								        		class="btn btn-sm btn-default">
+								        		Cancel
+							        		</a>
+								        	<a href="javascript: void(0)" 
+								        		ng-click="saveServer($event)" 
+								        		class="btn btn-sm btn-primary">
+								        		Save
+							        		</a>
+								        </div>
+								        <div class="clear-fix"></div>
+							      	</div>
+							    </div>
+    						</form>
+			    		</div>
+			    	</div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,7 @@
 package com.ez.portal.core.dao.manager.impl;
 
 import com.ez.portal.core.dao.intf.AccessPermissionDAO;
+import com.ez.portal.core.dao.intf.DBServerDAO;
 import com.ez.portal.core.dao.intf.PasswordDAO;
 import com.ez.portal.core.dao.intf.PortalSessionDAO;
 import com.ez.portal.core.dao.intf.UserDAO;
@@ -34,6 +35,11 @@ public class DAOManagerImpl implements DAOManager {
 	 * 
 	 */
 	private UserRoleDAO userRoleDAO;
+	
+	/**
+	 * 
+	 */
+	private DBServerDAO dbServerDAO;
 	
 	/**
 	 * 
@@ -110,5 +116,20 @@ public class DAOManagerImpl implements DAOManager {
 	 */
 	public void setAccessPermissionDAO(AccessPermissionDAO accessPermissionDAO) {
 		this.accessPermissionDAO = accessPermissionDAO;
+	}
+
+	/**
+	 * @return the dbServerDAO
+	 */
+	@Override
+	public DBServerDAO getDbServerDAO() {
+		return dbServerDAO;
+	}
+
+	/**
+	 * @param dbServerDAO the dbServerDAO to set
+	 */
+	public void setDbServerDAO(DBServerDAO dbServerDAO) {
+		this.dbServerDAO = dbServerDAO;
 	}
 }

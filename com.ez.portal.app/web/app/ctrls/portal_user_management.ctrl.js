@@ -14,7 +14,8 @@
             '$portalHttpService',
             'portal_util.fact',
             'toastr',
-            function ($scope, $state, $portalHttpService, portalUtilFactory, messageToaster) {
+            '$ngConfirm',
+            function ($scope, $state, $portalHttpService, portalUtilFactory, messageToaster, $ngConfirm) {
                 
             	var TOASTER_OWNER = 'User Manager';
             	var userTypeFactory = portalUtilFactory.getUserTypeFactory();
@@ -56,11 +57,32 @@
                 $scope.removeUser = function (e, user) {
                 	var userId = user.userId;
                 	if (userId) {
-                		removeUser(userId, function (restUsers, removedUsers) {
-                			if (restUsers) {
-                				initUsers(restUsers);
-                			}
-                		});
+	                	$ngConfirm({
+	                        title: 'Confirm!',
+	                        content: 'Do you want to delete this user?',
+	                        scope: $scope,
+	                        buttons: {
+	                            no: {
+	                            	text: 'No',
+	                            	btnClass: 'btn-green',
+	                            	action: function (scope, button) {
+	                            		return true;
+	                            	}
+	                            },
+	                            yes: {
+	                                text: 'Yes',
+	                                btnClass: 'btn-sm btn-blue',
+	                                action: function (scope, button) {
+	                                    removeUser(userId, function (users) {
+	                            			if (users) {
+	                            				initUsers(users);
+	                            			}
+	                            		});
+	                                    return true;
+	                                }
+	                            }
+	                        }
+	                    });
                 	}
                 };
                 
@@ -71,17 +93,59 @@
                 	var userId = user.userId, entryStatus = user.entryStatus;
                 	if (userId) {
                 		if (entryStatus == 'ACTIVE') {
-                			blockUser(userId, function (restUsers, removedUsers) {
-                				if (restUsers) {
-                					initUsers(restUsers);
-                				}
-                			});
+                			$ngConfirm({
+    	                        title: 'Confirm!',
+    	                        content: 'Do you want to block this user?',
+    	                        scope: $scope,
+    	                        buttons: {
+    	                            no: {
+    	                            	text: 'No',
+    	                            	btnClass: 'btn-green',
+    	                            	action: function (scope, button) {
+    	                            		return true;
+    	                            	}
+    	                            },
+    	                            yes: {
+    	                                text: 'Yes',
+    	                                btnClass: 'btn-sm btn-blue',
+    	                                action: function (scope, button) {
+    	                                	blockUser(userId, function (users) {
+    	                        				if (users) {
+    	                        					initUsers(users);
+    	                        				}
+    	                        			});
+    	                                    return true;
+    	                                }
+    	                            }
+    	                        }
+    	                    });
                 		} else {
-                			unblockUser(userId, function (restUsers, removedUsers) {
-                				if (restUsers) {
-                					initUsers(restUsers);
-                				}
-                			});
+                			$ngConfirm({
+    	                        title: 'Confirm!',
+    	                        content: 'Do you want to activate this user?',
+    	                        scope: $scope,
+    	                        buttons: {
+    	                            no: {
+    	                            	text: 'No',
+    	                            	btnClass: 'btn-green',
+    	                            	action: function (scope, button) {
+    	                            		return true;
+    	                            	}
+    	                            },
+    	                            yes: {
+    	                                text: 'Yes',
+    	                                btnClass: 'btn-sm btn-blue',
+    	                                action: function (scope, button) {
+    	                                	unblockUser(userId, function (users) {
+    	                        				if (users) {
+    	                        					initUsers(users);
+    	                        				}
+    	                        			});
+    	                                    return true;
+    	                                }
+    	                            }
+    	                        }
+    	                    });
                 		}
                 	}
                 };
@@ -136,7 +200,7 @@
 	                            if (response && response.data && response.data.status) {
 	                            	arguments[0] = response.data.users;
 	                            	cb.apply(this, arguments);
-	                            	messageToaster.success(TOASTER_OWNER, 'User List refreshed');
+	                            	messageToaster.info('User list refreshed', TOASTER_OWNER);
 	                            }
 	                        });
                 	}

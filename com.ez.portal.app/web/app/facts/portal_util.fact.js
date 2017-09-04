@@ -50,11 +50,11 @@
     			
     			portalUtil.getEntryStatus = function () {
     				return {
-    					'NEW' 		: 0,
-    					'ACTIVE' 	: 1,
-    					'BLOCKED' 	: 2,
-    					'DELETED' 	: 3,
-    					'ARCHIVED' 	: 4
+    					'NEW' 		: 'NEW',
+    					'ACTIVE' 	: 'ACTIVE',
+    					'BLOCKED' 	: 'BLOCKED',
+    					'DELETED' 	: 'DELETED',
+    					'ARCHIVED' 	: 'ARCHIVED'
     				};
     			};
     			

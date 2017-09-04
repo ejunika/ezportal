@@ -6,7 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -42,6 +44,10 @@ public class UserSpace extends AbstractEntity {
      */
     @Column(name = "USER_SPACE_DISPLAY_NAME")
     private String userSpaceDisplayName;
+    
+    @OneToOne
+    @JoinColumn(name = "DB_SERVER_ID")
+    private DBServer dbServer;
     
     /**
      * @return userSpaceDisplayName
@@ -140,5 +146,19 @@ public class UserSpace extends AbstractEntity {
     public void setHibernateProperties(List<HibernateProperty> hibernateProperties) {
         this.hibernateProperties = hibernateProperties;
     }
+
+	/**
+	 * @return the dbServer
+	 */
+	public DBServer getDbServer() {
+		return dbServer;
+	}
+
+	/**
+	 * @param dbServer the dbServer to set
+	 */
+	public void setDbServer(DBServer dbServer) {
+		this.dbServer = dbServer;
+	}
 
 }
