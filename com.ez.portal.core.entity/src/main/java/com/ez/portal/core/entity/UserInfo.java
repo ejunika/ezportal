@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,8 +25,9 @@ public class UserInfo extends AbstractEntity {
     @Column(name = "USER_INFO_ID")
     private Long userInfoId;
     
-    @Column(name = "USER_INFO_NAME")
-    private String userInfoName;
+    @OneToOne
+    @JoinColumn(name = "USER_INFO_KEY")
+    private InfoKey infoKey;
     
     @Column(name = "USER_INFO_VALUE")
     private String userInfoValue;
@@ -33,21 +35,26 @@ public class UserInfo extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+    
+    public UserInfo() {
+    	super();
+    }
+    
+    public UserInfo(InfoKey infoKey, String userInfoValue, User user, Byte entryStatus, String shardKey) {
+		super(entryStatus, shardKey);
+		this.infoKey = infoKey;
+		this.userInfoValue = userInfoValue;
+		this.user = user;
+	}
 
-    public Long getUserInfoId() {
+
+
+	public Long getUserInfoId() {
         return userInfoId;
     }
 
     public void setUserInfoId(Long userInfoId) {
         this.userInfoId = userInfoId;
-    }
-
-    public String getUserInfoName() {
-        return userInfoName;
-    }
-
-    public void setUserInfoName(String userInfoName) {
-        this.userInfoName = userInfoName;
     }
 
     public String getUserInfoValue() {
@@ -65,5 +72,13 @@ public class UserInfo extends AbstractEntity {
     public void setUser(User user) {
         this.user = user;
     }
+
+	public InfoKey getInfoKey() {
+		return infoKey;
+	}
+
+	public void setInfoKey(InfoKey infoKey) {
+		this.infoKey = infoKey;
+	}
     
 }

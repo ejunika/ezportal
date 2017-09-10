@@ -11,6 +11,7 @@
             'ngAnimate',
             'toastr',
             'cp.ngConfirm',
+            'isteven-multi-select',
             'ui.router',
             'ngCookies',
             'portal_service.sdk'

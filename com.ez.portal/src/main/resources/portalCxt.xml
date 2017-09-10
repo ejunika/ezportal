@@ -61,6 +61,7 @@
                 <value>com.ez.portal.core.entity.HibernateProperty</value>
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Password</value>
+                <value>com.ez.portal.core.entity.InfoKey</value>
                 <value>com.ez.portal.core.entity.UserInfo</value>
                 <value>com.ez.portal.core.entity.Login</value>
                 <value>com.ez.portal.core.entity.PortalSession</value>
@@ -86,6 +87,7 @@
             <list merge="true">
                 <value>com.ez.portal.core.entity.User</value>
                 <value>com.ez.portal.core.entity.Password</value>
+                <value>com.ez.portal.core.entity.InfoKey</value>
                 <value>com.ez.portal.core.entity.UserInfo</value>
                 <value>com.ez.portal.core.entity.UserRole</value>
                 <value>com.ez.portal.core.entity.AccessPermission</value>

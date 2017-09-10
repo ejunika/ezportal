@@ -98,6 +98,7 @@
                 			.then(function (response) {
                 				if (response && response.data && response.data.status) {
                 					$portalHttpService.setLoggedInUser(response.data.user);
+                					$portalHttpService.setUserSpace(response.data.userSpace);
                 					if (angular.isFunction(cb)) {
                 						cb.call(this, response.data.user);
                 					}

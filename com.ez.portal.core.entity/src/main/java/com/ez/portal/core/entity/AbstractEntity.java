@@ -52,6 +52,14 @@ public abstract class AbstractEntity implements Shardable {
     	this.entryStatus = entryStatus;
     }
     
+    public AbstractEntity(Byte entryStatus, String shardKey) {
+    	super();
+    	this.createdAt = new Date();
+    	this.updatedAt = new Date();
+    	this.entryStatus = entryStatus;
+    	this.shardKey = shardKey;
+    }
+    
     public AbstractEntity(User createdBy, User updatedBy) {
         super();
         this.createdAt = new Date();

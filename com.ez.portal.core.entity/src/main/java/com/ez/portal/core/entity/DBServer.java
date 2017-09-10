@@ -31,6 +31,9 @@ public class DBServer extends AbstractEntity {
 	@Column(name = "DB_SERVER_NAME")
 	private String dbServerName;
 	
+	@Column(name = "DB_SERVER_DISPLAY_NAME")
+	private String dbServerDisplayName;
+	
 	@Column(name = "DB_SERVER_IP")
 	private String dbServerIP;
 	
@@ -112,6 +115,14 @@ public class DBServer extends AbstractEntity {
 
 	public void setDbServerPassword(String dbServerPassword) {
 		this.dbServerPassword = dbServerPassword;
+	}
+
+	public String getDbServerDisplayName() {
+		return dbServerDisplayName;
+	}
+
+	public void setDbServerDisplayName(String dbServerDisplayName) {
+		this.dbServerDisplayName = dbServerDisplayName;
 	}
 	
 }

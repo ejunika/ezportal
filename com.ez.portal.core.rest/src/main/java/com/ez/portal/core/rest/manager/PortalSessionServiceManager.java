@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
+import com.ez.portal.core.entity.UserSpace;
 import com.ez.portal.core.util.EntryStatus;
 
 /**
@@ -170,6 +171,16 @@ public class PortalSessionServiceManager extends AbstractServiceManager {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+	public UserSpace getUserSpace(String portalSessionToken) {
+		UserSpace userSpace = null;
+		try {
+			userSpace = daoManager.getPortalSessionDAO().getUserSpaceByPortalSessionToken(portalSessionToken);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userSpace;
 	}
 
 }

@@ -49,6 +49,10 @@
                         password: ''
                     };
                     
+                    $scope.userSpaceLocalLang = {
+                    	nothingSelected: 'Select a space'
+                    };
+                    
                     if ($portalHttpService.loggedInUser) {
                     	$scope.checkSession();
                     }
@@ -70,8 +74,10 @@
                             .then(function (response) {
                                 if (response.data && response.data.status) {
                                     $scope.userSpaces = response.data.userSpaces;
-                                    if ($scope.userSpaces.length > 0) {
-                                    	$scope.selectedUserSpace = $scope.userSpaces[0];
+                                    if ($scope.userSpaces.length == 0) {
+                                    	messageToaster.error('User doesn\'t exists', TOASTER_OWNER);
+                                    } else if ($scope.userSpaces.length == 1) {
+                                    	$scope.userSpaces[0].selected = true;
                                     }
                                 }
                             });
@@ -87,25 +93,31 @@
                  * */
                 $scope.doLogin = function (e, login) {
                     if (login.password) {
-                        $portalHttpService
-                            .post($portalHttpService.Url.DO_LOGIN, {
-                                emailId: login.emailId,
-                                password: login.password,
-                                shardKey: $scope.selectedUserSpace.userSpaceId
-                            })
-                            .then(function (response) {
-                                if (response.data.status) {
-                                	if (response.data.portalResponseCode == 200) {
-                                		if (response.data.authenticationToken) {
-                                			$portalHttpService.setAuthToken(response.data.authenticationToken);
-                                			$portalHttpService.setLoggedInUser(response.data.user);
-                                			$state.go('adminHome');
-                                		}
-                                	} else {
-                                		messageToaster.info(response.data.message, TOASTER_OWNER);
-                                	}
-                                }
-                            });
+                        if ($scope.userSpaces.length > 0 && login.userSpaces.length == 1) {
+                        	$portalHttpService
+	                            .post($portalHttpService.Url.DO_LOGIN, {
+	                                emailId: login.emailId,
+	                                password: login.password,
+	                                shardKey: login.userSpaces[0].userSpaceId
+	                            })
+	                            .then(function (response) {
+	                                if (response.data.status) {
+	                                	if (response.data.portalResponseCode == 200) {
+	                                		if (response.data.authenticationToken) {
+	                                			$portalHttpService.setAuthToken(response.data.authenticationToken);
+	                                			$portalHttpService.setLoggedInUser(response.data.user);
+	                                			$state.go('adminHome');
+	                                		}
+	                                	} else {
+	                                		messageToaster.info(response.data.message, TOASTER_OWNER);
+	                                	}
+	                                }
+	                            });
+                        } else {
+                        	messageToaster.info('Please select a space', TOASTER_OWNER);
+                        }
+                    } else {
+                    	messageToaster.info('Please enter password', TOASTER_OWNER);
                     }
                 };
             }

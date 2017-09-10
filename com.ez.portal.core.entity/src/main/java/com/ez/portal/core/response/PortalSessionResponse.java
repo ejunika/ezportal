@@ -3,6 +3,7 @@ package com.ez.portal.core.response;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.ez.portal.core.entity.User;
+import com.ez.portal.core.entity.UserSpace;
 
 @XmlRootElement(name = "portalSessionResponse")
 public class PortalSessionResponse extends AbstractResponse {
@@ -21,6 +22,11 @@ public class PortalSessionResponse extends AbstractResponse {
 	 * 
 	 */
 	private User user;
+	
+	/**
+	 * 
+	 */
+	private UserSpace userSpace;
 
 	/**
 	 * @return the authenticationToken
@@ -55,6 +61,14 @@ public class PortalSessionResponse extends AbstractResponse {
 		this.authenticationToken = null;
 		this.user = null;
 		super.resetResponse();
+	}
+
+	public UserSpace getUserSpace() {
+		return userSpace;
+	}
+
+	public void setUserSpace(UserSpace userSpace) {
+		this.userSpace = userSpace;
 	}
 
 }

@@ -17,119 +17,126 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "USER")
 @XmlRootElement(name = "user")
 public class User extends AbstractEntity {
-    
+
 	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
-    @Id
-    @GeneratedValue(generator = "UserIdGenerator")
-    @GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.TableHiLoGenerator")
-    @Column(name = "USER_ID")
-    private Long userId;
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(generator = "UserIdGenerator")
+	@GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.TableHiLoGenerator")
+	@Column(name = "USER_ID")
+	private Long userId;
 
-    /**
-     * 
-     */
-    @Column(name = "EMAIL_ID", unique = true)
-    private String emailId;
+	/**
+	 * 
+	 */
+	@Column(name = "EMAIL_ID", unique = true)
+	private String emailId;
 
-    /**
-     * 
-     */
-    @Column(name = "USERNAME", unique = true)
-    private String username;
-    
-    /**
-     * 
-     */
-    @Column(name = "USER_TYPE")
-    private Byte userType;
-    
-    /**
-     * 
-     */
-    public User() {
-        super();
-    }
-    
-    /**
-     * @param emailId
-     * @param username
-     * @param userType
-     */
-    public User(String emailId, String username, Byte userType) {
-        super();
-        this.emailId = emailId;
-        this.username = username;
-        this.userType = userType;
-    }
-    
-    public User(String emailId, String username, Byte userType, Byte entryStatus) {
-    	super(entryStatus);
-    	this.emailId = emailId;
-    	this.username = username;
-    	this.userType = userType;
-    }
-    
-    /**
-     * @return
-     */
-    public Long getUserId() {
-        return userId;
-    }
+	/**
+	 * 
+	 */
+	@Column(name = "USERNAME", unique = true)
+	private String username;
 
-    /**
-     * @param userId
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	/**
+	 * 
+	 */
+	@Column(name = "USER_TYPE")
+	private Byte userType;
 
-    /**
-     * @return
-     */
-    public String getEmailId() {
-        return emailId;
-    }
+	/**
+	 * 
+	 */
+	public User() {
+		super();
+	}
 
-    /**
-     * @param emailId
-     */
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
+	/**
+	 * @param emailId
+	 * @param username
+	 * @param userType
+	 */
+	public User(String emailId, String username, Byte userType) {
+		super();
+		this.emailId = emailId;
+		this.username = username;
+		this.userType = userType;
+	}
 
-    /**
-     * @return
-     */
-    public String getUsername() {
-        return username;
-    }
+	public User(String emailId, String username, Byte userType, Byte entryStatus) {
+		super(entryStatus);
+		this.emailId = emailId;
+		this.username = username;
+		this.userType = userType;
+	}
 
-    /**
-     * @param username
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public User(String emailId, String username, Byte userType, Byte entryStatus, String shardKey) {
+		super(entryStatus, shardKey);
+		this.emailId = emailId;
+		this.username = username;
+		this.userType = userType;
+	}
 
-    /**
-     * @return
-     */
-    public Byte getUserType() {
-        return userType;
-    }
+	/**
+	 * @return
+	 */
+	public Long getUserId() {
+		return userId;
+	}
 
-    /**
-     * @param userType
-     */
-    public void setUserType(Byte userType) {
-        this.userType = userType;
-    }
+	/**
+	 * @param userId
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getEmailId() {
+		return emailId;
+	}
+
+	/**
+	 * @param emailId
+	 */
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return
+	 */
+	public Byte getUserType() {
+		return userType;
+	}
+
+	/**
+	 * @param userType
+	 */
+	public void setUserType(Byte userType) {
+		this.userType = userType;
+	}
 
 }

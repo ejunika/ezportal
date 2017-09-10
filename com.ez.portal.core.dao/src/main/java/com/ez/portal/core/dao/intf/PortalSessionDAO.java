@@ -1,6 +1,7 @@
 package com.ez.portal.core.dao.intf;
 
 import com.ez.portal.core.entity.PortalSession;
+import com.ez.portal.core.entity.UserSpace;
 
 /**
  * @author azaz.akhtar
@@ -27,5 +28,12 @@ public interface PortalSessionDAO extends CommonDAO<PortalSession, Long> {
      * @throws Exception
      */
     void setActiveUserAndShard(PortalSession portalSession) throws Exception;
+
+	/**
+	 * @param portalSessionToken
+	 * @return
+	 * @throws Exception
+	 */
+	UserSpace getUserSpaceByPortalSessionToken(String portalSessionToken) throws Exception;
     
 }

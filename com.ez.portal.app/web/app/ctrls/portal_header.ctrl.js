@@ -22,7 +22,7 @@
                 	$scope.checkSession(function (loggedInUser, userSpace) {
                 		$scope.loggedInUser = loggedInUser;
                 		$portalHttpService.setLoggedInUser(loggedInUser);
-                		initCustomerInfo(userSpace);
+                		initCustomerInfo($portalHttpService.userSpace);
                     });
                 };
                 

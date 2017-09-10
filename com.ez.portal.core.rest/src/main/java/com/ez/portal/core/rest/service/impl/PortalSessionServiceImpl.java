@@ -52,6 +52,7 @@ public class PortalSessionServiceImpl implements PortalSessionService {
 	public PortalSessionResponse checkPortalSession(String portalSessionToken) throws Exception {
 		portalSessionResponse.resetResponse();
 		if (portalSessionServiceManager.checkPortalSession(portalSessionToken)) {
+			portalSessionResponse.setUserSpace(portalSessionServiceManager.getUserSpace(portalSessionToken));
 			portalSessionResponse.setAuthenticationToken(portalSessionToken);
 			portalSessionResponse.setUser(portalSessionServiceManager.getActiveUser(portalSessionToken));
 			portalSessionResponse.setMessage("Session is active");

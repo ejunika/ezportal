@@ -14,6 +14,8 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd"> 
+        
+    <bean id="gZIPOutInterceptor" class="org.apache.cxf.transport.common.gzip.GZIPOutInterceptor" />
     
     <bean id="loginService" class="com.ez.portal.core.rest.service.impl.LoginServiceImpl" autowire="byName" />
     <bean id="loginServiceManager" class="com.ez.portal.core.rest.manager.LoginServiceManager" autowire="byName" />
@@ -75,6 +77,9 @@
         <jaxrs:inInterceptors>
         	<ref bean="authValidatorInterceptor"/>
         </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+        	<ref bean="gZIPOutInterceptor"/>
+        </jaxrs:outInterceptors>
     </jaxrs:server>
     
     <jaxrs:server id="usrRoleService" address="/user-role">

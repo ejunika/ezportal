@@ -116,6 +116,11 @@
         	portalHttpService.loggedInUser = loggedInUser;
         };
         
+        portalHttpServiceProto.setUserSpace = function (userSpace) {
+        	var portalHttpService = this;
+        	portalHttpService.userSpace = userSpace;
+        };
+        
         portalHttpServiceProto.getJson = function (url) {
             var portalHttpService = this;
             return portalHttpService.$http({

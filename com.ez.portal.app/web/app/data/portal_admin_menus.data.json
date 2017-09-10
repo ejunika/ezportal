@@ -56,7 +56,7 @@
     {
         "id": "ACCOUNT_MANAGEMENT",
         "label": "Account Management",
-        "isEnable": true,
+        "isEnable": false,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-piggy-bank"
@@ -65,7 +65,7 @@
     {
         "id": "PORTAL_APPS",
         "label": "Applications",
-        "isEnable": true,
+        "isEnable": false,
         "icon": {
             "group": "glyphicon",
             "clazz": "glyphicon-th-large"

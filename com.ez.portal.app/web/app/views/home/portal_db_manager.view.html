@@ -27,6 +27,12 @@
 			  	<div class="panel-body">
 			    	<ul class="list-group">
 						<li class="list-group-item" ng-repeat="userSpace in userSpaces track by userSpace.userSpaceId">
+    						<div class="led-box" ng-if="userSpace.entryStatus == 0">
+							    <div class="led led-red"></div>
+						  	</div>
+    						<div class="led-box" ng-if="userSpace.entryStatus == 1">
+							    <div class="led led-green"></div>
+						  	</div>
     						<span>{{userSpace.userSpaceDisplayName}}</span>
     						<span class="pull-right">
 		  						<a href="javascript: void(0)" 
@@ -64,6 +70,7 @@
    									</label>
       								<div class="col-md-5">
         								<input type="text" 
+        									ng-model="userSpace.userSpaceName"
         									class="form-control" 
         									id="spaceName" 
         									placeholder="Space Name" />
@@ -77,6 +84,7 @@
       								<div class="col-md-5">
         								<input type="text" 
         									class="form-control" 
+        									ng-model="userSpace.userSpaceDisplayName"
         									id="spaceDisplayName" 
         									placeholder="Space Display Name" />
       								</div>
@@ -87,11 +95,16 @@
       									Database Server
    									</label>
       								<div class="col-md-5">
-        								<select id="dbServer" class="form-control">
-        									<option>RKDF MySql 1</option>
-        									<option>RKDF MySql 2</option>
-        									<option>RKDF MySql 3</option>
-        								</select>
+										<isteven-multi-select class="full-width" 
+											input-model="dbServers" 
+											selection-mode="single" 
+											helper-elements="filter" 
+											translation="dbServerLocalLang" 
+										    output-model="userSpace.dbServer"
+										    button-label="dbServerDisplayName"
+										    item-label="dbServerDisplayName"
+										    tick-property="selected">
+										</isteven-multi-select>
       								</div>
       								<div class="col-md-2">
         								<a href="javascript: void(0)" 
@@ -105,7 +118,11 @@
       								<div class="col-md-5 col-md-offset-4">
 								        <div class="pull-right">
 								        	<a href="javascript: void(0)" class="btn btn-sm btn-default">Cancel</a>
-								        	<a href="javascript: void(0)" class="btn btn-sm btn-primary">Save</a>
+								        	<a href="javascript: void(0)" 
+								        		ng-click="createSpace($event, userSpace)" 
+								        		class="btn btn-sm btn-primary">
+								        		Save
+							        		</a>
 								        </div>
 								        <div class="clear-fix"></div>
 							      	</div>
@@ -122,8 +139,22 @@
       								<div class="col-md-5">
         								<input type="text" 
         									class="form-control" 
+        									ng-model="newDBServer.dbServerName"
         									id="serverName" 
         									placeholder="Server Name" />
+      								</div>
+    							</div>
+    							<div class="form-group">
+      								<label for="serverDisplayName" 
+      									class="col-md-4 control-label">
+      									Server Display Name
+   									</label>
+      								<div class="col-md-5">
+        								<input type="text" 
+        									class="form-control" 
+        									ng-model="newDBServer.dbServerDisplayName"
+        									id="serverDisplayName" 
+        									placeholder="Server Display Name" />
       								</div>
     							</div>
     							<div class="form-group">
@@ -134,6 +165,7 @@
       								<div class="col-md-5">
         								<input type="text" 
         									class="form-control" 
+        									ng-model="newDBServer.dbServerIP"
         									id="serverIP" 
         									placeholder="172.0.0.1" />
       								</div>
@@ -146,6 +178,7 @@
       								<div class="col-md-5">
         								<input type="text" 
         									class="form-control" 
+        									ng-model="newDBServer.dbServerPort"
         									id="serverPort" 
         									placeholder="3306" />
       								</div>
@@ -156,11 +189,16 @@
       									Server Type
    									</label>
       								<div class="col-md-5">
-        								<select id="serverType" class="form-control">
-        									<option>MySql Server</option>
-        									<option>MS SQL Server</option>
-        									<option>Oracle Server</option>
-        								</select>
+        								<isteven-multi-select class="full-width" 
+											input-model="dbServerTypes" 
+											selection-mode="single" 
+											helper-elements="filter" 
+											translation="dbServerTypeLocalLang" 
+										    output-model="newDBServer.dbServerType"
+										    button-label="dbServerTypeDisplayName"
+										    item-label="dbServerTypeDisplayName"
+										    tick-property="selected">
+										</isteven-multi-select>
       								</div>
       								<div class="col-md-2">
         								<a href="javascript: void(0)" 
@@ -176,9 +214,10 @@
    									</label>
       								<div class="col-md-5">
         								<input type="text" 
+        									ng-model="newDBServer.dbServerUsername"
         									class="form-control" 
         									id="serverUsername" 
-        									placeholder="3306" />
+        									placeholder="Server Username" />
       								</div>
     							</div>
     							<div class="form-group">
@@ -188,6 +227,7 @@
    									</label>
       								<div class="col-md-5">
         								<input type="password" 
+        									ng-model="newDBServer.dbServerPassword"
         									class="form-control" 
         									id="serverPassword" 
         									placeholder="S3cr1t" />
@@ -201,7 +241,7 @@
 								        		Cancel
 							        		</a>
 								        	<a href="javascript: void(0)" 
-								        		ng-click="saveServer($event)" 
+								        		ng-click="saveServer($event, newDBServer)" 
 								        		class="btn btn-sm btn-primary">
 								        		Save
 							        		</a>

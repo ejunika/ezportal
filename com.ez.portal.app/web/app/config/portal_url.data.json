@@ -10,5 +10,6 @@
     "BLOCK_USER": "user/block-user/",
     "UNBLOCK_USER": "user/unblock-user/",
     "GET_ALL_USER_SPACES": "user-space/get-all-user-spaces",
-    "GET_USER_SPACES": "user-space/get-user-spaces"
+    "GET_USER_SPACES": "user-space/get-user-spaces",
+    "CREATE_USER_SPACE": "user-space/create-user-space"
 }
