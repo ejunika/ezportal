@@ -35,6 +35,11 @@ public class Password extends AbstractEntity {
         super();
     }
     
+    public Password(String passwordHash) {
+    	super();
+    	this.passwordHash = passwordHash;
+    }
+    
     public Password(User user, String passwordHash, Byte entryStatus) {
         super(user, user, entryStatus);
         this.passwordHash = passwordHash;

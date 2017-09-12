@@ -1,5 +1,7 @@
 package com.ez.portal.core.rest.service.impl;
 
+import java.util.List;
+
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.manager.intf.UserServiceManager;
@@ -28,8 +30,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResponse getAllUsers() throws Exception {
-		return userServiceManager.getAllusers();
+	public UserResponse getAllUsers(List<String> entryStatusList) throws Exception {
+//		return userServiceManager.getAllusers();
+		return userServiceManager.getAllUsers(entryStatusList);
 	}
 
 	@Override

@@ -10,12 +10,13 @@
         .module('portal_app')
         .controller('portal_user_management.ctrl', [
             '$scope',
+            '$filter',
             '$state',
             '$portalHttpService',
             'portal_util.fact',
             'toastr',
             '$ngConfirm',
-            function ($scope, $state, $portalHttpService, portalUtilFactory, messageToaster, $ngConfirm) {
+            function ($scope, $filter, $state, $portalHttpService, portalUtilFactory, messageToaster, $ngConfirm) {
                 
             	var TOASTER_OWNER = 'User Manager';
             	var userTypeFactory = portalUtilFactory.getUserTypeFactory();
@@ -30,14 +31,44 @@
             		$scope.USER_TYPE = USER_TYPE;
             		$scope.ENTRY_STATUS = ENTRY_STATUS;
             		$scope.isUserFormVisible = false;
+            		$scope.userTypes = getUserTypes();
             		$scope.user = {};
+            		$scope.userInfos= [{}];
+            		$scope.entryStatusCollection = [
+            			{
+            				id: 0,
+            				entryStatusName: 'New',
+            			},
+            			{
+            				id: 1,
+            				entryStatusName: 'Active',
+            				checked: true
+            			},
+            			{
+            				id: 2,
+            				entryStatusName: 'Blocked',
+            			},
+            			{
+            				id: 3,
+            				entryStatusName: 'Deleted'
+            			}
+            		];
+            		$scope.entryStatusList = $filter('filter')($scope.entryStatusCollection, {
+            			checked: true
+            		});
+            		$scope.userTypeLocalLang = {
+            			nothingSelected: 'Select User Type'
+            		};
             		getAllUsers(function (users) {
             			if (users) {
             				initUsers(users);
             			}
             		});
-            		$scope.userTypes = getUserTypes();
-            		$scope.selectedUserType = $scope.userTypes[0];
+            		getAllUserInfoKeys(function (userInfoKeys) {
+            			if (userInfoKeys) {
+            				initUserInfoKeys(userInfoKeys);
+            			}
+            		});
                 };
                 
                 /**
@@ -49,6 +80,10 @@
             				initUsers(users);
             			}
             		});
+                };
+                
+                $scope.addUserInfo = function (e, user) {
+                	$scope.userInfos.push({});
                 };
                 
                 /**
@@ -164,21 +199,28 @@
             		$scope.isUserFormVisible = true;
             	};
             	
-            	/**
-                 * 
-                 * */
-            	$scope.onChangeUserType = function (e, selectedUserType) {
-            		$scope.user.userType = selectedUserType.typeKey * 1;
+            	$scope.entryStatusHandler = function () {
+            		$scope.entryStatusList = $filter('filter')($scope.entryStatusCollection, {
+            			checked: true
+            		});
+            		getAllUsers(function (users) {
+            			if (users) {
+            				initUsers(users);
+            			}
+            		});
             	};
             	
             	/**
                  * 
                  * */
-            	$scope.saveUser = function (e, user) {
+            	$scope.saveUser = function (e, user, password, userInfos) {
             		if (user && user.emailId && user.username && user.userType) {
+            			user.userType = user.userType[0] ? user.userType[0].typeKey * 1 : null;
             			$portalHttpService
-	                        .put($portalHttpService.Url.CREATE_USER, {
-	                        	user: user
+	                        .post($portalHttpService.Url.CREATE_USER, {
+	                        	user: user,
+	                        	password: password,
+	                        	userInfos: userInfos
 	                        })
 	                        .then(function (response) {
 	                            if (response && response.data && response.data.status) {
@@ -192,10 +234,14 @@
                  * 
                  * */
             	function getAllUsers(cb) {
-                	var users = [];
+                	var users = [], queryParams = '?ofs=1&lmt=100&';
                 	if (angular.isFunction(cb)) {
+                		angular.forEach($scope.entryStatusList, function(entryStatus, index) {
+                			queryParams += 'esl=' + entryStatus.id + '&';
+                		});
+                		queryParams = queryParams.substr(0, queryParams.length - 1);
                 		$portalHttpService
-	                        .get($portalHttpService.Url.GET_ALL_USERS)
+	                        .get($portalHttpService.Url.GET_ALL_USERS + queryParams)
 	                        .then(function (response) {
 	                            if (response && response.data && response.data.status) {
 	                            	arguments[0] = response.data.users;
@@ -205,6 +251,47 @@
 	                        });
                 	}
                 }
+            	
+            	/**
+            	 * 
+            	 * */
+            	function getAllUserInfoKeys(cb) {
+            		var userInfoKeys = [];
+            		if (angular.isFunction(cb)) {
+//            			$portalHttpService
+//	            			.get($portalHttpService.Url.GET_ALL_USERS)
+//	            			.then(function (response) {
+//	            				if (response && response.data && response.data.status) {
+//	            					arguments[0] = response.data.users;
+//	            					cb.apply(this, arguments);
+//	            					messageToaster.info('User list refreshed', TOASTER_OWNER);
+//	            				}
+//	            			});
+            			arguments[0] = [
+            				{
+            					infoKeyId: 1,
+            					infoKeyName: 'First Name'
+            				},
+            				{
+            					infoKeyId: 2,
+            					infoKeyName: 'Middle Name'
+            				},
+            				{
+            					infoKeyId: 3,
+            					infoKeyName: 'Last Name'
+            				},
+            				{
+            					infoKeyId: 4,
+            					infoKeyName: 'Father\'s Name'
+            				},
+            				{
+            					infoKeyId: 5,
+            					infoKeyName: 'Mother\'s Name'
+            				}
+            			];
+            			cb.apply(this, arguments);
+            		}
+            	}
             	
             	function removeUser(userId, cb) {
             		if (userId) {
@@ -252,6 +339,13 @@
             		});
                 	$scope.users = users;
                 }
+            	
+            	/**
+            	 * 
+            	 * */
+            	function initUserInfoKeys(userInfoKeys) {
+            		
+            	}
             	
             	/**
                  * 

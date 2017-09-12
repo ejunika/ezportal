@@ -1,5 +1,7 @@
 package com.ez.portal.core.rest.manager.intf;
 
+import java.util.List;
+
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.UserResponse;
 
@@ -13,6 +15,12 @@ public interface UserServiceManager {
 	 * @return
 	 */
 	UserResponse getAllusers();
+	
+	/**
+	 * @param entryStatusList
+	 * @return
+	 */
+	UserResponse getAllUsers(List<String> entryStatusList);
 
 	/**
 	 * @param userRequest

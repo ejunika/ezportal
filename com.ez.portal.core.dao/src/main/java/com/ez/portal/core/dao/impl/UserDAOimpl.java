@@ -1,5 +1,6 @@
 package com.ez.portal.core.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -9,6 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.ez.portal.core.dao.intf.UserDAO;
+import com.ez.portal.core.entity.InfoKey;
 import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.PortalSession;
 import com.ez.portal.core.entity.User;
@@ -72,6 +74,8 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 				session.save(user);
 				if (password != null) {
 					password.setShardKey(getEzShardUtil().getShardKey());
+					password.setCreatedBy(user);
+					password.setUpdatedBy(user);
 					password.setUser(user);
 					session.save(password);
 					session.flush();
@@ -79,6 +83,12 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 				}
 				if (userInfos != null) {
 					for (UserInfo userInfo : userInfos) {
+						InfoKey infoKey = userInfo.getInfoKey();
+						infoKey.setCreatedBy(user);
+						infoKey.setShardKey(getEzShardUtil().getShardKey());
+						session.saveOrUpdate(infoKey);
+						session.flush();
+						session.clear();
 						userInfo.setShardKey(getEzShardUtil().getShardKey());
 						userInfo.setUser(user);
 						session.save(userInfo);
@@ -239,7 +249,11 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 		user.setCreatedBy(getEzShardUtil().getActiveUser());
 		user.setUpdatedBy(getEzShardUtil().getActiveUser());
 		Password password = new Password(user, PortalUtils.getPasswordHash("admin"), EntryStatus.NEW_ENTRY);
-		return createUser(user, password);
+		user = createUser(user, password);
+		if (user == null) {
+			throw new Exception();
+		}
+		return user;
 	}
 
 	@Override
@@ -325,6 +339,40 @@ public class UserDAOimpl extends CommonDAOimpl<User, Long> implements UserDAO {
 			session.close();
 		}
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getAllUsersByEntryStatusList(List<String> entryStatusList) throws Exception {
+		List<User> users = null;
+		List<Byte> bytes = null;
+		Session session = null;
+		Criteria criteria = null;
+		try {
+			session = getSessionFactory().openSession();
+			criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.ne("userType", UserUtil.USER_TYPE_FIRST_USER));
+			criteria.add(Restrictions.ne("userId", getEzShardUtil().getActiveUser().getUserId()));
+			if (entryStatusList != null && !entryStatusList.isEmpty()) {
+				bytes = new ArrayList<>();
+				for(String entryStatus : entryStatusList) {
+					try {
+						bytes.add(Byte.parseByte(entryStatus));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				}
+				criteria.add(Restrictions.in("entryStatus", bytes));
+				users = criteria.list();
+				session.flush();
+				session.clear();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return users;
 	}
 
 }

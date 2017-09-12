@@ -1,5 +1,7 @@
 package com.ez.portal.core.rest.service.intf;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -7,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.ez.portal.core.request.UserRequest;
@@ -22,7 +25,7 @@ public interface UserService {
 	 */
 	@GET
 	@Path("get-all-users")
-	UserResponse getAllUsers() throws Exception;
+	UserResponse getAllUsers(@QueryParam("esl") List<String> entryStatusList) throws Exception;
 	
 	/**
 	 * @param userId
@@ -65,7 +68,7 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	@PUT
+	@POST
 	@Path("add-user")
 	UserResponse addUser(UserRequest userRequest) throws Exception;
 	
@@ -74,7 +77,7 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	@POST
+	@PUT
 	@Path("update-user")
 	UserResponse updateUser(UserRequest userRequest) throws Exception;
 	

@@ -100,6 +100,12 @@ public interface UserDAO extends CommonDAO<User, Long> {
 	List<User> getAllPossibleUsers() throws Exception;
 	
 	/**
+	 * @return
+	 * @throws Exception
+	 */
+	List<User> getAllUsersByEntryStatusList(List<String> entryStatusList) throws Exception;
+	
+	/**
 	 * @param userId
 	 * @return
 	 * @throws Exception

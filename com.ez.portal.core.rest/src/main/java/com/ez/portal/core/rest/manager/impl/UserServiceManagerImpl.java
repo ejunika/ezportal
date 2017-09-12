@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ez.portal.core.dao.manager.intf.DAOManager;
+import com.ez.portal.core.entity.Password;
 import com.ez.portal.core.entity.User;
+import com.ez.portal.core.entity.UserInfo;
 import com.ez.portal.core.request.UserRequest;
 import com.ez.portal.core.response.UserResponse;
 import com.ez.portal.core.rest.manager.intf.UserServiceManager;
 import com.ez.portal.core.util.EntryStatus;
+import com.ez.portal.core.util.PortalUtils;
 
 public class UserServiceManagerImpl implements UserServiceManager {
 
@@ -69,12 +72,14 @@ public class UserServiceManagerImpl implements UserServiceManager {
 	@Override
 	public UserResponse addUser(UserRequest userRequest) {
 		User user = userRequest.getUser();
+		List<UserInfo> userInfos = userRequest.getUserInfos();
 		User newUser = null;
 		List<User> users = new ArrayList<>();
 		userResponse.resetResponse();
 		if (user != null) {
 			try {
-				newUser = daoManager.getUserDAO().createUser(user);
+				newUser = daoManager.getUserDAO().createUser(user,
+						new Password(PortalUtils.getPasswordHash(userRequest.getPassword())), userInfos);
 				users.add(newUser);
 				userResponse.setUsers(users);
 				userResponse.setMessage("User addded successfully");
@@ -252,6 +257,26 @@ public class UserServiceManagerImpl implements UserServiceManager {
 				userResponse.setStatus(false);
 			}
 
+		}
+		return userResponse;
+	}
+
+	@Override
+	public UserResponse getAllUsers(List<String> entryStatusList) {
+		List<User> users = null;
+		try {
+			userResponse.resetResponse();
+			users = daoManager.getUserDAO().getAllUsersByEntryStatusList(entryStatusList);
+			if (users != null) {
+				userResponse.setUsers(users);
+				userResponse.setMessage("Got users successfully");
+				userResponse.setStatus(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResponse.setUsers(users);
+			userResponse.setMessage(e.getMessage());
+			userResponse.setStatus(false);
 		}
 		return userResponse;
 	}

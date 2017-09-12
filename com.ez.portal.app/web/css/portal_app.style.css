@@ -8,6 +8,11 @@ body {
 	width: 100%;
 }
 
+.portal-user-filter {
+	display: inline-block;
+	margin-right: 10px;
+}
+
 /* MULTISELECT */
 .multiSelect {
 	position: relative;
@@ -79,6 +84,10 @@ body {
 .btn {
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.4);
 	border-radius: 2px;
+}
+
+.portal-user-management-wrapper form {
+	margin-top: 30px;
 }
 
 .portal-user-management-details {
